@@ -13,5 +13,6 @@ class Pedido extends Model
 
     public function vendedor(){
     	return $this->belongsTo(Vendedor::class,'id_vendedor','id_vendedor'); //(ElModelo,KeyHijo,KeyPadre)
+    	#dato
     }
 }
