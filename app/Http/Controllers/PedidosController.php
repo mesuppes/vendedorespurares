@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Pedido;
+use DB;
 use App\Http\Requests\CrearPedidoRequest;
+use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\DB;
+use App\Pedido;
+use App\Vendedor;
+use App\Producto;
 
 class PedidosController extends Controller
 {
@@ -16,7 +20,7 @@ class PedidosController extends Controller
     public function index()
     {
         $listaPedidos=Pedido::get();//llamar al Modelo
-        
+
         return view('listaPedidos', compact('listaPedidos')); //dentro de Compact metemos la variable que esta en el modelo $listaPedidos
     }
 
@@ -27,7 +31,16 @@ class PedidosController extends Controller
      */
     public function create()
     {
-        return view('agregarPedido');
+
+        $vendedores=Vendedor::get();
+ 
+        $productos= DB::table('productos_descripcion as p_d')
+                    ->join('v_gestion_stockproductos as p_s','p_s.id_producto','=','p_d.id_producto_produccion')
+                    ->select('p_d.*','p_s.stock')
+                    ->get();
+        
+
+        return view('agregarPedido')->with(compact('productos','vendedores'));
     }
 
     /**

@@ -46,4 +46,10 @@ class User extends Authenticatable
     public static function userCount(){
         return User::count();
     }
+
+    //Muestra el vendedor que esta asociado al usuario
+    public function Vendedor(){
+        return $this->belongsTo(Vendedor::class,'id','id_usuario_vendedor');
+    }
+
 }

@@ -2,6 +2,8 @@
 
 <h1>estas por agregar un pedido</h1>
 
+{{$productos}}
+
 @if($errors->any())
 	<ul>
 		@foreach($errors->all() as $error)
@@ -12,6 +14,9 @@
 
 <form method="POST" action="{{route('pedido.store')}}">
 	@csrf
+
+	### DEBE PODER SELECCIONAR EL VENDEDOR SOLO SI TINE PERMISO -> CARGAR PEDIDO A OTROS VENDEDORES ###
+
 	<label>
 		Id Vendedor
 		<input type="text" name="idVendedor"><br>
