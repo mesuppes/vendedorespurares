@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Pedido;
 use App\Vendedor;
 use App\Producto;
+use App\PedidoProducto;
+use App\ProductoView;
 
 class PedidosController extends Controller
 {
@@ -52,6 +54,8 @@ class PedidosController extends Controller
     public function store(CrearPedidoRequest $request)
     {
 
+/*
+        //CREAR PEDIDO
         Pedido::create([
             'id_pedido_padre'=> null,
             'id_vendedor'   =>$request['idVendedor'],
@@ -60,8 +64,49 @@ class PedidosController extends Controller
             'condicion_pago'=>$request['condicionPago'],
             'id_usuario_reg'=>'1'
         ]);
+*/        
+        $idPedido = Pedido::latest('id_pedido')->first()->id_pedido;
 
+        //AGREGAR PRODUCTOS AL PEDIDO
+        $idProducto=1;
+        $udm='kg';
+        $cantidad=10;
+        $descuento=0.3;
 
+        //Vendedor
+
+        //Cantidad producto
+        $longitud=count($request['idProducto']);
+
+        for ($i=0; $i <$longitud ; $i++) { 
+
+            if ($request['cantidad'][$i]>0) {
+
+                //Producto
+                $producto=ProductoView::find($idProducto);
+                $descuento=0.5;
+
+                //Determianr Precio (unitario/KG)
+                if ($request['tipoMedida'][$i]=='kg') {
+                    $precio=$producto['precio_kg'];
+                }else{
+                    $precio=$producto['precio_unidad'];
+                }
+
+                //Cargar en la DB
+                PedidoProducto::create([
+                    'id_pedido'=>$idPedido,
+                    'id_producto'=>$idProducto,
+                    'tipo_medida'=>$request['tipoMedida'][$i],
+                    'cantidad'=>$request['cantidad'][$i],
+                    'precio_unitario'=>$precio,
+                    'descuento'=>$descuento,
+                    'precio_final'=>$precio*$request['cantidad'][$i]
+                ]);
+                
+            }
+        }
+        //return ->carten succesfull->vista de la orden creada 
     }
 
     /**

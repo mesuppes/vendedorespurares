@@ -27,7 +27,10 @@ class CrearPedidoRequest extends FormRequest
             'idVendedor'    =>'required',
             'formaEntrega'  =>'required',
             'datosFlete'    =>'required',
-            'condicionPago' =>'required'
+            'condicionPago' =>'required',
+            'idProducto'    =>'required',
+            'tipoMedida'    =>'required',
+            'cantidad'      =>'required',
         ];
     }
 }
