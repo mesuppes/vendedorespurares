@@ -36,7 +36,7 @@ class PedidosController extends Controller
 
         $vendedores=Vendedor::get();
  
-        $productos= Productoview::get();
+        $productos= ProductoView::get();
         
 
         return view('agregarPedido')->with(compact('productos','vendedores'));
