@@ -36,10 +36,7 @@ class PedidosController extends Controller
 
         $vendedores=Vendedor::get();
  
-        $productos= DB::table('productos_descripcion as p_d')
-                    ->join('v_gestion_stockproductos as p_s','p_s.id_producto','=','p_d.id_producto_produccion')
-                    ->select('p_d.*','p_s.stock')
-                    ->get();
+        $productos= Productoview::get();
         
 
         return view('agregarPedido')->with(compact('productos','vendedores'));
@@ -54,7 +51,7 @@ class PedidosController extends Controller
     public function store(CrearPedidoRequest $request)
     {
 
-/*
+
         //CREAR PEDIDO
         Pedido::create([
             'id_pedido_padre'=> null,
@@ -64,16 +61,10 @@ class PedidosController extends Controller
             'condicion_pago'=>$request['condicionPago'],
             'id_usuario_reg'=>'1'
         ]);
-*/        
+        
         $idPedido = Pedido::latest('id_pedido')->first()->id_pedido;
 
         //AGREGAR PRODUCTOS AL PEDIDO
-        $idProducto=1;
-        $udm='kg';
-        $cantidad=10;
-        $descuento=0.3;
-
-        //Vendedor
 
         //Cantidad producto
         $longitud=count($request['idProducto']);
@@ -83,8 +74,8 @@ class PedidosController extends Controller
             if ($request['cantidad'][$i]>0) {
 
                 //Producto
-                $producto=ProductoView::find($idProducto);
-                $descuento=0.5;
+                $producto=ProductoView::find($request['idProducto']);
+                $descuento=0.25;
 
                 //Determianr Precio (unitario/KG)
                 if ($request['tipoMedida'][$i]=='kg') {
@@ -102,10 +93,14 @@ class PedidosController extends Controller
                     'precio_unitario'=>$precio,
                     'descuento'=>$descuento,
                     'precio_final'=>$precio*$request['cantidad'][$i]
-                ]);
-                
+                ]);    
             }
+        //CREAR WORKFLOW
+        
+
+
         }
+
         //return ->carten succesfull->vista de la orden creada 
     }
 
