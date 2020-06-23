@@ -97,7 +97,9 @@ class PedidosController extends Controller
             }
         //CREAR WORKFLOW
         
+        $respuesta=Workflow::agregarPedido($request['idVendedor'],$idPedido);
 
+        
 
         }
 
