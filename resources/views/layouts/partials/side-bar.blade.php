@@ -68,7 +68,7 @@
         <li {{Route::is('pedido.index')? 'class=active':''}}>
             <a href="{{route('pedido.index')}}">
               <i class="nc-icon nc-bank"></i>
-              <p>Mis pedido</p>
+              <p>Mis pedidos</p>
             </a>
         </li>
 

@@ -24,7 +24,7 @@ class Workflow extends Controller
 
     	//si el rol es vendedor->carga aprobación a rol admnistración
         if ($idUsuario->hasRole('Vendedor')) {
-            
+
             $toRole= Role::findByName('Administracion')->id; //administrador
             $toUser=null;
             $actionToDo=4;//aprobar pedido
@@ -33,19 +33,19 @@ class Workflow extends Controller
         }elseif ($idUsuario->hasRole('Administracion')) {
             //Si el campo saltar aprobación no esta tildado
             if ($saltarAprobacion!=1) {
-                
-                $toRole=null; 
+
+                $toRole=null;
                 $toUser=$Vendedor::find($idVendedor)->id_usuario_vendedor;//Vendedor
                 $actionToDo=4;//aprobar pedido
                 $status=1;
             }else{  //Si no requiere aprobación->
-                $toRole=null; 
+                $toRole=null;
                 $toUser=null;//Vendedor
                 $actionToDo=4;//aprobar pedido
                 $status=4;//aprobado automáticamente
             }
         }else{
-            'Error:Se ah registrado un error al asignar el flujo de aprobación'
+            'Error:Se ah registrado un error al asignar el flujo de aprobación';
         }
 
          //Cargar en la DB

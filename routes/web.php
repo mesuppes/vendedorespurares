@@ -12,7 +12,7 @@
 use App\Tracker;
 
 Route::get('/', function () {
-    
+
     //number of user connected or viewed
     Tracker::firstOrCreate([
         'ip'   => $_SERVER['REMOTE_ADDR']],
@@ -29,11 +29,11 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('login-activities',[
         'as' => 'login-activities',
         'uses' => 'Admin\UsersController@indexLoginLogs'
-    ]);    
+    ]);
 });
 
 Route::group(['middleware' => ['role:user']], function () {
-    
+
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -50,12 +50,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('/listaPedidos', 'PedidosController@index')->name('pedido.index');
+Route::get('/listaPedidos/{id}', 'PedidosController@show')->name('pedido.show');
 Route::get('/agregarPedido', 'PedidosController@create')->name('pedido.create');
 Route::post('/agregarPedido', 'PedidosController@store')->name('pedido.store');
 
 
 
-Route::group(['middleware' => ['role:admin']], function () {    
+Route::group(['middleware' => ['role:admin']], function () {
     Route::resource('AgregarPedidos', 'PedidosController@create');
     //Route::resource('/listaPedido', 'PedidosController@index');
     //Route::resource('roles', 'Admin\RolesController');
@@ -63,7 +64,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     //Route::get('login-activities',[
     //    'as' => 'login-activities',
     //    'uses' => 'Admin\UsersController@indexLoginLogs'
-    //]);    
+    //]);
 });
 
 

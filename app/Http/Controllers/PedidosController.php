@@ -37,9 +37,9 @@ class PedidosController extends Controller
     {
 
         $vendedores=Vendedor::get();
- 
+
         $productos= ProductoView::get();
-        
+
 
         return view('agregarPedido')->with(compact('productos','vendedores'));
     }
@@ -63,7 +63,7 @@ class PedidosController extends Controller
             'condicion_pago'=>$request['condicionPago'],
             'id_usuario_reg'=>'1'
         ]);
-        
+
         $idPedido = Pedido::latest('id_pedido')->first()->id_pedido;
 
         //AGREGAR PRODUCTOS AL PEDIDO
@@ -71,7 +71,7 @@ class PedidosController extends Controller
         //Cantidad producto
         $longitud=count($request['idProducto']);
 
-        for ($i=0; $i <$longitud ; $i++) { 
+        for ($i=0; $i <$longitud ; $i++) {
 
             if ($request['cantidad'][$i]>0) {
 
@@ -95,17 +95,17 @@ class PedidosController extends Controller
                     'precio_unitario'=>$precio,
                     'descuento'=>$descuento,
                     'precio_final'=>$precio*$request['cantidad'][$i]
-                ]);    
+                ]);
             }
         //CREAR WORKFLOW
-        
-        $respuesta=Workflow::agregarPedidoCreate($request['idVendedor'],$idPedido);
+
+        //$respuesta=Workflow::agregarPedidoCreate($request['idVendedor'],$idPedido);
 
 
 
         }
 
-        //return ->carten succesfull->vista de la orden creada 
+        //return ->carten succesfull->vista de la orden creada
     }
 
     /**
@@ -129,7 +129,7 @@ class PedidosController extends Controller
             $pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
             $pedidoProdUltimo=$pedidoDescUltimo->productos;
             $pedidoProdAnterior=$pedidoProdAnterior->productos;
-        }        
+        }
 
         //WORKFLOW
         $wf=WorkflowN::where([
@@ -139,7 +139,7 @@ class PedidosController extends Controller
                     ->get();
 
         return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
-    }   
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -172,7 +172,7 @@ class PedidosController extends Controller
      */
     public function destroy($id)
     {
-       
+
     }
 
     public function prueba(){
@@ -180,7 +180,7 @@ class PedidosController extends Controller
         $ListaPrecios=DB::table('productos_descripcion as p_d')
             ->join('precios as p_p','p_p.id_producto','=','p_d.id_producto')
             ->select('p_d.id_producto', 'p_p.precio_kg','p_p.precio_unidad','p_p.fecha_desde')
-            
+
             ->get();
         */
 
@@ -189,7 +189,7 @@ class PedidosController extends Controller
                     ->from('precios')
                     ->whereColumn('id_producto','productos_descripcion.id_producto')
                     ->orderByDesc('fecha_desde')
-                    ->limit(1);
+                    ->limit(1)
         },'id_producto')->get();
 
         return $ListaPrecios;

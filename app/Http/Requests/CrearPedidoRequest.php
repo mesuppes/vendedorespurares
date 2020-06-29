@@ -25,7 +25,7 @@ class CrearPedidoRequest extends FormRequest
     {
         return [
             'idVendedor'    =>'required',
-            'requiereAprob' =>'required',//Dependiedo el rol es rquerido
+            //'requiereAprob' =>'required',//Dependiedo el rol es rquerido
             'formaEntrega'  =>'required',
             'datosFlete'    =>'required',
             'condicionPago' =>'required',
