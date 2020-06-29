@@ -76,7 +76,7 @@ class PedidosController extends Controller
             if ($request['cantidad'][$i]>0) {
 
                 //Producto
-                $producto=ProductoView::find($request['idProducto']);
+                $producto=ProductoView::find($request['idProducto'][$i]);
                 $descuento=0.25;
 
                 //Determianr Precio (unitario/KG)
@@ -89,7 +89,7 @@ class PedidosController extends Controller
                 //Cargar en la DB
                 PedidoProducto::create([
                     'id_pedido'=>$idPedido,
-                    'id_producto'=>$idProducto,
+                    'id_producto'=>$request['idProducto'][$i],
                     'tipo_medida'=>$request['tipoMedida'][$i],
                     'cantidad'=>$request['cantidad'][$i],
                     'precio_unitario'=>$precio,
@@ -136,7 +136,7 @@ class PedidosController extends Controller
                                 ['task_type','=','1'], // 1->Corresponde a la tabla Pedido
                                 ['id_task','=',$pedidoDescUltimo->id_pedido]
                             ])
-                    ->get()
+                    ->get();
 
         return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
     }   
@@ -176,12 +176,22 @@ class PedidosController extends Controller
     }
 
     public function prueba(){
+        /*
         $ListaPrecios=DB::table('productos_descripcion as p_d')
             ->join('precios as p_p','p_p.id_producto','=','p_d.id_producto')
             ->select('p_d.id_producto', 'p_p.precio_kg','p_p.precio_unidad','p_p.fecha_desde')
-            ->groupBy('p_p.fecha_desde')
+            
             ->get();
-        
+        */
+
+        $ListaPrecios= Producto::where(fuction ($query){
+            $query->select('id_producto')
+                    ->from('precios')
+                    ->whereColumn('id_producto','productos_descripcion.id_producto')
+                    ->orderByDesc('fecha_desde')
+                    ->limit(1);
+        },'id_producto')->get();
+
         return $ListaPrecios;
     }
 
