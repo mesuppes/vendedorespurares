@@ -25,13 +25,13 @@ class CrearPedidoRequest extends FormRequest
     {
         return [
             'idVendedor'    =>'required',
-            'requiereAprob' =>'required',
+            'requiereAprob' =>'required',//Dependiedo el rol es rquerido
             'formaEntrega'  =>'required',
             'datosFlete'    =>'required',
             'condicionPago' =>'required',
             'idProducto'    =>'required',
             'tipoMedida'    =>'required',
-            'cantidad'      =>'required',
+            'cantidad'      =>'required',//Verificar que exista el stock requerido
         ];
     }
 }

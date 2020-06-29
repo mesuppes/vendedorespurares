@@ -11,4 +11,9 @@ class PedidoProducto extends Model
     const UPDATED_AT = null;//No existe en la BD
     const CREATED_AT = null;//No existe en la BD
 
+
+	public function producto(){
+        return $this->belongsTo(Producto::class,'id_producto','id_producto');
+    }
+
 }

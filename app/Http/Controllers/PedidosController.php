@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use DB;
 use App\Http\Requests\CrearPedidoRequest;
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\DB;
+//MODELOS
 use App\Pedido;
 use App\Vendedor;
 use App\Producto;
 use App\PedidoProducto;
 use App\ProductoView;
+use App\WorkflowN;
+
 
 class PedidosController extends Controller
 {
@@ -97,9 +99,9 @@ class PedidosController extends Controller
             }
         //CREAR WORKFLOW
         
-        $respuesta=Workflow::agregarPedido($request['idVendedor'],$idPedido);
+        $respuesta=Workflow::agregarPedidoCreate($request['idVendedor'],$idPedido);
 
-        
+
 
         }
 
@@ -114,8 +116,30 @@ class PedidosController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+
+        //Buscar El Pedido Hijo mas Reciente
+        $pedidoHijo=Pedido::where('id_pedido_padre','=',$id)->latest()->first();
+
+        //Si no tiene pedido Hijo Muestra el Pedido Padre
+        if ($pedidoHijo==null) {
+            $pedidoDescUltimo=Pedido::find($id);
+            $pedidoProdUltimo= $pedidoDescUltimo->productos;
+        }else{
+            $pedidoDecUltimo=$pedidoHijo;
+            $pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
+            $pedidoProdUltimo=$pedidoDescUltimo->productos;
+            $pedidoProdAnterior=$pedidoProdAnterior->productos;
+        }        
+
+        //WORKFLOW
+        $wf=WorkflowN::where([
+                                ['task_type','=','1'], // 1->Corresponde a la tabla Pedido
+                                ['id_task','=',$pedidoDescUltimo->id_pedido]
+                            ])
+                    ->get()
+
+        return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
+    }   
 
     /**
      * Show the form for editing the specified resource.
@@ -148,6 +172,19 @@ class PedidosController extends Controller
      */
     public function destroy($id)
     {
-        //
+       
     }
+
+    public function prueba(){
+        $ListaPrecios=DB::table('productos_descripcion as p_d')
+            ->join('precios as p_p','p_p.id_producto','=','p_d.id_producto')
+            ->select('p_d.id_producto', 'p_p.precio_kg','p_p.precio_unidad','p_p.fecha_desde')
+            ->groupBy('p_p.fecha_desde')
+            ->get();
+        
+        return $ListaPrecios;
+    }
+
+
+
 }

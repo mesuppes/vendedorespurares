@@ -9,12 +9,15 @@ use Auth;
 
 class Workflow extends Controller
 {
-    public function agregarPedido($idVendedor,$idPedido){
+    public function agregarPedidoCreate($idVendedor,$idPedido){
 
         //[TO DO] !!!!
         //->DEFINIR ROL VENDEDOR
         //->DEFINIR ROL ADMINISTRADOR
         //->COMO ENVIAR EL ERROR
+
+        #CrearPedido
+        #EditarPedido
 
     	//1-ID del usuario que lo carga
     	$idUsuario=User::find(Auth::user()->id);
