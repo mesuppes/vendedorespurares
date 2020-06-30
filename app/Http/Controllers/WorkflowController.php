@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 
 use App\User;
 use Auth;
+use Spatie\Permission\Models\Role;
+use App\WorkflowN;
 
-class Workflow extends Controller
+class WorkflowController extends Controller
 {
-    public function agregarPedidoCreate($idVendedor,$idPedido){
-
+        static public function agregarPedidoCreate($idVendedor,$idPedido){
+        	//$idVendedor,$idPedido
+        //$idVendedor=1;
+        //$idPedido=1;
         //[TO DO] !!!!
         //->DEFINIR ROL VENDEDOR
         //->DEFINIR ROL ADMINISTRADOR
@@ -35,7 +39,7 @@ class Workflow extends Controller
             if ($saltarAprobacion!=1) {
 
                 $toRole=null;
-                $toUser=$Vendedor::find($idVendedor)->id_usuario_vendedor;//Vendedor
+                $toUser=Vendedor::find($idVendedor)->id_usuario_vendedor;//Vendedor
                 $actionToDo=4;//aprobar pedido
                 $status=1;
             }else{  //Si no requiere aprobación->
@@ -49,8 +53,8 @@ class Workflow extends Controller
         }
 
          //Cargar en la DB
-                Workflow::create([
-                    'from_user'     =>$idUsuario,
+                $insert=WorkflowN::create([
+                    'from_user'     =>User::find(Auth::user()->id)->id,
                     'action_done'   =>1,//Agregar Pedido
                     'to_role'       =>$toRole,
                     'to_user'       =>$toUser,
@@ -59,9 +63,14 @@ class Workflow extends Controller
                     'task_type'     =>1,//pedidos
                     'id_task'       =>$idPedido,
                 ]);
-    }
-        return $workflow = array('status'   =>$status,
-                                'toRole'    =>$toRole,
-                                'actionTodo'=>$actionToDo);
+    
+        return $insert->id_workflow;
+    	/*
+         $workflow = array( 'status'    =>$status,
+                            'toRole'    =>$toRole,
+                            'actionTodo'=>$actionToDo);
+        */
 
+
+    }
 }

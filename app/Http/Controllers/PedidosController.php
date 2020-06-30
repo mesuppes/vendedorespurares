@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Http\Requests\CrearPedidoRequest;
+use App\Http\Controllers\WorkflowController;
 use Illuminate\Http\Request;
 //MODELOS
 use App\Pedido;
@@ -97,13 +98,10 @@ class PedidosController extends Controller
                     'precio_final'=>$precio*$request['cantidad'][$i]
                 ]);
             }
-        //CREAR WORKFLOW
-
-        //$respuesta=Workflow::agregarPedidoCreate($request['idVendedor'],$idPedido);
-
-
-
         }
+        
+        //CREAR WORKFLOW
+        $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido);
 
         //return ->carten succesfull->vista de la orden creada
     }
@@ -140,6 +138,8 @@ class PedidosController extends Controller
 
         return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -182,7 +182,6 @@ class PedidosController extends Controller
             ->select('p_d.id_producto', 'p_p.precio_kg','p_p.precio_unidad','p_p.fecha_desde')
 
             ->get();
-        */
 
         $ListaPrecios= Producto::where(fuction ($query){
             $query->select('id_producto')
@@ -192,6 +191,9 @@ class PedidosController extends Controller
                     ->limit(1)
         },'id_producto')->get();
 
+
+*/
+        $ListaPrecios=1;
         return $ListaPrecios;
     }
 
