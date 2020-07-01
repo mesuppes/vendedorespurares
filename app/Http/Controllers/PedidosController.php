@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Illuminate\Http\Request;
+
 use App\Http\Requests\CrearPedidoRequest;
 use App\Http\Controllers\WorkflowController;
-use Illuminate\Http\Request;
+
+// USUARIO Y ROLES
+use App\User;
+use Auth;
+use Spatie\Permission\Models\Role;
+
 //MODELOS
 use App\Pedido;
 use App\Vendedor;
@@ -15,13 +22,14 @@ use App\ProductoView;
 use App\WorkflowN;
 
 
+
 #   TO DO
 /*
-    !!!-Query: producto -> precio actualizado dentro de fecha_desde + Dcto producto/Vendedor 
-        -Validar stock
-        -Decodificar WF
-        -En el index enviar estado + Monto (siempre teniendo en cueta el ultimo)
-        -Aprobar pedido + WF
+        OK-Query: producto -> precio actualizado dentro de fecha_desde + Dcto producto/Vendedor 
+    -Validar stock
+        OK-Decodificar WF
+    -En el index enviar estado + Monto (siempre teniendo en cueta el ultimo)
+        OK-Aprobar pedido + WF
         -Modificar Pedido + WF
         -Validación rol para omitir aprobación
 */
@@ -45,13 +53,24 @@ class PedidosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($idVendedor)
+    public function create()
     {
+        
+        #Si el usuario no tiene rol de vendedor
+        $usuario=User::find(Auth::user()->id);
+        
+        if ($idUsuario->hasRole('Administracion')) {
+            #Lista de venededores
+            $vendedores=Vendedor::get();                
+        }elseif ($idUsuario->hasRole('Vendedor')) {
+            #Vendedor que lo está cargando
+            $vendedores=$usuario->vendedor;
+        }else{
+            return "ERROR - Su rol no permite realizar la operación";
+        }
 
-        $vendedores=Vendedor::get();
-
+        #Producto+Precio+Stock+Descuento para ese vendedor
         $productos= PedidosController::tabaProductoDescuento($idVendedor);
-
 
         return view('agregarPedido')->with(compact('productos','vendedores'));
     }
@@ -62,21 +81,22 @@ class PedidosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CrearPedidoRequest $request)
+    public function store(CrearPedidoRequest $request,$idPedidoPadre)
     {
-
+        
+        //VALIDAR STOCK
 
         //CREAR PEDIDO
-        Pedido::create([
-            'id_pedido_padre'=> null,
+        $NuevoPedido= Pedido::create([
+            'id_pedido_padre'=>$idPedidoPadre,
             'id_vendedor'   =>$request['idVendedor'],
             'forma_entrega' =>$request['formaEntrega'],
             'datos_flete'   =>$request['datosFlete'],
             'condicion_pago'=>$request['condicionPago'],
-            'id_usuario_reg'=>'1'
+            'id_usuario_reg'=>Auth::user()->id,
         ]);
 
-        $idPedido = Pedido::latest('id_pedido')->first()->id_pedido;
+        $idPedido = $NuevoPedido->id_pedido;
 
         //AGREGAR PRODUCTOS AL PEDIDO
 
@@ -162,7 +182,7 @@ class PedidosController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Se debe envíar la lista de productos faltante
     }
 
     /**
@@ -172,9 +192,25 @@ class PedidosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id,$idWfLast)
     {
-        //
+        
+        //0-Enviar el IDPedidoPadre
+        $pedido=Pedido::find($id);
+        if ($pedido->id_pedido_padre == null) {
+            $idPedidoPadre= $pedido->id_pedido;
+        }else{
+            $idPedidoPadre= $pedido->id_pedido_padre;
+        }
+
+        //1-Ejecutar el create
+
+        $Respuesta=PedidosController::store(CrearPedidoRequest $request,$idPedidoPadre);
+
+        //2-Cerrar el flujo de aprobación que habia abierto
+        $newStatus= 5;//Modiicado
+        $respuestaWF=WorkflowController::actualizar($idWfLast,$newStatus);
+
     }
 
     /**
@@ -188,9 +224,16 @@ class PedidosController extends Controller
         //Anular Pedido
     }
 
-    public function approve($id)
+    public function approve($idWF)
     {
         //Aprobar Pedido
+        #1-Actualizar WF
+        $newStatus= 2;
+        $respuestaWF=WorkflowController::actualizar($idWF,$newStatus);    
+
+        #2-Actualizar Stock
+        #3-Generar factura Proforma
+        #4-Generar deuda en el vendedor
 
     }
 
