@@ -15,6 +15,17 @@ use App\ProductoView;
 use App\WorkflowN;
 
 
+#   TO DO
+/*
+    !!!-Query: producto -> precio actualizado dentro de fecha_desde + Dcto producto/Vendedor 
+        -Validar stock
+        -Decodificar WF
+        -En el index enviar estado + Monto (siempre teniendo en cueta el ultimo)
+        -Aprobar pedido + WF
+        -Modificar Pedido + WF
+        -Validación rol para omitir aprobación
+*/
+
 class PedidosController extends Controller
 {
     /**
@@ -34,12 +45,12 @@ class PedidosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($idVendedor)
     {
 
         $vendedores=Vendedor::get();
 
-        $productos= ProductoView::get();
+        $productos= PedidosController::tabaProductoDescuento($idVendedor);
 
 
         return view('agregarPedido')->with(compact('productos','vendedores'));
@@ -97,13 +108,15 @@ class PedidosController extends Controller
                     'descuento'=>$descuento,
                     'precio_final'=>$precio*$request['cantidad'][$i]
                 ]);
+
             }
         }
-        
+
         //CREAR WORKFLOW
         $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido);
 
-        //return ->carten succesfull->vista de la orden creada
+        return 1; //Mensaje de Exito + WF// -> show pedido cargado
+
     }
 
     /**
@@ -172,29 +185,38 @@ class PedidosController extends Controller
      */
     public function destroy($id)
     {
+        //Anular Pedido
+    }
+
+    public function approve($id)
+    {
+        //Aprobar Pedido
 
     }
 
-    public function prueba(){
-        /*
-        $ListaPrecios=DB::table('productos_descripcion as p_d')
-            ->join('precios as p_p','p_p.id_producto','=','p_d.id_producto')
-            ->select('p_d.id_producto', 'p_p.precio_kg','p_p.precio_unidad','p_p.fecha_desde')
+    public function validarStock($productosArray,$tipoMedidaArray,$cantidadArray)
+    {
+        //Validar que exista stock
 
-            ->get();
-
-        $ListaPrecios= Producto::where(fuction ($query){
-            $query->select('id_producto')
-                    ->from('precios')
-                    ->whereColumn('id_producto','productos_descripcion.id_producto')
-                    ->orderByDesc('fecha_desde')
-                    ->limit(1)
-        },'id_producto')->get();
+    }
 
 
-*/
-        $ListaPrecios=1;
-        return $ListaPrecios;
+    static public function tabaProductoDescuento($idVendedor){
+
+    #Retorna el stock y los descuentos para el vendedor selecionado
+
+        $productosTabla=DB::table('v_productos_precio_stock AS p_v')
+                            ->leftJoin('vendedores_dto_prod AS p_d',function($join) use ($idVendedor){
+                                    $join->on('p_d.id_producto','=','p_v.id_producto');
+                                    $join->where('p_d.id_vendedor','=', $idVendedor);
+                                })
+                            ->join('vendedores_dto_general AS v_d',function($join) use ($idVendedor){
+                                    $join->where('v_d.id_vendedor','=', $idVendedor);
+                                })
+                            ->select('p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor')
+                            ->get();
+
+        return $productosTabla;
     }
 
 
