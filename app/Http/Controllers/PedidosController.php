@@ -70,7 +70,7 @@ class PedidosController extends Controller
         }
 
         #Producto+Precio+Stock+Descuento para ese vendedor
-        $productos= PedidosController::tabaProductoDescuento($idVendedor);
+        $productos= PedidosController::tablaProductoDescuento($idVendedor);
 
         return view('agregarPedido')->with(compact('productos','vendedores'));
     }
@@ -205,7 +205,7 @@ class PedidosController extends Controller
 
         //1-Ejecutar el create
 
-        $Respuesta=PedidosController::store(CrearPedidoRequest $request,$idPedidoPadre);
+        #$Respuesta=PedidosController::store($idPedidoPadre, CrearPedidoRequest $request);
 
         //2-Cerrar el flujo de aprobación que habia abierto
         $newStatus= 5;//Modiicado
@@ -244,7 +244,7 @@ class PedidosController extends Controller
     }
 
 
-    static public function tabaProductoDescuento($idVendedor){
+    static public function tablaProductoDescuento($idVendedor){
 
     #Retorna el stock y los descuentos para el vendedor selecionado
 
