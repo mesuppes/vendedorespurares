@@ -51,12 +51,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/listaPedidos', 'PedidosController@index')->name('pedido.index');
 Route::get('/listaPedidos/{id}', 'PedidosController@show')->name('pedido.show');
-Route::get('/agregarPedido', 'PedidosController@create')->name('pedido.create');
+Route::get('/agregarPedido/{param?}', 'PedidosController@create')->name('pedido.create');
+Route::get('/seleccionarVendedor', 'PedidosController@createAdmin')->name('pedido.createAdmin');
 Route::post('/agregarPedido', 'PedidosController@store')->name('pedido.store');
+Route::post('/cargarProductos', 'PedidosController@cargarProductos')->name('cargarProductos.post');
 
 
 
-Route::group(['middleware' => ['role:admin']], function () {
+Route::group(['middleware' => ['role:Administracion']], function () {
     Route::resource('AgregarPedidos', 'PedidosController@create');
     //Route::resource('/listaPedido', 'PedidosController@index');
     //Route::resource('roles', 'Admin\RolesController');

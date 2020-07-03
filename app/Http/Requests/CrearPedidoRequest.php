@@ -25,8 +25,8 @@ class CrearPedidoRequest extends FormRequest
     {
         return [
             'idVendedor'    =>'required',
-                #Exista en la BD 
-            'requiereAprob' =>'required',
+                #Exista en la BD
+            //'requiereAprob' =>'required',
                 #Puede que no sea necesario ponerla en el request
             'formaEntrega'  =>'required',
             'datosFlete'    =>'required',
