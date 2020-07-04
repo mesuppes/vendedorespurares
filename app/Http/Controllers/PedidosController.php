@@ -53,23 +53,29 @@ class PedidosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($idVendedor = 0)
+    public function create()
     {
 
         #Si el usuario no tiene rol de vendedor
 
-
-        if ($idVendedor) {
+        if (Auth::user()->hasRole('Administracion')) {
             #Lista de venededores
+
+            $idVendedor=request('idVendedor');
+
+            $vendedor=Vendedor::find($idVendedor)->nombre;
 
             $productos= PedidosController::tablaProductoDescuento($idVendedor);
 
-            return view('agregarPedido')->with(compact('productos'));
+            return view('agregarPedido')->with(compact('productos','vendedor'));
 
         }elseif (Auth::user()->hasRole('Vendedor')) {
             #Vendedor que lo está cargando
             //$vendedores=$usuario->vendedor;
-            $idUsuario=User::find(Auth::user()->id);
+            $idUsuario=Auth::user()->id;
+
+            //$vendedor=Vendedor::find($idUsuario)->nombre;
+            $vendedor=Auth::user()->name;
 
             $productos= PedidosController::tablaProductoDescuento($idUsuario);
 

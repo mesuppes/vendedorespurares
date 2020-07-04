@@ -15,8 +15,7 @@
                         <h5 class="card-title">Datos del pedido</h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{route('cargarProductos.post')}}">
-							@csrf
+                        <form method="GET" action="{{route('pedido.create')}}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

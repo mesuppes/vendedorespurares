@@ -12,7 +12,12 @@
             <div class="col-md-12">
                 <div class="bg-white card card-user">
                     <div class="card-header">
-                        <h5 class="card-title">Datos del pedido</h5>
+                        @isset($vendedor)
+                            <h5 class="card-title">Datos del pedido para {{$vendedor}}</h5>
+                        @endisset
+                        @empty($vendedor)
+                            <h5 class="card-title">Datos del pedido</h5>
+                        @endempty
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{route('pedido.store')}}">
