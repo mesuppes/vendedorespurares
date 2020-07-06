@@ -25,7 +25,7 @@ use App\WorkflowN;
 
 #   TO DO
 /*
-        OK-Query: producto -> precio actualizado dentro de fecha_desde + Dcto producto/Vendedor 
+        OK-Query: producto -> precio actualizado dentro de fecha_desde + Dcto producto/Vendedor
     -Validar stock
         OK-Decodificar WF
     -En el index enviar estado + Monto (siempre teniendo en cueta el ultimo)
@@ -55,25 +55,57 @@ class PedidosController extends Controller
      */
     public function create()
     {
-        
+
         #Si el usuario no tiene rol de vendedor
-        $usuario=User::find(Auth::user()->id);
-        
-        if ($idUsuario->hasRole('Administracion')) {
+
+        if (Auth::user()->hasRole('Administracion')) {
             #Lista de venededores
-            $vendedores=Vendedor::get();                
-        }elseif ($idUsuario->hasRole('Vendedor')) {
+
+            $idVendedor=request('idVendedor');
+
+            $vendedor=Vendedor::find($idVendedor)->nombre;
+
+            $productos= PedidosController::tablaProductoDescuento($idVendedor);
+
+            return view('agregarPedido')->with(compact('productos','vendedor'));
+
+        }elseif (Auth::user()->hasRole('Vendedor')) {
             #Vendedor que lo está cargando
-            $vendedores=$usuario->vendedor;
+            //$vendedores=$usuario->vendedor;
+            $idUsuario=Auth::user()->id;
+
+            //$vendedor=Vendedor::find($idUsuario)->nombre;
+            $vendedor=Auth::user()->name;
+
+            $productos= PedidosController::tablaProductoDescuento($idUsuario);
+
+            return view('agregarPedido')->with(compact('productos'));
+
         }else{
             return "ERROR - Su rol no permite realizar la operación";
-        }
+        }}
+
+public function createAdmin()
+    {
+        if (Auth::user()->hasRole('Administracion')) {
+            #Lista de venededores
+            $vendedores=Vendedor::get();
+
+            return view('seleccionarVendedor')->with(compact('vendedores'));
+
+        }elseif (Auth::user()->hasRole('Vendedor')) {
+            #Vendedor que lo está cargando
+            //$vendedores=$usuario->vendedor;
+
+            $productos= PedidosController::tablaProductoDescuento($idUsuario);
+
+            return view('agregarPedido')->with(compact('productos'));
+
+        }else{
+            return "ERROR - Su rol no permite realizar la operación";
+        }}
 
         #Producto+Precio+Stock+Descuento para ese vendedor
-        $productos= PedidosController::tablaProductoDescuento($idVendedor);
-
-        return view('agregarPedido')->with(compact('productos','vendedores'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -83,7 +115,7 @@ class PedidosController extends Controller
      */
     public function store(CrearPedidoRequest $request,$idPedidoPadre)
     {
-        
+
         //VALIDAR STOCK
 
         //CREAR PEDIDO
@@ -194,7 +226,7 @@ class PedidosController extends Controller
      */
     public function update($id,$idWfLast)
     {
-        
+
         //0-Enviar el IDPedidoPadre
         $pedido=Pedido::find($id);
         if ($pedido->id_pedido_padre == null) {
@@ -229,7 +261,7 @@ class PedidosController extends Controller
         //Aprobar Pedido
         #1-Actualizar WF
         $newStatus= 2;
-        $respuestaWF=WorkflowController::actualizar($idWF,$newStatus);    
+        $respuestaWF=WorkflowController::actualizar($idWF,$newStatus);
 
         #2-Actualizar Stock
         #3-Generar factura Proforma
@@ -260,6 +292,15 @@ class PedidosController extends Controller
                             ->get();
 
         return $productosTabla;
+    }
+
+    public function cargarProductos(Request $request)
+    {
+        $id_vendedor = $request->idVendedor;
+
+        $productos= PedidosController::tablaProductoDescuento($id_vendedor);
+
+        return response()->json(['success'=>$productos]);
     }
 
 

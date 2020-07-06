@@ -25,7 +25,7 @@
             </a>
           </li>
 
-      @role('Admin Purares')
+      @role('Administracion')
       <li {{Route::is('permissions.index')||Route::is('permissions.create')||Route::is('permissions.edit')||Route::is('roles.index')||Route::is('roles.create')||Route::is('roles.edit')||Route::is('users.index')||Route::is('users.create')||Route::is('users.edit')? 'class=active':''}}>
           <a data-toggle="collapse" href="#users" aria-expanded="false" class="collapsed">
               <i class="nc-icon nc-bank"></i>
@@ -64,22 +64,28 @@
         </li>
       @endrole
 
-      @role('admin')
+      @role('Administracion')
         <li {{Route::is('pedido.index')? 'class=active':''}}>
             <a href="{{route('pedido.index')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Mis pedidos</p>
             </a>
         </li>
+      @endrole
 
         <li {{Route::is('pedido.create')? 'class=active':''}}>
             <a href="{{route('pedido.create')}}">
               <i class="nc-icon nc-bank"></i>
-              <p>Agregar pedidos</p>
+              <p>Agregar pedidos Vendedor</p>
             </a>
           </li>
 
-      @endrole
+        <li {{Route::is('pedido.create')? 'class=active':''}}>
+            <a href="{{route('pedido.createAdmin')}}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Agregar pedidos Administrador</p>
+            </a>
+          </li>
 
         <li {{Route::is('home')? 'class=active':''}}>
             <a href="{{route('home')}}">

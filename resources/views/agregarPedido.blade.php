@@ -12,20 +12,16 @@
             <div class="col-md-12">
                 <div class="bg-white card card-user">
                     <div class="card-header">
-                        <h5 class="card-title">Datos del pedido</h5>
+                        @isset($vendedor)
+                            <h5 class="card-title">Datos del pedido para {{$vendedor}}</h5>
+                        @endisset
+                        @empty($vendedor)
+                            <h5 class="card-title">Datos del pedido</h5>
+                        @endempty
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{route('pedido.store')}}">
 							@csrf
-                            <div class="row">
-                            	@role('Administracion')
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Vendedor</label>
-                                        <input type="text" name="idVendedor" class="form-control" placeholder="Seleccione el vendedor">
-                                    </div>
-                                </div>
-                                @endrole
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Condición del pago</label>
@@ -45,16 +41,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-</div>
-                    </div>
-                </div>
                 <div class="bg-white card">
                     <div class="card-header">
                         <h5 class>Productos</h5>
                     </div>
                 </div>
-        @foreach ($productos as $producto)
                 <div class="card d-inline-flex flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="card-footer col-12">
 </div>
@@ -63,17 +54,17 @@
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
                         <h6 class="card-title mb-3"></h6>
-                        <h6 class="card-title mb-3">{{$producto->nombre_comercial}}</h6>
-                        <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
+                        <h6 class="card-title mb-3"></h6>
+                        <input type="hidden" name="idProducto[]" value="">
 							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" data-toggle="buttons">
 							  <label class="btn btn-secondary">
-							    <input type="hidden" name="tipoMedida[]" value="kg" checked> Kilos
+							    <input type="hidden" class="radio_kilos" name="tipoMedida[]" value="kg" checked> Kilos
 							  </label>
 							 <label class="btn btn-primary active">
-							    <input type="radio" name="tipoMedida[]" value="Unidades"> Unidades
+							    <input type="radio" class="radio_unidades" name="tipoMedida[]" value="Unidades"> Unidades
 							  </label>
 							</div>
-                        <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ {{$producto->precio_unidad}} / Unidad</div>
+                        <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$/ Unidad</div>
                         <span class="badge badge-danger badge-pill pl-1 pr-1">35 %</span>
                         <div class="mt-2 pl-0 pr-1">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
@@ -88,7 +79,6 @@
                         <p class="mb-2 mr-0 pr-10 text-center">TOTAL: $ 5000                   </p>
                     </div>
                 </div>
-		@endforeach
                 <div class="bg-white card">
                     <div class="d-inline-flex justify-content-between">
                         <div class="align-items-end d-flex pl-3">
