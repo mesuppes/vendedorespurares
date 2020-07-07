@@ -187,6 +187,9 @@ public function createAdmin()
         if ($pedidoHijo==null) {
             $pedidoDescUltimo=Pedido::find($id);
             $pedidoProdUltimo= $pedidoDescUltimo->productos;
+            $pedidoDescAnterior=null;
+            $pedidoProdAnterior=null;
+
 
               //WORKFLOW
         $wf=WorkflowN::where([
@@ -195,7 +198,7 @@ public function createAdmin()
                             ])
                     ->get();
 
-        return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','wf'));
+        //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','wf'));
         }else{
             $pedidoDecUltimo=$pedidoHijo;
             $pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
@@ -209,8 +212,11 @@ public function createAdmin()
                             ])
                     ->get();
 
-        return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
+        //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
     }
+
+return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
+
 }
 
 
