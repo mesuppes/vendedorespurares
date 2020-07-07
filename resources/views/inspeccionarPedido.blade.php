@@ -14,6 +14,16 @@
                                 <div class="card-header">
                                     <h5 class="card-title">Datos del pedido</h5>
                                 </div>
+                                pedidoDescUltimo: <br>
+                                {{$pedidoDescUltimo}} <br>
+                                  pedidoProdUltimo: <br>
+                                  {{$pedidoProdUltimo}} <br>
+                                       wf: <br>
+                                       {{$wf}} <br>
+                                pedidoDescAnterior: <br>
+                                {{$pedidoDescAnterior ?? 'no hay pedidos anteriores'}} <br>
+                                pedidoProdAnterior: <br>
+                                {{$pedidoProdAnterior ?? 'no hay pedidos anteriores'}} <br>
                                 <div class="card-body">
                                     <form>
                                         <div class="row">
