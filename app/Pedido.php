@@ -20,4 +20,8 @@ class Pedido extends Model
     public function productos(){
     	return $this->hasMany(PedidoProducto::class,'id_pedido','id_pedido');
     }
+
+    public function pedidosHijo(){
+        return $this->hasMany(Pedido::class,'id_pedido_padre','id_pedido');
+    }
 }

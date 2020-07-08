@@ -192,18 +192,18 @@ public function createAdmin()
 
 
               //WORKFLOW
-        $wf=WorkflowN::where([
-                                ['task_type','=','1'], // 1->Corresponde a la tabla Pedido
-                                ['id_task','=',$pedidoDescUltimo->id_pedido]
-                            ])
-                    ->get();
-
+        $idWF=WorkflowN::where([['task_type','=','1'],['id_task','=',39]])->first()->id_workflow;
+        $wf=WorkflowController::decodificar($idWF);
         //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','wf'));
         }else{
-            $pedidoDecUltimo=$pedidoHijo;
+            $pedidoDescUltimo=$pedidoHijo;
             $pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
+            if ($pedidoDescAnterior==null) {
+                $pedidoDescAnterior=Pedido::find($id);
+            }
+
             $pedidoProdUltimo=$pedidoDescUltimo->productos;
-            $pedidoProdAnterior=$pedidoProdAnterior->productos;
+            $pedidoProdAnterior=$pedidoDescAnterior->productos;
 
         //WORKFLOW
         $wf=WorkflowN::where([
