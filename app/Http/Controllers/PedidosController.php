@@ -230,7 +230,50 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
     public function edit($id)
     {
         //Se debe envíar la lista de productos faltante
+        //Buscar El Pedido Hijo mas Reciente
+        $pedidoHijo=Pedido::where('id_pedido_padre','=',$id)->latest()->first();
+
+        //Si no tiene pedido Hijo Muestra el Pedido Padre
+        if ($pedidoHijo==null) {
+            $pedidoDescUltimo=Pedido::find($id);
+            $pedidoProdUltimo= $pedidoDescUltimo->productos;
+            $pedidoDescAnterior=null;
+            $pedidoProdAnterior=null;
+        //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','wf'));
+        }else{
+            $pedidoDescUltimo=$pedidoHijo;
+            $pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
+            if ($pedidoDescAnterior==null) {
+                $pedidoDescAnterior=Pedido::find($id);
+            }
+
+            $pedidoProdUltimo=$pedidoDescUltimo->productos;
+            $pedidoProdAnterior=$pedidoDescAnterior->productos;
+
+
+
+        //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
     }
+         if (Auth::user()->hasRole('Administracion')) {
+            #Lista de venededores
+            $idVendedor=$pedidoDescUltimo->id_vendedor;
+
+             $productos= PedidosController::tablaProductoDescuento($idVendedor);
+        }elseif (Auth::user()->hasRole('Vendedor')) {
+            #Vendedor que lo está cargando
+            //$vendedores=$usuario->vendedor;
+            $idUsuario=Auth::user()->id;
+
+            //$vendedor=Vendedor::find($idUsuario)->nombre;
+            $vendedor=Auth::user()->name;
+
+            $productos= PedidosController::tablaProductoDescuento($idUsuario);
+
+    }
+
+ return view('editarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','productos'));
+
+}
 
     /**
      * Update the specified resource in storage.

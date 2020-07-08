@@ -55,6 +55,8 @@ Route::get('/agregarPedido/{idVendedor?}', 'PedidosController@create')->name('pe
 Route::get('/seleccionarVendedor', 'PedidosController@createAdmin')->name('pedido.createAdmin');
 Route::post('/agregarPedido', 'PedidosController@store')->name('pedido.store');
 Route::post('/cargarProductos', 'PedidosController@cargarProductos')->name('cargarProductos.post');
+Route::get('/editarPedido/{id?}', 'PedidosController@edit')->name('pedido.edit');
+Route::get('/aprobarPedido/{idWf}', 'PedidosController@approve')->name('pedido.aprobar');
 
 
 

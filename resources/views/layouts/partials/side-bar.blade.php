@@ -18,12 +18,14 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
+           @role('admin')
           <li {{Route::is('home')? 'class=active':''}}>
             <a href="{{route('home')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Dashboard</p>
             </a>
           </li>
+          @endrole
 
       @role('Administracion')
       <li {{Route::is('permissions.index')||Route::is('permissions.create')||Route::is('permissions.edit')||Route::is('roles.index')||Route::is('roles.create')||Route::is('roles.edit')||Route::is('users.index')||Route::is('users.create')||Route::is('users.edit')? 'class=active':''}}>
@@ -55,8 +57,8 @@
           </ul>
         </div>
 
-        <li {{Route::is('home')? 'class=active':''}}>
-            <a href="{{route('home')}}">
+         <li {{Route::is('pedido.index')? 'class=active':''}}>
+            <a href="{{route('pedido.index')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Ver todos los pedidos</p>
             </a>
@@ -64,35 +66,37 @@
         </li>
       @endrole
 
-      @role('Administracion')
+      @role('Vendedor')
         <li {{Route::is('pedido.index')? 'class=active':''}}>
             <a href="{{route('pedido.index')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Mis pedidos</p>
             </a>
         </li>
-      @endrole
 
         <li {{Route::is('pedido.create')? 'class=active':''}}>
             <a href="{{route('pedido.create')}}">
               <i class="nc-icon nc-bank"></i>
-              <p>Agregar pedidos Vendedor</p>
+              <p>Agregar pedido</p>
             </a>
           </li>
-
+      @endrole
+      @role('Administracion')
         <li {{Route::is('pedido.create')? 'class=active':''}}>
             <a href="{{route('pedido.createAdmin')}}">
               <i class="nc-icon nc-bank"></i>
-              <p>Agregar pedidos Administrador</p>
+              <p>Agregar pedidos</p>
             </a>
           </li>
-
+      @endrole
+      @role('admin')
         <li {{Route::is('home')? 'class=active':''}}>
             <a href="{{route('home')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Ver stock de productos</p>
             </a>
           </li>
+      @endrole
 
       <li {{Route::is('profile.index')? 'class=active':''}}>
         <a href="{{ route('profile.index') }}">

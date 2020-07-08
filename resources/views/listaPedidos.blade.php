@@ -29,8 +29,8 @@
                                 @forelse($listaPedidos as $pedido)
                                     <tr>
                                         <th>{{$pedido->fecha_reg}}</th>
-                                        <td><font color="#ffffff"><span style="font-size: 10.5px; white-space: nowrap; background-color: rgb(81, 203, 206);"><b>????</b></span></font></td>
-                                        <td>aca va un monto y no nero</td>
+                                        <td><font color="#ffffff"><span style="font-size: 10.5px; white-space: nowrap; background-color: rgb(81, 203, 206);"><b>Pendiente</b></span></font></td>
+                                        <td>Monto Total</td>
                                         <td>
                                             <div class="mb-1">
                                                 <a type="button" class="btn btn-sm col-12 btn-primary"

@@ -11,44 +11,43 @@
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
-                                <div class="card-header">
-                                    <h5 class="card-title">Datos del pedido</h5>
+                                <div class="card-header d-flex">
+                                    <h5 class="card-title">Datos del pedido
+                                    @foreach ($wf as $workflow)
+                                    @if($workflow->status_n)
+                                    <span class="badge badge-warning">{{$workflow->status_n}}</span>
+                                    @endif
+                                    </h5>
+                                    <a href="{{route('pedido.edit', $pedidoDescUltimo->id_pedido)}}" class="btn btn-sm btn-primary ml-auto">Editar pedido</a>
+                                    <a href="{{route('pedido.aprobar', $workflow->id_workflow)}}"  class="btn btn-sm btn-success ml-auto">Aprobar pedido</a>
+                                    <a class="btn btn-sm btn-danger ml-auto">Rechazar pedido</a>
+                                    @endforeach
                                 </div>
-                                pedidoDescUltimo: <br>
-                                {{$pedidoDescUltimo}} <br>
-                                  pedidoProdUltimo: <br>
-                                  {{$pedidoProdUltimo}} <br>
-                                       wf: <br>
-                                       {{$wf}} <br>
-                                pedidoDescAnterior: <br>
-                                {{$pedidoDescAnterior ?? 'no hay pedidos anteriores'}} <br>
-                                pedidoProdAnterior: <br>
-                                {{$pedidoProdAnterior ?? 'no hay pedidos anteriores'}} <br>
                                 <div class="card-body">
                                     <form>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Vendedor</label>
-                                                    <input type="text" class="form-control" disabled="" placeholder="Company" value="Nombre Vendedor 1">
+                                                    <input type="text" class="form-control" disabled placeholder="Vendedor" value="{{$pedidoDescUltimo->id_vendedor}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Condición del pago</label>
-                                                    <input type="text" class="form-control" placeholder="Ingrese la condición del pago" value="Efectivo">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la condición del pago" value="{{$pedidoDescUltimo->condicion_pago}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Forma de entrega</label>
-                                                    <input type="text" class="form-control" placeholder="Ingrese la forma de entrega" value="Mañana macho">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la forma de entrega" value="{{$pedidoDescUltimo->forma_entrega}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Datos del flete</label>
-                                                    <input type="text" class="form-control" placeholder="Ingrese los datos del flete" value="Lo trae el Cacho">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese los datos del flete" value="{{$pedidoDescUltimo->datos_flete}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -75,46 +74,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach($pedidoProdUltimo as $producto)
                                                 <tr>
-                                                    <td>Salame Parrillero</td>
-                                                    <td>$10000 / Unidad</td>
+                                                    <td>{{$producto->id_producto}}</td>
+                                                    <td>${{$producto->precio_unitario}}/{{$producto->tipo_medida}}</td>
                                                     <td>
                                                         <div class="mb-1">
-                                                            100 Unidades
-</div>
-                                                        <div class="mb-1">
-                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                                                Editar
-</button>
+                                                            {{$producto->cantidad}} {{$producto->tipo_medida}}
                                                         </div>
                                                     </td>
-                                                    <td>$1000000</td>
+                                                    <td>${{$producto->precio_final}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td rowspan="2">Jamon</td>
-                                                    <td><strike>$ 950 / kilo</strike> </td>
-                                                    <td><strike>350 kilos</strike></td>
-                                                    <td><strike>$ 332500</strike></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>$ 1000 / kilo</td>
-                                                    <td>
-                                                        <div class="mb-1">
-                                                            332.5 kilos
-</div>
-                                                        <div class="mb-1">
-                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                                                Editar
-</button>
-                                                        </div>
-                                                    </td>
-                                                    <td>$ 332500</td>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>2 productos</th>
-                                                    <th colspan="2">TOTAL $ 1332500</th>
+                                                    <th>X productos</th>
+                                                    <th colspan="2">TOTAL $ </th>
                                                 </tr>
                                             </tfoot>
                                         </table>
