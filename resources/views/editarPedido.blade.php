@@ -54,7 +54,7 @@
                         <img src="http://pinegrow.com/placeholders/img18.jpg" alt="Card image cap">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
-                        <h6 class="card-title mb-3">{{$productopedido->id}}</h6>
+                        <h6 class="card-title mb-3">{{$productopedido->producto['nombre_comercial']}}</h6>
                         <input type="hidden" name="idProducto[]" value="">
 							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" data-toggle="buttons">
 							  <label class="btn btn-secondary">

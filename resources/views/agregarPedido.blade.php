@@ -49,7 +49,7 @@
                 @foreach($productos as $producto)
                 <div class="card d-inline-flex flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src="http://pinegrow.com/placeholders/img18.jpg" alt="Card image cap">
+                        <img src= "{{$producto->url_foto}}" width="100" alt="Card image cap">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
                         <h6 class="card-title mb-3">{{$producto->nombre_comercial}}</h6>

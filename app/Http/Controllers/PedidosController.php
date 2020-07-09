@@ -20,7 +20,7 @@ use App\Producto;
 use App\PedidoProducto;
 use App\ProductoView;
 use App\WorkflowN;
-
+use App\OptionList;
 
 
 #   TO DO
@@ -43,9 +43,20 @@ class PedidosController extends Controller
      */
     public function index()
     {
-        $listaPedidos=Pedido::get();//llamar al Modelo
 
-        return view('listaPedidos', compact('listaPedidos')); //dentro de Compact metemos la variable que esta en el modelo $listaPedidos
+    $idPedidos=DB::table('pedidos_reg')
+                ->selectRaw('MAX(id_pedido) as id')
+                ->groupBy('id_pedido_padre')
+                ->pluck('id')
+                ->toArray();
+
+
+    $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
+
+        return view('listaPedidos', compact('listaPedidos')); 
+
+        //TIP= Pedido::find(2)->workflow->where('date_done','=', null)
+
     }
 
     /**
@@ -85,8 +96,8 @@ class PedidosController extends Controller
             return "ERROR - Su rol no permite realizar la operación";
         }}
 
-public function createAdmin()
-    {
+    public function createAdmin(){
+
         if (Auth::user()->hasRole('Administracion')) {
             #Lista de venededores
             $vendedores=Vendedor::get();

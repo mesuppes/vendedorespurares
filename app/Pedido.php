@@ -24,4 +24,11 @@ class Pedido extends Model
     public function pedidosHijo(){
         return $this->hasMany(Pedido::class,'id_pedido_padre','id_pedido');
     }
+
+    public function workflow(){
+        return $this->hasMany(WorkflowN::class,'id_task','id_pedido')
+        ->where('task_type','=',1); //task type->1 = Pedidos 
+    }
+
+
 }

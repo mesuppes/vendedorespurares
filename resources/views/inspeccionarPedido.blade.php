@@ -29,7 +29,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Vendedor</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Vendedor" value="{{$pedidoDescUltimo->id_vendedor}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Vendedor" value="{{$pedidoDescUltimo->vendedor['nombre']}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -76,7 +76,7 @@
                                             <tbody>
                                                 @foreach($pedidoProdUltimo as $producto)
                                                 <tr>
-                                                    <td>{{$producto->id_producto}}</td>
+                                                    <td>{{$producto->producto['nombre_comercial']}}</td>
                                                     <td>${{$producto->precio_unitario}}/{{$producto->tipo_medida}}</td>
                                                     <td>
                                                         <div class="mb-1">

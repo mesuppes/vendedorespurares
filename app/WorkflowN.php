@@ -11,4 +11,16 @@ class WorkflowN extends Model
 	protected $guarded=[];
 	const UPDATED_AT = 'date_done';
     const CREATED_AT = 'date_start';
+
+    public function statusN(){
+    	return $this->belongsTo(OptionList::class,'status','id_interno')
+    	->where('filtro','=','WF-status');
+    }
+
+    public function actionN(){
+    	return $this->belongsTo(OptionList::class,'status','id_interno')
+    	->where('filtro','=','WF-action');
+    }
+
+
 }

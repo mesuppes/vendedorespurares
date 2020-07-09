@@ -20,6 +20,7 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
+                                        <th>Vendedor</th>
                                         <th>Estado</th>
                                         <th>Monto</th>
                                         <th></th>
@@ -29,8 +30,14 @@
                                 @forelse($listaPedidos as $pedido)
                                     <tr>
                                         <th>{{$pedido->fecha_reg}}</th>
-                                        <td><font color="#ffffff"><span style="font-size: 10.5px; white-space: nowrap; background-color: rgb(81, 203, 206);"><b>Pendiente</b></span></font></td>
-                                        <td>Monto Total</td>
+                                        <th>{{$pedido->vendedor['nombre']}}</th>
+                                        <td><font color="#ffffff">
+                                            <span style="font-size: 10.5px; white-space: nowrap; background-color: rgb(81, 203, 206);">
+                                                <b>
+                                                Pendiente    
+                                                </b>
+                                            </span></font></td>
+                                        <th>${{$pedido->productos->sum('precio_final')}}</th>
                                         <td>
                                             <div class="mb-1">
                                                 <a type="button" class="btn btn-sm col-12 btn-primary"

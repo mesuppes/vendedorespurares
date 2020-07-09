@@ -24,15 +24,12 @@ class CrearPedidoRequest extends FormRequest
     public function rules()
     {
         return [
-            'idVendedor'    =>'required',
-<<<<<<< HEAD
+            #'idVendedor'    =>'required',
                 #Exista en la BD 
             'requiereAprob' =>'nullable',
-=======
                 #Exista en la BD
             //'requiereAprob' =>'required',
                 #Puede que no sea necesario ponerla en el request
->>>>>>> 004cd8ff8000af9feb0cfc46618da6fb3619cbca
             'formaEntrega'  =>'required',
             'datosFlete'    =>'required',
             'condicionPago' =>'required',
