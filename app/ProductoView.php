@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductoView extends Model
 {
-    protected $table ='v_productos';
+    protected $table ='v_productos_precios';
     protected $primaryKey = 'id_producto';
 }

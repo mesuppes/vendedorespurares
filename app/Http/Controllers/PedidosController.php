@@ -61,44 +61,31 @@ class PedidosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    static public function create()
     {
         if (Auth::user()->hasRole('Administracion')) {
-
-             
             $vendedor=Vendedor::find(request('idVendedor'))->nombre;
             $productos= PedidosController::tablaProductoDescuento(request('idVendedor'));
             return view('agregarPedido')->with(compact('productos','vendedor'));
-
         }elseif (Auth::user()->hasRole('Vendedor')) {
-            
             $vendedor=User::find(Auth::user()->id)->vendedor['id_vendedor'];
             $productos= PedidosController::tablaProductoDescuento($vendedor);
             return view('agregarPedido')->with(compact('productos'));
-
         }else{
             return "ERROR - Su rol no permite realizar la operación";
         }}
 
-    public function createAdmin(){
+    public function createRouter(){
 
         if (Auth::user()->hasRole('Administracion')) {
-            
-            #Lista de venededores
             $vendedores=Vendedor::all();
             return view('seleccionarVendedor')->with(compact('vendedores'));
-
         }elseif (Auth::user()->hasRole('Vendedor')) {
-            
-            $vendedor=Auth::user()->vendedor;
-            $productos= PedidosController::tablaProductoDescuento($vendedor->id_vendedor);
-            return view('agregarPedido')->with(compact('productos'));
-
+            PedidosController::create();
         }else{
             return "ERROR - Su rol no permite realizar la operación";
-        }}
-
-        #Producto+Precio+Stock+Descuento para ese vendedor
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -106,14 +93,14 @@ class PedidosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CrearPedidoRequest $request,$idPedidoPadre)
+    public function store(CrearPedidoRequest $request)
     {
 
         //VALIDAR STOCK
         //VALIDAR CRÉDITO
         //CREAR PEDIDO
-        $NuevoPedido= Pedido::create([
-            'id_pedido_padre'=>$idPedidoPadre,
+        $nuevoPedido= Pedido::create([
+            'id_pedido_padre'=>$request['idPedidoPadre'],
             'id_vendedor'   =>$request['idVendedor'],
             'forma_entrega' =>$request['formaEntrega'],
             'datos_flete'   =>$request['datosFlete'],
@@ -121,26 +108,25 @@ class PedidosController extends Controller
             'id_usuario_reg'=>Auth::user()->id,
         ]);
 
-        $idPedido = $NuevoPedido->id_pedido;
+        $idPedido = $nuevoPedido->id_pedido;
 
         //AGREGAR PRODUCTOS AL PEDIDO
 
         //Cantidad producto
         $longitud=count($request['idProducto']);
 
+        $tablaProducto= PedidosController::tablaProductoDescuento($request['idVendedor']);
+        
         for ($i=0; $i <$longitud ; $i++) {
 
             if ($request['cantidad'][$i]>0) {
 
-                //Producto
-                $producto=ProductoView::find($request['idProducto'][$i]);
-                $descuento=0.25;
-
+                $producto=$tablaProducto->where('id_producto','=',$request['idProducto'][$i]->first());
                 //Determianr Precio (unitario/KG)
                 if ($request['tipoMedida'][$i]=='kg') {
-                    $precio=$producto['precio_kg'];
+                    $precio=$producto->precio_kg;
                 }else{
-                    $precio=$producto['precio_unidad'];
+                    $precio=$producto->precio_unidad;
                 }
 
                 //Cargar en la DB
@@ -150,8 +136,8 @@ class PedidosController extends Controller
                     'tipo_medida'=>$request['tipoMedida'][$i],
                     'cantidad'=>$request['cantidad'][$i],
                     'precio_unitario'=>$precio,
-                    'descuento'=>$descuento,
-                    'precio_final'=>$precio*$request['cantidad'][$i]
+                    'descuento'=>$producto->dcto_usar,
+                    'precio_final'=>$precio*$request['cantidad'][$i]*(1-$producto->dcto_usar),
                 ]);
 
             }
@@ -275,7 +261,6 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
      */
     public function update($id,$idWfLast)
     {
-
         //0-Enviar el IDPedidoPadre
         $pedido=Pedido::find($id);
         if ($pedido->id_pedido_padre == null) {
@@ -329,7 +314,7 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
 
     #Retorna el stock y los descuentos para el vendedor selecionado
 
-        $productosTabla=DB::table('v_productos_precio_stock AS p_v')
+        $productosTabla=DB::table('v_productos_precios AS p_v')
                             ->leftJoin('vendedores_dto_prod AS p_d',function($join) use ($idVendedor){
                                     $join->on('p_d.id_producto','=','p_v.id_producto');
                                     $join->where('p_d.id_vendedor','=', $idVendedor);

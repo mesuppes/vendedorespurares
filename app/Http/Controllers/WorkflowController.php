@@ -55,7 +55,7 @@ class WorkflowController extends Controller
                     'id_task'       =>$idPedido,
                 ]);
     
-        return WorkflowController::decodificar($idWF);
+        return WorkflowController::decodificar($insert->id_workflow);
     	
     }
 

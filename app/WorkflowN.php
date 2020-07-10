@@ -22,5 +22,9 @@ class WorkflowN extends Model
     	->where('filtro','=','WF-action');
     }
 
+    //ROLE
 
+    //USER
+
+    
 }

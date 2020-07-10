@@ -52,7 +52,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/listaPedidos', 'PedidosController@index')->name('pedido.index');
 Route::get('/listaPedidos/{id}', 'PedidosController@show')->name('pedido.show');
 Route::get('/agregarPedido/{idVendedor?}', 'PedidosController@create')->name('pedido.create');
-Route::get('/seleccionarVendedor', 'PedidosController@createAdmin')->name('pedido.createAdmin');
+Route::get('/seleccionarVendedor', 'PedidosController@createRouter')->name('pedido.createRouter');
 Route::post('/agregarPedido', 'PedidosController@store')->name('pedido.store');
 Route::post('/cargarProductos', 'PedidosController@cargarProductos')->name('cargarProductos.post');
 Route::get('/editarPedido/{id?}', 'PedidosController@edit')->name('pedido.edit');

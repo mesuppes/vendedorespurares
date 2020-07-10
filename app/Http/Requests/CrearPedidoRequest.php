@@ -27,6 +27,7 @@ class CrearPedidoRequest extends FormRequest
             #'idVendedor'    =>'required',
                 #Exista en la BD 
             'requiereAprob' =>'nullable',
+            'idPedidoPadre' =>'nullable',
                 #Exista en la BD
             //'requiereAprob' =>'required',
                 #Puede que no sea necesario ponerla en el request

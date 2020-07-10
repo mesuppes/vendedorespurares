@@ -83,7 +83,7 @@
       @endrole
       @role('Administracion')
         <li {{Route::is('pedido.create')? 'class=active':''}}>
-            <a href="{{route('pedido.createAdmin')}}">
+            <a href="{{route('pedido.createRouter')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Agregar pedidos</p>
             </a>

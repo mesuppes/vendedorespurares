@@ -64,15 +64,27 @@ class VendedoresController extends Controller
        
     }
      
+    // ---!!! CREDITOS !!!--- //
+
     public function createCredito($idVendedor){
 
         $vendedor=Vendedor::find($idVendedor);
 
         return view('VendedorCreditoCreate'->with(compact('vendedor')));
-
     }
 
-    // ---!!! CREAR DESCUENTOS !!!--- //
+    public function storeCredito(){
+
+        VendededorCredito::create([
+            'id_vendedor'=>request('idVendedor'),
+            'monto'=>request('monto'),
+            'idUsuario'=>Auth::user()->id,
+            ])
+        //return redirect()
+    }
+
+
+    // ---!!!DESCUENTOS !!!--- //
 
     public function createDescuentos($idVendedor){
 
@@ -80,7 +92,6 @@ class VendedoresController extends Controller
         $productos=Producto::all();
 
         return view('VendedorCreditoCreate'->with(compact('vendedor','productos')));
-
     }
 
 
@@ -121,6 +132,8 @@ class VendedoresController extends Controller
     {
         //Mostrar el vendedor
         $vendedor=Vendedor::find($idVendedor);
+        //Mostrar Crédito
+        $credito=$vendedor->credito->last();
         //Mostrar Descuentos
         $descuentoGeneral=$vendedor->descuentoGeneral;
         $descuentoProductos=$vendedor->->descuentoProducto;
@@ -160,6 +173,7 @@ class VendedoresController extends Controller
         //return succesmsg + Update de view 
 
     }
+
 
     public function updateDescuento(VendedorCreateRequest $request, Vendedor $vendedor)
     {

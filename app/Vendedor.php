@@ -17,6 +17,10 @@ class Vendedor extends Model
         return $this->belongsTo(User::class,'id_usuario_vendedor','id');
     }	
 
+    public function credito(){
+        return $this->hasMany(VendedorCredito::class,'id_vendedor','id_vendedor');
+    }
+
 	public function descuentoGeneral(){
         return $this->belongsTo(VendedorDescuentoGeneral::class,'id_vendedor','id_vendedor');
     }
@@ -24,5 +28,6 @@ class Vendedor extends Model
     public function descuentoProductos(){
     	return $this->hasMany(VendedorDescuentoProducto::class,'id_vendedor','id_vendedor');
     }
+
 
 }
