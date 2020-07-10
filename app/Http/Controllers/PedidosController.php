@@ -52,7 +52,7 @@ class PedidosController extends Controller
 
     $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
 
-        return view('listaPedidos', compact('listaPedidos')); 
+        return view('listaPedidos', compact('listaPedidos'));
 
     }
 
@@ -116,7 +116,7 @@ class PedidosController extends Controller
         $longitud=count($request['idProducto']);
 
         $tablaProducto= PedidosController::tablaProductoDescuento($request['idVendedor']);
-        
+
         for ($i=0; $i <$longitud ; $i++) {
 
             if ($request['cantidad'][$i]>0) {
@@ -323,7 +323,7 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
                                     $join->where('v_d.id_vendedor','=', $idVendedor);
                                 })
                             ->select('p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor',
-                                \DB::raw('(CASE 
+                                \DB::raw('(CASE
                                             WHEN p_d.descuento>v_d.descuento
                                             THEN p_d.descuento
                                             ELSE v_d.descuento

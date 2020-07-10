@@ -20,7 +20,7 @@
                         @endempty
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{route('pedido.store')}}">
+                        <form method="POST" id="formHacerPedido" action="{{route('pedido.store')}}">
 							@csrf
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -49,11 +49,11 @@
                 @foreach($productos as $producto)
                 <div class="card d-inline-flex flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src= "{{$producto->url_foto}}" width="100" alt="Card image cap">
+                        <img src= "" width="100" alt="Card image cap">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
-                        <h6 class="card-title mb-3">{{$producto->nombre_comercial}}</h6>
-                        <input type="hidden" name="idProducto[]" value="">
+                        <h6 class="card-title mb-3">Nombre {{$producto->id_producto}}</h6>
+                        <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
 							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" data-toggle="buttons">
 							  <label class="btn btn-secondary">
 							    <input type="hidden" class="radio_kilos" name="tipoMedida[]" value="kg" checked> Kilos
@@ -62,13 +62,13 @@
 							    <input type="radio" class="radio_unidades" name="tipoMedida[]" value="Unidades"> Unidades
 							  </label>
 							</div>
-                        <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$/ Unidad</div>
-                        <span class="badge badge-danger badge-pill pl-1 pr-1">35 %</span>
+                        <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ {{$producto->precio_unidad}} / Unidad</div>
+                        <span class="badge badge-danger badge-pill pl-1 pr-1">{{$producto->dcto_usar*100}} %</span>
                         <div class="mt-2 pl-0 pr-1">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
                                 <input type="number"  name="cantidad[]" class="form-control" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
-                                    <span class="input-group-text text-center" id="basic-addon2">&nbsp; uds.</span>
+                                    <span class="input-group-text text-center spanUnidad">&nbsp; uds.</span>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                             <p>TOTAL: $ 5000                   </p>
                         </div>
                         <div class="d-flex pr-2">
-                            <button type="submit" class="btn btn-success">Hacer pedido
+                            <button type="submit" id="botonHacerPedido" class="btn btn-success">Hacer pedido
 </button>
                         </div>
                          </form>
@@ -116,7 +116,31 @@
   <script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script type="text/javascript">
+
+    $(document).on('click','.radio_kilos', function (event) {
+    alert($(this).closest('.spanUnidad'))
+});
+
+$("#botonHacerPedido").click(function(event){
+        event.preventDefault();
+        let form = event.target;
+
+        swal.fire({
+            title: 'Confirmar pedido',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Cargar pedido'
+        }).then((result) => {
+        if (result.value) {
+            $('#formHacerPedido').submit();
+        }
+    });
+});
 
 
 </script>
