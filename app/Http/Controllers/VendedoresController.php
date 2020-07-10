@@ -63,6 +63,14 @@ class VendedoresController extends Controller
         return view('VendedorDescuentoCreate'->with($nuevoVendedor->id_vendedor));
        
     }
+     
+    public function createCredito($idVendedor){
+
+        $vendedor=Vendedor::find($idVendedor);
+
+        return view('VendedorCreditoCreate'->with(compact('vendedor')));
+
+    }
 
     // ---!!! CREAR DESCUENTOS !!!--- //
 
@@ -71,9 +79,10 @@ class VendedoresController extends Controller
         $vendedor=Vendedor::find($idVendedor);
         $productos=Producto::all();
 
-        return view('VendedorDescuentoCreate'->with(compact('vendedor','productos')));
+        return view('VendedorCreditoCreate'->with(compact('vendedor','productos')));
 
     }
+
 
     public function storeDescuento(VendedorDescuentoCreateRequest $request){
 

@@ -50,12 +50,9 @@ class PedidosController extends Controller
                 ->pluck('id')
                 ->toArray();
 
-
     $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
 
         return view('listaPedidos', compact('listaPedidos')); 
-
-        //TIP= Pedido::find(2)->workflow->where('date_done','=', null)
 
     }
 
@@ -66,30 +63,17 @@ class PedidosController extends Controller
      */
     public function create()
     {
-
-        #Si el usuario no tiene rol de vendedor
-
         if (Auth::user()->hasRole('Administracion')) {
-            #Lista de venededores
 
-            $idVendedor=request('idVendedor');
-
-            $vendedor=Vendedor::find($idVendedor)->nombre;
-
-            $productos= PedidosController::tablaProductoDescuento($idVendedor);
-
+             
+            $vendedor=Vendedor::find(request('idVendedor'))->nombre;
+            $productos= PedidosController::tablaProductoDescuento(request('idVendedor'));
             return view('agregarPedido')->with(compact('productos','vendedor'));
 
         }elseif (Auth::user()->hasRole('Vendedor')) {
-            #Vendedor que lo está cargando
-            //$vendedores=$usuario->vendedor;
-            $idUsuario=Auth::user()->id;
-
-            //$vendedor=Vendedor::find($idUsuario)->nombre;
-            $vendedor=Auth::user()->name;
-
-            $productos= PedidosController::tablaProductoDescuento($idUsuario);
-
+            
+            $vendedor=User::find(Auth::user()->id)->vendedor['id_vendedor'];
+            $productos= PedidosController::tablaProductoDescuento($vendedor);
             return view('agregarPedido')->with(compact('productos'));
 
         }else{
@@ -99,17 +83,15 @@ class PedidosController extends Controller
     public function createAdmin(){
 
         if (Auth::user()->hasRole('Administracion')) {
+            
             #Lista de venededores
-            $vendedores=Vendedor::get();
-
+            $vendedores=Vendedor::all();
             return view('seleccionarVendedor')->with(compact('vendedores'));
 
         }elseif (Auth::user()->hasRole('Vendedor')) {
-            #Vendedor que lo está cargando
-            //$vendedores=$usuario->vendedor;
-
-            $productos= PedidosController::tablaProductoDescuento($idUsuario);
-
+            
+            $vendedor=Auth::user()->vendedor;
+            $productos= PedidosController::tablaProductoDescuento($vendedor->id_vendedor);
             return view('agregarPedido')->with(compact('productos'));
 
         }else{
@@ -128,7 +110,7 @@ class PedidosController extends Controller
     {
 
         //VALIDAR STOCK
-
+        //VALIDAR CRÉDITO
         //CREAR PEDIDO
         $NuevoPedido= Pedido::create([
             'id_pedido_padre'=>$idPedidoPadre,
@@ -261,8 +243,6 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
             $pedidoProdUltimo=$pedidoDescUltimo->productos;
             $pedidoProdAnterior=$pedidoDescAnterior->productos;
 
-
-
         //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
     }
          if (Auth::user()->hasRole('Administracion')) {
@@ -357,7 +337,12 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
                             ->join('vendedores_dto_general AS v_d',function($join) use ($idVendedor){
                                     $join->where('v_d.id_vendedor','=', $idVendedor);
                                 })
-                            ->select('p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor')
+                            ->select('p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor',
+                                \DB::raw('(CASE 
+                                            WHEN p_d.descuento>v_d.descuento
+                                            THEN p_d.descuento
+                                            ELSE v_d.descuento
+                                            END) AS dcto_usar'))#usa el descuento mas alto
                             ->get();
 
         return $productosTabla;
@@ -366,9 +351,7 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
     public function cargarProductos(Request $request)
     {
         $id_vendedor = $request->idVendedor;
-
         $productos= PedidosController::tablaProductoDescuento($id_vendedor);
-
         return response()->json(['success'=>$productos]);
     }
 

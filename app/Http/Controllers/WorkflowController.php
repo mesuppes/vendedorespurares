@@ -59,6 +59,23 @@ class WorkflowController extends Controller
     	
     }
 
+    static public function ListaToDoUser($idUsuario){
+
+        //1-Pending por el id_usuario
+        //2-pending por los roles que tiene
+
+        //Roles que tiene el usuario
+        $rolesUsuario=User::find($idUsuario)->roles->pluck('id')->toArray();
+
+        $listaPending=WorkflowN::whereIn('to_role',$rolesUsuario)
+                            ->where('status','=',1) //Pendiente de aprobacion
+                        ->orWhere('to_user','=',$idUsuario) 
+                            ->where('status','=',1) //Pendiente de aprobacion
+                        ->get();
+
+        return $listaPending;
+    }
+
 
 
     //-------- ACTUALIZAR --------//
