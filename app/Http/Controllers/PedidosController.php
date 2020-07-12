@@ -142,7 +142,7 @@ class PedidosController extends Controller
 
             }
         }
-
+    
         //CREAR WORKFLOW
         $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido);
 
@@ -315,6 +315,7 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
     #Retorna el stock y los descuentos para el vendedor selecionado
 
         $productosTabla=DB::table('v_productos_precios AS p_v')
+                            ->join('productos_descripcion AS p_desc','p_desc.id_producto','=','p_v.id_producto')
                             ->leftJoin('vendedores_dto_prod AS p_d',function($join) use ($idVendedor){
                                     $join->on('p_d.id_producto','=','p_v.id_producto');
                                     $join->where('p_d.id_vendedor','=', $idVendedor);
@@ -322,7 +323,7 @@ return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUl
                             ->join('vendedores_dto_general AS v_d',function($join) use ($idVendedor){
                                     $join->where('v_d.id_vendedor','=', $idVendedor);
                                 })
-                            ->select('p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor',
+                            ->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor',
                                 \DB::raw('(CASE 
                                             WHEN p_d.descuento>v_d.descuento
                                             THEN p_d.descuento
