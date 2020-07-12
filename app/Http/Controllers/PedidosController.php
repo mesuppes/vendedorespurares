@@ -20,7 +20,7 @@ use App\Producto;
 use App\PedidoProducto;
 use App\ProductoView;
 use App\WorkflowN;
-use App\OptionList;
+use App\OptionList; 
 
 
 #   TO DO
@@ -52,7 +52,7 @@ class PedidosController extends Controller
 
     $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
 
-        return view('listaPedidos', compact('listaPedidos')); 
+        return view('listaPedidos', compact('listaPedidos'));
 
     }
 
@@ -64,13 +64,13 @@ class PedidosController extends Controller
     static public function create()
     {
         if (Auth::user()->hasRole('Administracion')) {
-            $vendedor=Vendedor::find(request('idVendedor'))->nombre;
+            $vendedor=Vendedor::find(request('idVendedor'));
             $productos= PedidosController::tablaProductoDescuento(request('idVendedor'));
             return view('agregarPedido')->with(compact('productos','vendedor'));
         }elseif (Auth::user()->hasRole('Vendedor')) {
-            $vendedor=User::find(Auth::user()->id)->vendedor['id_vendedor'];
+            $vendedor=User::find(Auth::user()->id)->vendedor;
             $productos= PedidosController::tablaProductoDescuento($vendedor);
-            return view('agregarPedido')->with(compact('productos'));
+            return view('agregarPedido')->with(compact('productos','vendedor'));
         }else{
             return "ERROR - Su rol no permite realizar la operación";
         }}
@@ -96,6 +96,7 @@ class PedidosController extends Controller
     public function store(CrearPedidoRequest $request)
     {
 
+        return $request;
         //VALIDAR STOCK
         //VALIDAR CRÉDITO
         //CREAR PEDIDO
@@ -114,16 +115,15 @@ class PedidosController extends Controller
 
         //Cantidad producto
         $longitud=count($request['idProducto']);
-
         $tablaProducto= PedidosController::tablaProductoDescuento($request['idVendedor']);
-        
+
         for ($i=0; $i <$longitud ; $i++) {
 
             if ($request['cantidad'][$i]>0) {
 
-                $producto=$tablaProducto->where('id_producto','=',$request['idProducto'][$i]->first());
+                $producto=$tablaProducto->where('id_producto','=',$request['idProducto'][$i])->first();
                 //Determianr Precio (unitario/KG)
-                if ($request['tipoMedida'][$i]=='kg') {
+                if ($request['tipoMedida'][2]=='kg') {
                     $precio=$producto->precio_kg;
                 }else{
                     $precio=$producto->precio_unidad;
@@ -137,7 +137,7 @@ class PedidosController extends Controller
                     'cantidad'=>$request['cantidad'][$i],
                     'precio_unitario'=>$precio,
                     'descuento'=>$producto->dcto_usar,
-                    'precio_final'=>$precio*$request['cantidad'][$i]*(1-$producto->dcto_usar),
+                    'precio_final'=>$precio*$request['cantidad'][$i]*(1- $producto->dcto_usar),
                 ]);
 
             }

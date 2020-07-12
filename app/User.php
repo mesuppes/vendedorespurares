@@ -48,7 +48,7 @@ class User extends Authenticatable
     }
 
     //Muestra el vendedor que esta asociado al usuario
-    public function Vendedor(){
+    public function vendedor(){
         return $this->belongsTo(Vendedor::class,'id','id_usuario_vendedor');
     }
 
