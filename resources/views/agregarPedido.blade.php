@@ -22,22 +22,23 @@
                     <div class="card-body">
                         <form method="POST" id="formHacerPedido" action="{{route('pedido.store')}}">
 							@csrf
+							    <input type="hidden" name="idVendedor" value="{{$vendedor}}">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Condición del pago</label>
-                                        <input type="text" class="form-control"  name="condicionPago"  placeholder="Ingrese la condición del pago">
+                                        <input type="text" class="form-control"  name="condicionPago"  placeholder="Ingrese la condición del pago" value="{{old('condicionPago')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Forma de entrega</label>
-                                        <input type="text" class="form-control"  name="formaEntrega"  placeholder="Ingrese la forma de entrega">
+                                        <input type="text" class="form-control"  name="formaEntrega"  placeholder="Ingrese la forma de entrega"  value="{{old('formaEntrega')}}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Datos del flete</label>
-                                        <input type="text" name="datosFlete"  class="form-control" placeholder="Ingrese los datos del flete">
+                                        <input type="text" name="datosFlete"  class="form-control" placeholder="Ingrese los datos del flete"  value="{{old('datosFlete')}}">
                                     </div>
                                 </div>
                             </div>
@@ -46,6 +47,8 @@
                         <h5 class>Productos</h5>
                     </div>
                 </div>
+                   @php $i=0
+                     @endphp
                 @foreach($productos as $producto)
                 <div class="card d-inline-flex flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
@@ -56,10 +59,10 @@
                         <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
 							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" id="selectorUnidades" data-toggle="buttons">
 							  <label class="btn btn-secondary">
-							    <input type="radio" class="radio_kilos" name="tipoMedida[]" value="kg" checked> Kilos
+							    <input type="radio" class="radio_kilos" name="tipoMedida[{{$i}}]"  autocomplete="off" value="kg"> Kilos
 							  </label>
 							 <label class="btn btn-primary active">
-							    <input type="radio" class="radio_unidades" name="tipoMedida[]" value="Unidades"> Unidades
+							    <input type="radio" class="radio_unidades" name="tipoMedida[{{$i}}]"  autocomplete="off" value="Unidades" checked> Unidades
 							  </label>
 							</div>
                         <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ <a class="precio">{{$producto->precio_unidad}}<a/> / <a class="unidad">Unidad</a></div>
@@ -80,6 +83,8 @@
                         <p class="mb-2 mr-0 pr-10 text-center">TOTAL: $ <a class="monto_producto"></a></p>
                     </div>
                 </div>
+                     @php $i++
+                     @endphp
                     @endforeach
                 <div class="bg-white card">
                     <div class="d-inline-flex justify-content-between">
