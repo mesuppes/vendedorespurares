@@ -54,19 +54,22 @@
                     <div class="card-block col-8 pl-0 pr-1">
                         <h6 class="card-title mb-3">Nombre {{$producto->id_producto}}</h6>
                         <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
-							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" data-toggle="buttons">
+							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" id="selectorUnidades" data-toggle="buttons">
 							  <label class="btn btn-secondary">
-							    <input type="hidden" class="radio_kilos" name="tipoMedida[]" value="kg" checked> Kilos
+							    <input type="radio" class="radio_kilos" name="tipoMedida[]" value="kg" checked> Kilos
 							  </label>
 							 <label class="btn btn-primary active">
 							    <input type="radio" class="radio_unidades" name="tipoMedida[]" value="Unidades"> Unidades
 							  </label>
 							</div>
-                        <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ {{$producto->precio_unidad}} / Unidad</div>
+                        <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ <a class="precio">{{$producto->precio_unidad}}<a/> / <a class="unidad">Unidad</a></div>
+                        <input type="hidden" class="otro_precio" value="{{$producto->precio_kg}}">
+                        @if($producto->dcto_usar>0)
                         <span class="badge badge-danger badge-pill pl-1 pr-1">{{$producto->dcto_usar*100}} %</span>
-                        <div class="mt-2 pl-0 pr-1">
+                        @endif
+                        <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                <input type="number"  name="cantidad[]" class="form-control" placeholder="Cantidad">
+                                <input type="number"  name="cantidad[]" class="form-control cantidad" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp; uds.</span>
                                 </div>
@@ -74,14 +77,14 @@
                         </div>
                     </div>
                     <div class="card-footer col-12">
-                        <p class="mb-2 mr-0 pr-10 text-center">TOTAL: $ </p>
+                        <p class="mb-2 mr-0 pr-10 text-center">TOTAL: $ <a class="monto_producto"></a></p>
                     </div>
                 </div>
                     @endforeach
                 <div class="bg-white card">
                     <div class="d-inline-flex justify-content-between">
                         <div class="align-items-end d-flex pl-3">
-                            <p>TOTAL: $ 5000                   </p>
+                            <p>TOTAL: $ <a class="monto_total"></a></p>
                         </div>
                         <div class="d-flex pr-2">
                             <button type="submit" id="botonHacerPedido" class="btn btn-success">Hacer pedido
@@ -120,12 +123,69 @@
 
 <script type="text/javascript">
 
-    $(document).on('click','.radio_kilos', function (event) {
-    alert($(this).closest('.spanUnidad'))
+function actualizarMontoTotal(){
+
+var montoTotal=0
+
+$('.monto_producto').each(function() {
+
+	if(isNaN(parseFloat($(this).text()))){
+		montoTotal=montoTotal+0
+	}else{
+		montoTotal=montoTotal+parseFloat($(this).text())
+	}
 });
 
+$('.monto_total').text(montoTotal)
+
+	}
+
+$('input:radio').change(function() {
+    if ($(this).val() === 'kg') {
+
+$(this).closest('label').removeClass('btn-secondary')
+$(this).closest('label').addClass('btn-primary')
+$(this).closest('div').find('.radio_unidades').closest('label').removeClass('btn-primary')
+$(this).closest('div').find('.radio_unidades').closest('label').addClass('btn-secondary')
+$(this).closest('div').parent().find('.divCantidad').find('.spanUnidad').text('kg.')
+$(this).closest('div').parent().find('.divCantidad').find('input').val('')
+var precio_kg=$(this).closest('div').parent().find('.otro_precio').val()
+var precio_unidad=$(this).closest('div').parent().find('.precio').text()
+$(this).closest('div').parent().find('.otro_precio').val(precio_unidad)
+$(this).closest('div').parent().find('.precio').text(precio_kg)
+$(this).closest('div').parent().find('.unidad').text('kg.')
+$(this).closest('div').parent().parent().find('.monto_producto').text('')
+actualizarMontoTotal()
+
+    } else if ($(this).val() === 'Unidades') {
+
+$(this).closest('label').removeClass('btn-secondary')
+$(this).closest('label').addClass('btn-primary')
+$(this).closest('div').find('.radio_kilos').closest('label').removeClass('btn-primary')
+$(this).closest('div').find('.radio_kilos').closest('label').addClass('btn-secondary')
+$(this).closest('div').parent().find('.divCantidad').find('.spanUnidad').text('uds.')
+var precio_unidad=$(this).closest('div').parent().find('.otro_precio').val()
+var precio_kilo=$(this).closest('div').parent().find('.precio').text()
+$(this).closest('div').parent().find('.otro_precio').val(precio_kilo)
+$(this).closest('div').parent().find('.precio').text(precio_unidad)
+$(this).closest('div').parent().find('.unidad').text('Unidad')
+$(this).closest('div').parent().find('.divCantidad').find('input').val('')
+$(this).closest('div').parent().parent().find('.monto_producto').text('')
+actualizarMontoTotal()
+    }
+  });
+
+$(".cantidad").bind("keyup change", function(e) {
+
+    var precio=parseFloat($(this).closest('div').parent().parent().find('.precio').text())
+    var monto=($(this).val()*precio).toFixed(2)
+	$(this).closest('div').parent().parent().parent().find('.monto_producto').text(monto)
+	actualizarMontoTotal()
+
+})
+
 $("#botonHacerPedido").click(function(event){
-        event.preventDefault();
+		event.preventDefault()
         let form = event.target;
 
         swal.fire({
