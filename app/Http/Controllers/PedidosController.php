@@ -20,8 +20,8 @@ use App\Producto;
 use App\PedidoProducto;
 use App\ProductoView;
 use App\WorkflowN;
-use App\OptionList; 
-#use App\Role; 
+use App\OptionList;
+#use App\Role;
 
 
 #   TO DO
@@ -97,7 +97,7 @@ class PedidosController extends Controller
     public function store(CrearPedidoRequest $request)
     {
 
-        #return $request;    
+        #return $request;
         //VALIDAR STOCK
         //VALIDAR CRÉDITO
         //CREAR PEDIDO
@@ -143,12 +143,12 @@ class PedidosController extends Controller
 
             }
         }
-    
+
         if ($request['requiereAprobacion']==null) {
             $requiereAprobacion=0;
         }else{
             $requiereAprobacion=1;
-        }        
+        }
         //CREAR WORKFLOW
         $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido,$requiereAprobacion);
 
@@ -219,13 +219,13 @@ class PedidosController extends Controller
     static public function statusMensaje($idWF){
 
         $wf=WorkflowN::find($idWF);
-        
+
         if ($wf->user_done==null) {
-        #SI NO ESTA HECHA 
+        #SI NO ESTA HECHA
             if ($wf->to_user != null) { #
                 $to=$wf->toUserN->name;
             }else{
-                $to=$wf->toRoleN;#->name;
+                $to=$wf->toRoleN->name;
             }
             $msg=$wf->taskTypeN->nombre." ".$wf->statusN->nombre." por ".$to;
         #SI YA ESTA HECHA
@@ -234,7 +234,7 @@ class PedidosController extends Controller
             $wf->statusN->nombre.
             " por ".$wf->userDoneN->name.
             " el ".$wf->date_done->formatLocalized('%d/%m/%Y a las %H:%M');
-            
+
         }
         return $msg;
     }
@@ -366,7 +366,7 @@ class PedidosController extends Controller
                                     $join->where('v_d.id_vendedor','=', $idVendedor);
                                 })
                             ->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor',
-                                \DB::raw('(CASE 
+                                \DB::raw('(CASE
                                             WHEN p_d.descuento>v_d.descuento
                                             THEN p_d.descuento
                                             ELSE v_d.descuento
