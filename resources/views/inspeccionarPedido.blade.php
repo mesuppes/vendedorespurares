@@ -8,14 +8,14 @@
         @include('layouts.partials.nav')
 
          <div class="content">
-            @if($respuesta)
-                    <div class="alert alert-success" role="alert">
-                      El pedido se creo bien
-                    </div>
-            @endif
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
+              @if(session('pedidoAgregado'))
+                    <div class="alert alert-success" role="alert">
+                      El pedido se creo bien
+                    </div>
+                @endif
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Datos del pedido
                                     @foreach ($wf as $workflow)
