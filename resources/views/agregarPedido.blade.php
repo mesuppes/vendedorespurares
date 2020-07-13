@@ -91,10 +91,20 @@
                         <div class="align-items-end d-flex pl-3">
                             <p>TOTAL: $ <a class="monto_total"></a></p>
                         </div>
+						    <div class="form-check align-self-center ">
+						      <label class="form-check-label">
+						          <input class="form-check-input" type="checkbox" name="requiereAprobacion">
+						          Requiere aprobacion del vendedor
+						          <span class="form-check-sign">
+						            <span class="check"></span>
+						          </span>
+						      </label>
+						    </div>
                         <div class="d-flex pr-2">
                             <button type="submit" id="botonHacerPedido" class="btn btn-success">Hacer pedido
 </button>
                         </div>
+						     </div>
                          </form>
                     </div>
                 </div>
