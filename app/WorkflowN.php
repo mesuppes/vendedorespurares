@@ -35,10 +35,13 @@ class WorkflowN extends Model
     	->where('filtro','=','WF-status');
     }
 
+    public function taskTypeN(){
+        return $this->belongsTo(OptionList::class,'task_type','id_interno')
+        ->where('filtro','=','WF-taskType');
+    }
 
-    //ROLE
-
-    //USER
-
+    public function userDoneN(){
+        return $this->belongsTo(User::class,'user_done','id');
+    }
     
 }

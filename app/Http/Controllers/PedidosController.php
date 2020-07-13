@@ -151,7 +151,22 @@ class PedidosController extends Controller
         //CREAR WORKFLOW
         $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido,$requiereAprobacion);
 
-        return redirect('/listaPedidos/'.$respuesta->id_task)->with(compact('respuesta'));
+    #MENSAJE DE RESPUESTA
+        #si el pedido queda pendiente de aprobación
+        if ($respuesta->status==1) {
+            if ($respuesta->to_user == null) {
+                $to=$respuesta->toroleN->name;
+            }else{
+                $to=$respuesta->toUserN->name;
+            }
+        $msg="Su pedio se ha cargado correctamente. Se encuentra pendiente de aprobación por <b>"
+        .$to."</b>";
+        }
+        #mensaje de si el pedido se autoaprueba
+        //....
+
+        return redirect('/listaPedidos/'.$respuesta->id_task)->with('pedidoAgregado',$msg);
+
     }
 
     /**
@@ -193,14 +208,41 @@ class PedidosController extends Controller
                                 ['task_type','=','1'], // 1->Corresponde a la tabla Pedido
                                 ['id_task','=',$pedidoDescUltimo->id_pedido]
                             ])
-                    ->get();
+                    ->first();
 
         //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
+        }
+
+    $msjStatus=PedidosController::statusMensaje($wf->id_workflow);
+
+    return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf','msjStatus'));
+
     }
 
-return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
+    #MUESTRA EN FORMATO DE MENSAJE EL PEDIDO
+    static public function statusMensaje($idWF){
 
-}
+        $wf=WorkflowN::find($idWF);
+        
+        if ($wf->user_done==null) {
+        #SI NO ESTA HECHA 
+            if ($wf->to_user != null) { #
+                $to=$wf->toUserN->name;
+            }else{
+                $to=$wf->toroleN->name;
+            }
+            $msg=$wf->taskTypeN->nombre." ".$wf->statusN->nombre." por ".$to;
+        #SI YA ESTA HECHA
+        }else{
+            $msg=$wf->taskTypeN->nombre." ".
+            $wf->statusN->nombre.
+            " por ".$wf->userDoneN->name.
+            " el ".$wf->date_done->formatLocalized('%d/%m/%Y a las %H:%M');
+            
+        }
+        return $msg;
+    }
+
 
 
 
