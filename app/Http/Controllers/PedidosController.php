@@ -21,6 +21,7 @@ use App\PedidoProducto;
 use App\ProductoView;
 use App\WorkflowN;
 use App\OptionList; 
+#use App\Role; 
 
 
 #   TO DO
@@ -161,6 +162,8 @@ class PedidosController extends Controller
             }
         $msg="Su pedio se ha cargado correctamente. Se encuentra pendiente de aprobación por <b>"
         .$to."</b>";
+        }elseif ($respuesta->status==4) {
+            $msg="El pedido se ha cargado correctamente";
         }
         #mensaje de si el pedido se autoaprueba
         //....
@@ -229,7 +232,7 @@ class PedidosController extends Controller
             if ($wf->to_user != null) { #
                 $to=$wf->toUserN->name;
             }else{
-                $to=$wf->toroleN->name;
+                $to=$wf->toRoleN;#->name;
             }
             $msg=$wf->taskTypeN->nombre." ".$wf->statusN->nombre." por ".$to;
         #SI YA ESTA HECHA

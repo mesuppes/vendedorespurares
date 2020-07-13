@@ -13,15 +13,14 @@
                             <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Datos del pedido
-                                    @foreach ($wf as $workflow)
-                                    @if($workflow->status_n)
-                                    <span class="badge badge-warning">{{$workflow->status_n}}</span>
-                                    @endif
+                            
+                                    <span class="badge badge-warning">{{$wf->statusN->nombre}}</span>
+                                    
                                     </h5>
                                     <a href="{{route('pedido.edit', $pedidoDescUltimo->id_pedido)}}" class="btn btn-sm btn-primary ml-auto">Editar pedido</a>
-                                    <a href="{{route('pedido.aprobar', $workflow->id_workflow)}}"  class="btn btn-sm btn-success ml-auto">Aprobar pedido</a>
+                                    <a href="{{route('pedido.aprobar', $wf->id_workflow)}}"  class="btn btn-sm btn-success ml-auto">Aprobar pedido</a>
                                     <a class="btn btn-sm btn-danger ml-auto">Rechazar pedido</a>
-                                    @endforeach
+                                    
                                 </div>
                                 <div class="card-body">
                                     <form>
