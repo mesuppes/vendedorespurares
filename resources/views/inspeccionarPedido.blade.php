@@ -11,16 +11,25 @@
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
+                            <div class="alert
+                            @if($wf->status=2||$wf->status=4)
+                            alert-success
+                            @elseif($wf->status=1)
+                            alert-warning
+                            @elseif($wf->status=3)
+                            alert-danger
+                            @endif
+                             " role="alert">
+                            {{$msjStatus}}
+                            </div>
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Datos del pedido
-                            
                                     <span class="badge badge-warning">{{$wf->statusN->nombre}}</span>
-                                    
                                     </h5>
                                     <a href="{{route('pedido.edit', $pedidoDescUltimo->id_pedido)}}" class="btn btn-sm btn-primary ml-auto">Editar pedido</a>
                                     <a href="{{route('pedido.aprobar', $wf->id_workflow)}}"  class="btn btn-sm btn-success ml-auto">Aprobar pedido</a>
                                     <a class="btn btn-sm btn-danger ml-auto">Rechazar pedido</a>
-                                    
+
                                 </div>
                                 <div class="card-body">
                                     <form>

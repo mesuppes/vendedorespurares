@@ -91,7 +91,7 @@
                         <div class="align-items-end d-flex pl-3">
                             <p>TOTAL: $ <a class="monto_total"></a></p>
                         </div>
-                            @role('Administracion') 
+                            @role('Administracion')
 						    <div class="form-check align-self-center ">
 						      <label class="form-check-label">
 						          <input class="form-check-input" type="checkbox" name="requiereAprobacion">
@@ -152,7 +152,7 @@ $('.monto_producto').each(function() {
 		montoTotal=montoTotal+parseFloat($(this).text())
 	}
 });
-
+montoTotal=montoTotal.toFixed(2)
 $('.monto_total').text(montoTotal)
 
 	}
