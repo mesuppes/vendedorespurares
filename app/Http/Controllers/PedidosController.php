@@ -96,7 +96,7 @@ class PedidosController extends Controller
     public function store(CrearPedidoRequest $request)
     {
 
-        
+        #return $request;    
         //VALIDAR STOCK
         //VALIDAR CRÉDITO
         //CREAR PEDIDO
@@ -146,13 +146,12 @@ class PedidosController extends Controller
         if ($request['requiereAprobacion']==null) {
             $requiereAprobacion=0;
         }else{
-            $requiereAprobacion=$request['requiereAprobacion'];
+            $requiereAprobacion=1;
         }        
         //CREAR WORKFLOW
-        $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido,$saltarAprobacion);
+        $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido,$requiereAprobacion);
 
-        return $respuesta; //Mensaje de Exito + WF// -> show pedido cargado
-
+        return redirect('/listaPedidos/'.$respuesta->id_task)->with(compact('respuesta'));
     }
 
     /**

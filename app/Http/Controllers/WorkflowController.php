@@ -13,7 +13,7 @@ use App\Vendedor;
 
 class WorkflowController extends Controller
 {
-        static public function agregarPedidoCreate($idVendedor,$idPedido,$saltarAprobacion){ 
+        static public function agregarPedidoCreate($idVendedor,$idPedido,$requiereAprobacion){ 
 
     	//1-ID del usuario que lo carga
     	$idUsuario=User::find(Auth::user()->id);
@@ -55,7 +55,7 @@ class WorkflowController extends Controller
                     'id_task'       =>$idPedido,
                 ]);
     
-        return WorkflowController::decodificar($insert->id_workflow);
+        return $insert;
     	
     }
 

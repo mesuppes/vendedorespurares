@@ -72,7 +72,7 @@
                         @endif
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                <input type="number"  name="cantidad[]" class="form-control cantidad" placeholder="Cantidad">
+                                <input type="number"  name="cantidad[]" min=0 class="form-control cantidad" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp; uds.</span>
                                 </div>
@@ -91,6 +91,7 @@
                         <div class="align-items-end d-flex pl-3">
                             <p>TOTAL: $ <a class="monto_total"></a></p>
                         </div>
+                            @role('Administracion') 
 						    <div class="form-check align-self-center ">
 						      <label class="form-check-label">
 						          <input class="form-check-input" type="checkbox" name="requiereAprobacion">
@@ -99,7 +100,8 @@
 						            <span class="check"></span>
 						          </span>
 						      </label>
-						    </div>
+                            </div>
+                            @endrole
                         <div class="d-flex pr-2">
                             <button type="submit" id="botonHacerPedido" class="btn btn-success">Hacer pedido
 </button>
