@@ -39,6 +39,7 @@ class CrearPedidoRequest extends FormRequest
             'tipoMedida'    =>'required',
                 # kg/unidades
             'cantidad'      =>'required',
+            'requiereAprobacion'=>'nullable',
                 # mayor a 0
                 # stock Suficiente
         ];

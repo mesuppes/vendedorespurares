@@ -13,7 +13,7 @@
                 <div class="bg-white card card-user">
                     <div class="card-header">
                         @isset($vendedor)
-                            <h5 class="card-title">Datos del pedido para {{$vendedor}}</h5>
+                            <h5 class="card-title">Datos del pedido para {{$vendedor->nombre}} {{$vendedor->apellidos}}</h5>
                         @endisset
                         @empty($vendedor)
                             <h5 class="card-title">Datos del pedido</h5>
@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <form method="POST" id="formHacerPedido" action="{{route('pedido.store')}}">
 							@csrf
-							    <input type="hidden" name="idVendedor" value="{{$vendedor}}">
+							    <input type="hidden" name="idVendedor" value="{{$vendedor->id_vendedor}}">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Condición del pago</label>
@@ -52,10 +52,10 @@
                 @foreach($productos as $producto)
                 <div class="card d-inline-flex flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src= "" width="100" alt="Card image cap">
+                        <img src= "{{$producto->url_foto}}" width="100" alt="Card image cap">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
-                        <h6 class="card-title mb-3">Nombre {{$producto->id_producto}}</h6>
+                        <h6 class="card-title mb-3">{{$producto->nombre_comercial}}</h6>
                         <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
 							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" id="selectorUnidades" data-toggle="buttons">
 							  <label class="btn btn-secondary">

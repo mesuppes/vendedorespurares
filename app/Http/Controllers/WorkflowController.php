@@ -9,10 +9,11 @@ use Auth;
 use Spatie\Permission\Models\Role;
 use App\WorkflowN;
 use DB;
+use App\Vendedor;
 
 class WorkflowController extends Controller
 {
-        static public function agregarPedidoCreate($idVendedor,$idPedido){ 
+        static public function agregarPedidoCreate($idVendedor,$idPedido,$saltarAprobacion){ 
 
     	//1-ID del usuario que lo carga
     	$idUsuario=User::find(Auth::user()->id);
@@ -27,8 +28,7 @@ class WorkflowController extends Controller
         //Si el rol es Vendedor->Cargar WF o saltar Aprob
         }elseif ($idUsuario->hasRole('Administracion')) {
             //Si el campo saltar aprobación no esta tildado
-            if ($saltarAprobacion!=1) {
-
+            if ($requiereAprobacion==1) {
                 $toRole=null;
                 $toUser=Vendedor::find($idVendedor)->id_usuario_vendedor;//Vendedor
                 $actionToDo=4;//aprobar pedido

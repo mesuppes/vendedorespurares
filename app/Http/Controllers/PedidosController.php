@@ -69,7 +69,7 @@ class PedidosController extends Controller
             return view('agregarPedido')->with(compact('productos','vendedor'));
         }elseif (Auth::user()->hasRole('Vendedor')) {
             $vendedor=User::find(Auth::user()->id)->vendedor;
-            $productos= PedidosController::tablaProductoDescuento($vendedor);
+            $productos= PedidosController::tablaProductoDescuento($vendedor->id_vendedor);
             return view('agregarPedido')->with(compact('productos','vendedor'));
         }else{
             return "ERROR - Su rol no permite realizar la operación";
@@ -96,7 +96,7 @@ class PedidosController extends Controller
     public function store(CrearPedidoRequest $request)
     {
 
-        return $request;
+        
         //VALIDAR STOCK
         //VALIDAR CRÉDITO
         //CREAR PEDIDO
@@ -123,7 +123,7 @@ class PedidosController extends Controller
 
                 $producto=$tablaProducto->where('id_producto','=',$request['idProducto'][$i])->first();
                 //Determianr Precio (unitario/KG)
-                if ($request['tipoMedida'][2]=='kg') {
+                if ($request['tipoMedida'][$i]=='kg') {
                     $precio=$producto->precio_kg;
                 }else{
                     $precio=$producto->precio_unidad;
@@ -143,10 +143,15 @@ class PedidosController extends Controller
             }
         }
     
+        if ($request['requiereAprobacion']==null) {
+            $requiereAprobacion=0;
+        }else{
+            $requiereAprobacion=$request['requiereAprobacion'];
+        }        
         //CREAR WORKFLOW
-        $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido);
+        $respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido,$saltarAprobacion);
 
-        return 1; //Mensaje de Exito + WF// -> show pedido cargado
+        return $respuesta; //Mensaje de Exito + WF// -> show pedido cargado
 
     }
 
