@@ -191,12 +191,7 @@ class PedidosController extends Controller
             $pedidoDescAnterior=null;
             $pedidoProdAnterior=null;
 
-
-              //WORKFLOW
-        $idWF=WorkflowN::where([['task_type','=','1'],['id_task','=',39]])->first()->id_workflow;
-        $wf=WorkflowController::decodificar($idWF);
-        //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','wf'));
-        }else{
+         }else{
             $pedidoDescUltimo=$pedidoHijo;
             $pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
             if ($pedidoDescAnterior==null) {
@@ -206,15 +201,13 @@ class PedidosController extends Controller
             $pedidoProdUltimo=$pedidoDescUltimo->productos;
             $pedidoProdAnterior=$pedidoDescAnterior->productos;
 
+        }
         //WORKFLOW
         $wf=WorkflowN::where([
                                 ['task_type','=','1'], // 1->Corresponde a la tabla Pedido
                                 ['id_task','=',$pedidoDescUltimo->id_pedido]
                             ])
                     ->first();
-
-        //return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf'));
-        }
 
     $msjStatus=PedidosController::statusMensaje($wf->id_workflow);
 

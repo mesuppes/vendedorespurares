@@ -29,7 +29,7 @@
                                 <tbody>
                                 @forelse($listaPedidos as $pedido)
                                     <tr>
-                                        <th>{{$pedido->fecha_reg}}</th>
+                                        <th>{{$pedido->fecha_reg->formatLocalized('%d/%m/%Y - %H:%M')}}</th>
                                         <th>{{$pedido->vendedor['nombre']}}</th>
                                         <td><font color="#ffffff">
                                             <span style="font-size: 10.5px; white-space: nowrap; background-color: rgb(81, 203, 206);">
