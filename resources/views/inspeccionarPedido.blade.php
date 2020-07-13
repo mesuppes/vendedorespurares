@@ -11,11 +11,6 @@
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
-              @if(session('pedidoAgregado'))
-                    <div class="alert alert-success" role="alert">
-                      El pedido se creo bien
-                    </div>
-                @endif
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Datos del pedido
                                     @foreach ($wf as $workflow)
@@ -105,8 +100,29 @@
 </div>
 </div>
                             </div>
+
+    <script src="{{asset('dashboard/assets/js/core/jquery.min.js')}}"></script>
+  <script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>
+  <script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
+  <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+@if(session('pedidoAgregado'))
+
+    <script type="text/javascript">
+ swal.fire({
+            title: 'Pedido agregado',
+            showCancelButton: false,
+            html: '{{session('pedidoAgregado')}}',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        })
+
+</script>
+                @endif
 </div>
 </div>
+
 
 
 
