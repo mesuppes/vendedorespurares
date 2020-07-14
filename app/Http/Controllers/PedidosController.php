@@ -21,6 +21,8 @@ use App\PedidoProducto;
 use App\ProductoView;
 use App\WorkflowN;
 use App\OptionList;
+use App\FacturaProforma;
+use App\FacturaProformaItem;
 #use App\Role;
 
 
@@ -108,13 +110,13 @@ class PedidosController extends Controller
 				}
 				//Cargar en la DB
 				PedidoProducto::create([
-					'id_pedido'=>$idPedido,
-					'id_producto'=>$request['idProducto'][$i],
-					'tipo_medida'=>$request['tipoMedida'][$i],
-					'cantidad'=>$request['cantidad'][$i],
+					'id_pedido'		=>$idPedido,
+					'id_producto'	=>$request['idProducto'][$i],
+					'tipo_medida'	=>$request['tipoMedida'][$i],
+					'cantidad'		=>$request['cantidad'][$i],
 					'precio_unitario'=>$precio,
-					'descuento'=>$producto->dcto_usar,
-					'precio_final'=>$precio*$request['cantidad'][$i]*(1- $producto->dcto_usar),
+					'descuento'		=>$producto->dcto_usar,
+					'precio_final'	=>$precio*$request['cantidad'][$i]*(1- $producto->dcto_usar),
 				]);
 			}
 		}
@@ -209,44 +211,84 @@ class PedidosController extends Controller
 	}
 
 
-	static public function armarPedidoCreate($idVendedor,$idPedido){
+	static public function armarPedidoCreate($idPedido){
 
 		$pedidoDesc=Pedido::find($idPedido);
 
-		$productosTabla=DB::table('v_productos_precios AS p_v')
-							->join('productos_descripcion AS p_desc','p_desc.id_producto','=','p_v.id_producto')
-							->leftJoin('pedido_productos AS p_p',function($join) use($idPedido){
-									$join->on('p_p.id_producto','=','p_v.id_producto');
-									$join->where('p_p.id_pedido','=',$idPedido);
-								})
-							->leftJoin('v_productos_stock AS p_s','p_s.id_producto','=','p_v.id_producto')
-							->leftJoin('vendedores_dto_prod AS p_d',function($join) use ($idVendedor){
-									$join->on('p_d.id_producto','=','p_v.id_producto');
-									$join->where('p_d.id_vendedor','=', $idVendedor);
-								})
-							->join('vendedores_dto_general AS v_d',function($join) use ($idVendedor){
-									$join->where('v_d.id_vendedor','=', $idVendedor);
-								})
-							->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor','p_s.stock_unidades','p_s.stock_kg',
-								\DB::raw('(CASE 
-											WHEN p_d.descuento>v_d.descuento
-											THEN p_d.descuento
-											ELSE v_d.descuento
-											END) AS dcto_usar'),
-								'p_p.cantidad AS cantidad_pedida','p_p.tipo_medida AS medida_pedido','p_p.precio_unitario AS precio_unitario_pedido','p_p.descuento AS descuento_pedido'
-								)
-							->get();
+		$productosTabla=PedidosController::tablaDatosProductosOP($idPedido);
 		
 		return view('armarPedido')->with(compact('productosTabla','pedidoDesc'));
 
 	}
 
-	public function armarPedidoStore(){
+	public function armarPedidoStore(ArmarPedidoRequest $request){
 
-		$a=1;
+	//VALIDAR STOCK
+	$productosTabla=PedidosController::tablaDatosProductosOP($idPedido);
+
+	//GENERAR FACTURA PROFORMA
+		
+		$nuevaFactura= FacturaProforma::create([
+			'id_cliente'	=>$request['idCliente'],
+			'id_pedido'		=>$request['idPedido'],
+			'tipo'			=>'1',
+			'id_usuario_reg'=>Auth::user()->id,
+			]);
+
+		$idFactura=$nuevaFactura->id;
+
+	//GENERAR ITEMS FACTURA PROFORMA
+		#Buscar tabla de precios y descuento
+
+		$longitud=count($request['idProducto']);
+		for ($i=0; $i < $longitud; $i++) { 
+			$producto=$productosTabla->where('id_producto','=',$request['idProducto'][$i])->first();
+			#DETERMINAR QUE LA CANTIDAD SEA MAYOR A CERO
+			if ($request['cantidadUnidades'][$i]>0 || $request['cantidadKg'][$i]>0) {
+				
+				#DETERMINAR DE QUE LISTA DE PRECIO SE REFIERE
+				if ($listaPrecio=1) {
+						#Determinar que precio utilizar (kg/unidad)
+						if ($request['tipoUnidad'][$i]=='kg') {
+							$precio=$producto->precio_kg;
+						}else{
+							$precio=$producto->precio_unidad;
+						}
+					$descuento=$producto->dcto_usar;
+				}else{
+					$precio=$producto->precio_unitario_pedido;
+					$descuento=$producto->descuento_pedido;
+				}
+				#Determinar que cantidad utilizar
+				if ($request['tipoUnidad'][$i]=='kg') {
+					$cantidad=$request['cantidadKg'];
+				}else{
+					$cantidad=$request['tipoUnidad'];
+				}
+
+				#INSERT DB ITEM DE FACTURA PROFORMA 
+				$nuevoItem=FacturaProformaItem::create([
+					'id_factura_proforma'=>$idFactura,
+					'id_producto'		=>$request['idProducto'],
+					'cantidad_unidades'	=>$request['cantidadUnidades'],
+					'cantidad_kg'		=>$request['cantidadKg'],
+					'tipo_unidad'		=>$request['tipoUnidad'],
+					'precio_unitario'	=>$precio,
+					'descuento'			=>($precio*$cantidad)*$descuento,
+					'precio_total'		=>($precio*$cantidad)*(1-$descuento),
+				]);
+				#INSERTAR MOVIMIENTO DE PRODUCTOS
+
+
+
+
+			}
+		}
+		return "factura creada".$idFactura
+		//return redirect('/listaFacturas/'.$idFactura)->with('facturaCreada');		
 	}
 
-
+/*
 	public function edit($id)
 	{
 		//Se debe envíar la lista de productos faltante
@@ -293,7 +335,7 @@ class PedidosController extends Controller
 
 	}
 
-
+*/
 	public function validarStock($productosArray,$tipoMedidaArray,$cantidadArray){
 
 	}
@@ -323,6 +365,43 @@ class PedidosController extends Controller
 
 		return $productosTabla;
 	}
+
+
+
+	static public function tablaDatosProductosOP($idPedido){
+
+		$idVendedor=Pedido::find($idPedido)->id_vendedor;
+
+		$productosTabla=DB::table('v_productos_precios AS p_v')
+							->join('productos_descripcion AS p_desc','p_desc.id_producto','=','p_v.id_producto')
+							->leftJoin('pedido_productos AS p_p',function($join) use($idPedido){
+									$join->on('p_p.id_producto','=','p_v.id_producto');
+									$join->where('p_p.id_pedido','=',$idPedido);
+								})
+							->leftJoin('v_productos_stock AS p_s','p_s.id_producto','=','p_v.id_producto')
+							->leftJoin('vendedores_dto_prod AS p_d',function($join) use ($idVendedor){
+									$join->on('p_d.id_producto','=','p_v.id_producto');
+									$join->where('p_d.id_vendedor','=', $idVendedor);
+								})
+							->join('vendedores_dto_general AS v_d',function($join) use ($idVendedor){
+									$join->where('v_d.id_vendedor','=', $idVendedor);
+								})
+							->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor','p_s.stock_unidades','p_s.stock_kg',
+								\DB::raw('(CASE 
+											WHEN p_d.descuento>v_d.descuento
+											THEN p_d.descuento
+											ELSE v_d.descuento
+											END) AS dcto_usar'),
+								'p_p.cantidad AS cantidad_pedida','p_p.tipo_medida AS medida_pedido','p_p.precio_unitario AS precio_unitario_pedido','p_p.descuento AS descuento_pedido'
+								)
+							->get();
+
+		return $productosTabla;
+	}
+
+
+
+
 
 	public function cargarProductos(Request $request)
 	{

@@ -4,16 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PedidoProducto extends Model
+class FacturaProformaItem extends Model
 {
-    protected $table ='pedido_productos';
+    protected $table ='factura_proforma_items';
     protected $guarded=[];
     const UPDATED_AT = null;//No existe en la BD
-    const CREATED_AT = null;//No existe en la BD
+    const CREATED_AT = fecha_reg;//No existe en la BD
+}
 
-
-	public function items(){
+	public function producto(){
         return $this->belongsTo(Producto::class,'id_producto','id_producto');
     }
-
-}
