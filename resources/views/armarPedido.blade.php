@@ -11,57 +11,39 @@
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
-                            <div class="alert
-                            @if($wf->status=2||$wf->status=4)
-                            alert-success
-                            @elseif($wf->status=1)
-                            alert-warning
-                            @elseif($wf->status=3)
-                            alert-danger
-                            @endif
-                             " role="alert">
-                            {{$msjStatus}}
-                            </div>
                                 <div class="card-header d-flex">
-                                    <h5 class="card-title">Datos del pedido
-                                    <span class="badge badge-warning">{{$wf->statusN->nombre}}</span>
-                                    </h5>
-                                    <a href="{{route('pedido.edit', $pedidoDescUltimo->id_pedido)}}" class="btn btn-sm btn-primary ml-auto">Editar pedido</a>
-                                    <a href="{{route('pedido.armar', $pedidoDescUltimo->id_pedido)}}"  class="btn btn-sm btn-success ml-auto">Armar pedido</a>
-                                    <a class="btn btn-sm btn-danger ml-auto">Rechazar pedido</a>
-
+                                    <h5 class="card-title">Datos del pedido</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form method="POST" id="formArmarPedido" action="{{route('armarPedido.store')}}">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Vendedor</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Vendedor" value="{{$pedidoDescUltimo->vendedor['nombre']}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Vendedor" value="{{$pedidoDesc->vendedor['nombre']}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Condición del pago</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la condición del pago" value="{{$pedidoDescUltimo->condicion_pago}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la condición del pago" value="{{$pedidoDesc->condicion_pago}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Forma de entrega</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la forma de entrega" value="{{$pedidoDescUltimo->forma_entrega}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la forma de entrega" value="{{$pedidoDesc->forma_entrega}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Datos del flete</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Ingrese los datos del flete" value="{{$pedidoDescUltimo->datos_flete}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese los datos del flete" value="{{$pedidoDesc->datos_flete}}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
 </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -78,22 +60,44 @@
                                                     <th>Producto</th>
                                                     <th>Precio</th>
                                                     <th>Cantidad pedida</th>
-                                                    <th>TOTAL</th>
+                                                    <th>Unidades a entregar</th>
+                                                    <th>Stock</th>
+                                                    <th>Kg a entregar</th>
+                                                    <th>Stock</th>
+                                                    <th>Descuento</th>
+                                                    <th>MONTO TOTAL</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($pedidoProdUltimo as $producto)
+                                            @foreach($productosTabla as $productoPedido)
                                                 <tr>
-                                                    <td>{{$producto->producto['nombre_comercial']}}</td>
-                                                    <td>${{$producto->precio_unitario}}/{{$producto->tipo_medida}}</td>
+                                                    <td>{{$productoPedido->nombre_comercial}}</td>
+                                                    <td>{{$productoPedido->precio_unitario_pedido}} / {{$productoPedido->medida_pedido}}</td>
+                                                    <td>{{$productoPedido->cantidad_pedida}} {{$productoPedido->medida_pedido}}</td>
                                                     <td>
-                                                        <div class="mb-1">
-                                                            {{$producto->cantidad}} {{$producto->tipo_medida}}
+                                                        <div>
+                                                            <input type="number"  name="" min=0 step=1 class="form-control" placeholder="Uds. a entregar">
+                                                        <div class="input-group-append pr-0">
+                                                            <span class="input-group-text text-center">&nbsp; uds.
+                                                            </span>
+                                                        </div>
                                                         </div>
                                                     </td>
-                                                    <td>${{$producto->precio_final}}</td>
+                                                    <td>{{$productoPedido->stock_unidades}} Unidades</td>
+                                                    <td>
+                                                        <div>
+                                                            <input type="number"  name="" min=0 step=0.001 class="form-control" placeholder="Kg. a entregar">
+                                                        <div class="input-group-append pr-0">
+                                                            <span class="input-group-text text-center">&nbsp; kg.
+                                                            </span>
+                                                        </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{$productoPedido->stock_kg}} Kilos</td>
+                                                    <td>{{$productoPedido->descuento_pedido}}</td>
+                                                    <td>$ {{$productoPedido->cantidad_pedida*$productoPedido->precio_unitario_pedido}}</td>
                                                 </tr>
-                                                @endforeach
+                                            @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>
@@ -106,6 +110,18 @@
                                 </div>
                             </div>
 </div>
+  <div class="bg-white card col-12">
+                    <div class="d-inline-flex justify-content-between">
+                        <div class="align-items-end d-flex pl-3">
+                            <p>TOTAL: $ <a class=""></a></p>
+                        </div>
+                        <div class="d-flex pr-2">
+                            <button type="submit" id="" class="btn btn-success">Armar pedido
+</button>
+                        </div>
+                    </form>
+                             </div>
+                    </div>
 </div>
                             </div>
 
@@ -115,19 +131,6 @@
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
-@if(session('pedidoAgregado'))
-
-    <script type="text/javascript">
- swal.fire({
-            title: 'Pedido agregado',
-            showCancelButton: false,
-            html: '{{session('pedidoAgregado')}}',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Aceptar'
-        })
-
-</script>
-                @endif
 </div>
 </div>
 

@@ -20,7 +20,7 @@
                         @endempty
                     </div>
                     <div class="card-body">
-                        <form method="POST" id="formHacerPedido" action="{{route('pedido.store')}}">
+                        <form method="POST" id="formHacerPedido" action="{{route('armarPedido.store')}}">
 							@csrf
 							    <input type="hidden" name="idVendedor" value="{{$vendedor->id_vendedor}}">
                                 <div class="col-md-6">

@@ -56,7 +56,8 @@ Route::get('/seleccionarVendedor', 'PedidosController@createRouter')->name('pedi
 Route::post('/agregarPedido', 'PedidosController@store')->name('pedido.store');
 Route::post('/cargarProductos', 'PedidosController@cargarProductos')->name('cargarProductos.post');
 Route::get('/editarPedido/{id?}', 'PedidosController@edit')->name('pedido.edit');
-Route::get('/aprobarPedido/{idWf}', 'PedidosController@approve')->name('pedido.aprobar');
+Route::get('/armarPedido/{idPedido}', 'PedidosController@armarPedidoCreate')->name('pedido.armar');
+Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPedido.store');
 
 
 
