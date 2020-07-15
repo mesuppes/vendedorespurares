@@ -17,6 +17,7 @@
                                 <div class="card-body">
                                     <form method="POST" id="formArmarPedido" action="{{route('armarPedido.store')}}">
                                         @csrf
+                                         <input type="hidden"  name="idPedido"  class="form-control" value="{{$pedidoDesc->id_pedido}}">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
