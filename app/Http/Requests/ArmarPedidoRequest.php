@@ -20,13 +20,10 @@ class ArmarPedidoRequest extends FormRequest
     public function rules()
     {
         return [
-            'idCliente'=>'required',
             'idPedido'=>'required',
             'idProducto'=>'required',
             'cantidadUnidades'=>'required',
-            'cantidadKg'=>'required',
-            'tipoUnidad'=>'required',
-            
+            'cantidadKg'=>'required',            
         ];
     }
 }
