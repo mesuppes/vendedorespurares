@@ -20,7 +20,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="hidden" class="form-control"  name="id_vendedor"  placeholder="Vendedor" value="{{$vendedor->id_vendedor}}">
+                                        {{$vendedor}}
+                                        <input type="hidden" class="form-control"  name="idVendedor"  placeholder="Vendedor" value="{{$vendedor->id_vendedor}}">
                                         <label>Cliente</label>
                                         <input type="text" class="form-control" placeholder="Vendedor" value="{{$vendedor->nombre}} {{$vendedor->apellidos}}" disabled>
                                     </div>
