@@ -13,7 +13,7 @@ class VendedorDescuentoCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,10 @@ class VendedorDescuentoCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'idVendedor'=>'require',
-            'descuentoGeneral'=>'between:0,1',
-            'idProducto'=>'nullable',
-            'descuentoProducto'=>'between:0,1',
+            'idVendedor'        =>'required',
+            'descuentoGeneral'  =>'nullable',#'between:0,1',
+            'idProducto'        =>'nullable',
+            'descuentoProducto' =>'nullable',#'between:0,1',
         ];
     }
 }

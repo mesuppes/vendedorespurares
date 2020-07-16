@@ -14,6 +14,17 @@
                     <div class="card-header">
                         <h5 class="card-title">Asignar descuento</h5>
                     </div>
+
+                    <div>
+                        @if($errors->any())
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+
                     <div class="card-body">
                         <form method="POST" action="{{route('vendedor.descuentoStore')}}">
                             @csrf
@@ -47,7 +58,7 @@
                                         <tr id="trDescuentoProducto">
                                             <td>
                                                 <select name="idProducto[]">
-                                                    <option selected>Seleccione producto</option>
+                                                    <option value= "" selected>Seleccione producto</option>
                                                         @foreach($productos as $producto)
                                                             <option value="{{$producto->id_producto}}">{{$producto->nombre_comercial}}
                                                             </option>

@@ -101,26 +101,43 @@ class VendedoresController extends Controller
 
     public function storeDescuento(VendedorDescuentoCreateRequest $request){
 
-        //1-Guardar el descuento General
-            VendedorDescuentoGeneral::create([
-                'id_vendedor'   =>$request['idVendedor'],
-                'descuento'     =>$request['descuentoGeneral'],
-                'id_usuario_reg'=>Auth::user()->id,
+        //1-DESCUETO GENETAL
+        
+        #Buscar descuento
+        $DescuentoGeneral=VendedorDescuentoGeneral::where('id_vendedor','=',$request['idVendedor']);
+         
+         if (count($DescuentoGeneral->get()) == null) {
+        //NO EXISTE->Guardar el descuento General
+            $dg=VendedorDescuentoGeneral::create([
+                        'id_vendedor'   =>$request['idVendedor'],
+                        'descuento'     =>$request['descuentoGeneral'],
+                        'id_usuario_reg'=>Auth::user()->id,
             ]);
+         }else{
+        //EXISTE->actualizar el descuento General
+            $dg=$DescuentoGeneral->update([
+                        'id_vendedor'   =>$request['idVendedor'],
+                        'descuento'     =>$request['descuentoGeneral'],
+                        'id_usuario_act'=>Auth::user()->id,
+            ]);
+        }
 
-        //2-Guardar el descuento por Producto
+        //2-DESCUENTO POR PRODUCTO
+            #Eliminar descuentos por productos viejos
+            VendedorDescuentoProducto::where('id_vendedor','=',1)->delete();
+            #Guardar el descuento por Producto            
             $longitud=count($request['idProducto']);
             for ($i=0; $i <$longitud ; $i++) {
-                if ($request['descuentoProducto']>0) {
+                if ($request['descuentoProducto'][$i]>0) { //Guardar solo si es mayor a cero
                     VendedorDescuentoProducto::create([
                         'id_vendedor'   =>$request['idVendedor'],
-                        'id_producto'   =>$request['idProducto'],
-                        'descuento'   =>$request['descuentoProducto'],
+                        'id_producto'   =>$request['idProducto'][$i],
+                        'descuento'     =>$request['descuentoProducto'][$i],
                         'id_usuario_reg'=>Auth::user()->id,
                     ]);
                 }
             }
-        //3-Crear Usuario Vendedor
+        return "exito!";
 
     }
 
