@@ -58,7 +58,8 @@ Route::post('/cargarProductos', 'PedidosController@cargarProductos')->name('carg
 Route::get('/editarPedido/{id?}', 'PedidosController@edit')->name('pedido.edit');
 Route::get('/armarPedido/{idPedido}', 'PedidosController@armarPedidoCreate')->name('pedido.armar');
 Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPedido.store');
-
+Route::get('/asignarCredito/{id?}', 'VendedoresController@createCredito')->name('vendedor.createCredito');
+Route::post('/asignarCredito', 'VendedoresController@storeCredito')->name('vendedor.creditoStore');
 
 
 Route::group(['middleware' => ['role:Administracion']], function () {

@@ -43,12 +43,16 @@
                                     </td>
                                     <td>
                                         <div style="display:flex;">
-                                        <a href="{{route('users.edit',$row->id)}}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{route('users.edit',$row->id)}}" class="btn btn-warning btn-sm">Datos</a>
+                                            &nbsp;
+                                        <a href="{{route('users.edit',$row->id)}}" class="btn btn-warning btn-sm">Descuentos</a>
+                                            &nbsp;
+                                        <a href="{{route('vendedor.createCredito',$row->id)}}" class="btn btn-warning btn-sm">Credito</a>
                                             &nbsp;
                                         <form id="delete_form{{$row->id}}" method="POST" action="{{ route('users.destroy',$row->id) }}" onclick="return confirm('Are you sure?')">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
-                                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                            <button class="btn btn-danger btn-sm" type="submit">Borrar</button>
                                         </form>
                                         </div>
                                     </td>

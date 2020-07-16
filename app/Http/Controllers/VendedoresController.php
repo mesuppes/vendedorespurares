@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Vendedor;
+use App\VendedorCredito;
 use App\VendedorDescuentoGeneral;
 use App\VendedorDescuentoProducto;
 use App\Http\Requests\VendedorCreateRequest;
 use App\Http\Requests\VendedorDescuentoCreateRequest;
+use Auth;
 
 class VendedoresController extends Controller
 {
@@ -28,7 +30,7 @@ class VendedoresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+
     // ---!!! CREAR VENDEDORES !!!--- //
 
     public function create()
@@ -44,7 +46,7 @@ class VendedoresController extends Controller
      */
     public function store(VendedorCreateRequest $request)
     {
-       
+
     //1-Crear Vendedor
         $nuevoVendedor=Vendeor::Create([
             'nombre'    =>$request['nombre'],
@@ -52,7 +54,7 @@ class VendedoresController extends Controller
             'telfono1'  =>$request['telfono1'],
             'telefono2' =>$request['telefono2'],
             'email'     =>$request['email'],
-            'cuit'      =>$request['cuit',]
+            'cuit'      =>$request['cuit'],
             'provincia' =>$request['provincia'],
             'ciudad'    =>$request['ciudad'],
             'direccion' =>$request['direccion'],
@@ -61,25 +63,26 @@ class VendedoresController extends Controller
 
     //2-Crear descuentos para vendedor
         return view('VendedorDescuentoCreate'->with($nuevoVendedor->id_vendedor));
-       
+
     }
-     
+
     // ---!!! CREDITOS !!!--- //
 
     public function createCredito($idVendedor){
 
+
         $vendedor=Vendedor::find($idVendedor);
 
-        return view('VendedorCreditoCreate'->with(compact('vendedor')));
+        return view('asignarCredito')->with(compact('vendedor'));
     }
 
     public function storeCredito(){
 
-        VendededorCredito::create([
+        VendedorCredito::create([
             'id_vendedor'=>request('idVendedor'),
             'monto'=>request('monto'),
             'idUsuario'=>Auth::user()->id,
-            ])
+            ]);
         //return redirect()
     }
 
@@ -99,14 +102,14 @@ class VendedoresController extends Controller
 
         //1-Guardar el descuento General
             VendedorDescuentoGeneral::create([
-                'id_vendedor'   =>$request['idVendedor'],  
+                'id_vendedor'   =>$request['idVendedor'],
                 'descuento'     =>$request['descuentoGeneral'],
                 'id_usuario_reg'=>Auth::user()->id,
             ]);
 
         //2-Guardar el descuento por Producto
             $longitud=count($request['idProducto']);
-            for ($i=0; $i <$longitud ; $i++) { 
+            for ($i=0; $i <$longitud ; $i++) {
                 if ($request['descuentoProducto']>0) {
                     VendedorDescuentoProducto::create([
                         'id_vendedor'   =>$request['idVendedor'],
@@ -136,7 +139,7 @@ class VendedoresController extends Controller
         $credito=$vendedor->credito->last();
         //Mostrar Descuentos
         $descuentoGeneral=$vendedor->descuentoGeneral;
-        $descuentoProductos=$vendedor->->descuentoProducto;
+        $descuentoProductos=$vendedor->descuentoProducto;
         //Mostrar el usuario
         $usuario=$vendedor->usuario;
 
@@ -163,24 +166,24 @@ class VendedoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     //
 
     public function update(VendedorCreateRequest $request, Vendedor $vendedor)
     {
         $vendedor->update($request->validated());
 
-        //return succesmsg + Update de view 
+        //return succesmsg + Update de view
 
     }
 
 
     public function updateDescuento(VendedorCreateRequest $request, Vendedor $vendedor)
     {
-        
+
         //1-Guardar el descuento General
             VendedorDescuentoGeneral::Update([
-                'id_vendedor'   =>$request['idVendedor'],  
+                'id_vendedor'   =>$request['idVendedor'],
                 'descuento'     =>$request['descuentoGeneral'],
                 'id_usuario_reg'=>Auth::user()->id,
             ]);
@@ -189,8 +192,8 @@ class VendedoresController extends Controller
             $vendedor->descuentoProductos()->delete(); //$vendedor=Vendedor::Find($request['idVendedor'])
 
         //3-Guardar el descuento por Producto
-            $longitud=count($request['idProducto']);   
-            for ($i=0; $i <$longitud ; $i++) { 
+            $longitud=count($request['idProducto']);
+            for ($i=0; $i <$longitud ; $i++) {
                 if ($request['descuentoProducto']>0) {
                     VendedorDescuentoProducto::create([
                         'id_vendedor'   =>$request['idVendedor'],
@@ -200,7 +203,7 @@ class VendedoresController extends Controller
                     ]);
                 }
             }
-        //return succesmsg + Update de view        
+        //return succesmsg + Update de view
     }
 
 
