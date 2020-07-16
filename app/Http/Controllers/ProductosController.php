@@ -3,95 +3,61 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Producto;
+use App\ProductoFabrica;
+
 
 class ProductosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $productos=Producto::get();
+        $productos=Producto::all();
 
         return view('listaProductos', compact('productos'));
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-
-        $ProductoFabrica=ProductoFabrica::get();
-        return view('listaProductos', compact('ProductoFabrica'))
-
+        
+        //Productos que se fabrican que no estan asignados
+        $productosAsignados=Producto::get()->pluck('id_producto_produccion')->toArray();
+        $ProductoFabrica=ProductoFabrica::whereNotIn('id_product',$productosAsignados)->get();
+        
+        return view('crearProducto', compact('ProductoFabrica'))
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ProductoCreateRequest $request)
     {
         
         $nuevoProducto=Producto::Create([
             'id_producto_produccion'=>$request['idProductoProduccion'],
-            'nombre_comercial'=$request['nombreComercial'],
-            'url_foto'=$request['urlFoto'],
-            'descripcion'=$request['descripcion'],
-            'peso_unitario'=$request['pesoUnitario'],
+            'nombre_comercial'      =>$request['nombreComercial'],
+            'url_foto'              =>$request['urlFoto'],
+            'descripcion'           =>$request['descripcion'],
+            'peso_unitario'         =>$request['pesoUnitario'],
+            'id_usuario_reg'        =>Auth::user()->id,
         ]);
+        
+        $id=$nuevoProducto->id_producto;
+        return view('inspeccionarProducto')->with(id);//agregar succes cartel
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function store(ProductoCreateRequest $request,$id_producto)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        
+        $nuevoProducto=Producto::find($id_producto)->update([
+            'id_producto_produccion'=>$request['idProductoProduccion'],
+            'nombre_comercial'      =>$request['nombreComercial'],
+            'url_foto'              =>$request['urlFoto'],
+            'descripcion'           =>$request['descripcion'],
+            'peso_unitario'         =>$request['pesoUnitario'],
+            'id_usuario_reg'        =>Auth::user()->id,
+        ]);
+        
+        $id=$nuevoProducto->id_producto;
+        return view('inspeccionarProducto')->with(id);//agregar succes cartel
+    }    
+    
 }
