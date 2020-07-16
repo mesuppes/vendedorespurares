@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                             <div class="row">
-                                <table>
+                                <table id="tablaDescuentosProductos">
                                     <thead>
                                         <tr>
                                            <th>Producto</th>
@@ -44,7 +44,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr id="trDescuentoProducto">
                                             <td>
                                                 <select name="idProducto[]">
                                                     <option selected>Seleccione producto</option>
@@ -56,7 +56,7 @@
                                             </td>
                                             <td>
                                                 <div class="input-group">
-                                                    <input type="number" min="0" step=0.1 class="form-control" name="descuentoProducto[]" placeholder="Ingrese porcentaje de descuento">
+                                                    <input type="number" min="0" step=0.1 class="form-control inputDescuento" name="descuentoProducto[]" placeholder="Ingrese porcentaje de descuento">
                                                 <div class="input-group-append pr-0">
                                                     <span class="input-group-text text-center">&nbsp;%</span>
                                                 </div>
@@ -67,8 +67,11 @@
                                 </table>
                             </div>
                             <div class="row">
+                                <button class="btn btn-info" id="botonAgregarDescuentoProducto">Agregar producto</button>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <button class="btn btn-success">Asignar descuento</button>
+                                    <button class="btn btn-success" type="submmit">Asignar descuento</button>
                                 </div>
                             </div>
                         </form>
@@ -106,6 +109,12 @@
 
 <script type="text/javascript">
 
+    $("#botonAgregarDescuentoProducto").click(function(event){
+
+        event.preventDefault()
+        $( "#trDescuentoProducto" ).clone().appendTo( "#tablaDescuentosProductos" ).find(".inputDescuento").val("").end();
+
+    })
 </script>
 
 
