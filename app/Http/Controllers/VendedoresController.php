@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Vendedor;
+use App\Producto;
 use App\VendedorCredito;
 use App\VendedorDescuentoGeneral;
 use App\VendedorDescuentoProducto;
@@ -94,7 +95,7 @@ class VendedoresController extends Controller
         $vendedor=Vendedor::find($idVendedor);
         $productos=Producto::all();
 
-        return view('VendedorCreditoCreate'->with(compact('vendedor','productos')));
+        return view('asignarDescuentos')->with(compact('vendedor','productos'));
     }
 
 

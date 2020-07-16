@@ -25,7 +25,7 @@
                                         <input type="text" class="form-control" placeholder="Vendedor" value="{{$vendedor->nombre}} {{$vendedor->apellidos}}" disabled>
                                     </div>
                                     <div class="form-group">
-                                        <label>Cliente</label>
+                                        <label>Monto de crédito</label>
                                         <input type="number" min="0" step=0.01 class="form-control" name="monto" placeholder="Ingrese el monto">
                                     </div>
                                     </div>

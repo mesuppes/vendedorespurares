@@ -45,7 +45,7 @@
                                         <div style="display:flex;">
                                         <a href="{{route('users.edit',$row->id)}}" class="btn btn-warning btn-sm">Datos</a>
                                             &nbsp;
-                                        <a href="{{route('users.edit',$row->id)}}" class="btn btn-warning btn-sm">Descuentos</a>
+                                        <a href="{{route('vendedor.createDescuento',$row->id)}}" class="btn btn-warning btn-sm">Descuentos</a>
                                             &nbsp;
                                         <a href="{{route('vendedor.createCredito',$row->id)}}" class="btn btn-warning btn-sm">Credito</a>
                                             &nbsp;

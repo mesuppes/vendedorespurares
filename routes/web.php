@@ -60,6 +60,8 @@ Route::get('/armarPedido/{idPedido}', 'PedidosController@armarPedidoCreate')->na
 Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPedido.store');
 Route::get('/asignarCredito/{id?}', 'VendedoresController@createCredito')->name('vendedor.createCredito');
 Route::post('/asignarCredito', 'VendedoresController@storeCredito')->name('vendedor.creditoStore');
+Route::get('/asignarDescuento/{id?}', 'VendedoresController@createDescuentos')->name('vendedor.createDescuento');
+Route::post('/asignarDescuento', 'VendedoresController@storeDescuento')->name('vendedor.descuentoStore');
 
 
 Route::group(['middleware' => ['role:Administracion']], function () {
