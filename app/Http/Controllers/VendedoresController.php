@@ -81,7 +81,7 @@ class VendedoresController extends Controller
         VendedorCredito::create([
             'id_vendedor'=>request('idVendedor'),
             'monto'=>request('monto'),
-            'idUsuario'=>Auth::user()->id,
+            'id_usuario_reg'=>Auth::user()->id,
             ]);
         //return redirect()
     }

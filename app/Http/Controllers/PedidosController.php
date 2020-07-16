@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CrearPedidoRequest;
+use App\Http\Requests\ArmarPedidoRequest;
 use App\Http\Controllers\WorkflowController;
 
 // USUARIO Y ROLES
@@ -23,7 +24,7 @@ use App\WorkflowN;
 use App\OptionList;
 use App\FacturaProforma;
 use App\FacturaProformaItem;
-#use App\Role;
+use App\ProductoMov;
 
 
 
@@ -223,13 +224,16 @@ class PedidosController extends Controller
 
 	public function armarPedidoStore(ArmarPedidoRequest $request){
 
+
 	//VALIDAR STOCK
+	$idVendedor=Pedido::find($request['idPedido'])->id_vendedor;
+
 	$productosTabla=PedidosController::tablaDatosProductosOP($request['idPedido']);
 
 	//GENERAR FACTURA PROFORMA
 		
 		$nuevaFactura= FacturaProforma::create([
-			'id_cliente'	=>$productosTabla->id_vendedor,
+			'id_cliente'	=>$idVendedor,
 			'id_pedido'		=>$request['idPedido'],
 			'tipo'			=>'1',
 			'id_usuario_reg'=>Auth::user()->id,
@@ -269,9 +273,9 @@ class PedidosController extends Controller
 				#INSERT DB ITEM DE FACTURA PROFORMA 
 				$nuevoItem=FacturaProformaItem::create([
 					'id_factura_proforma'=>$idFactura,
-					'id_producto'		=>$request['idProducto'],
-					'cantidad_unidades'	=>$request['cantidadUnidades'],
-					'cantidad_kg'		=>$request['cantidadKg'],
+					'id_producto'		=>$request['idProducto'][$i],
+					'cantidad_unidades'	=>$request['cantidadUnidades'][$i],
+					'cantidad_kg'		=>$request['cantidadKg'][$i],
 					'tipo_unidad'		=>$producto->medida_pedido,
 					'precio_unitario'	=>$precio,
 					'descuento'			=>($precio*$cantidad)*$descuento,
