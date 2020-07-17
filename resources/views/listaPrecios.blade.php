@@ -23,7 +23,7 @@
                                         <th>Producto</th>
                                         <th>Precio por unidad</th>
                                         <th>Precio por kilo</th>
-                                        <th>Valido hasta</th>
+                                        <th>Valido desde</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -63,7 +63,7 @@
                                         <th>Producto</th>
                                         <th>Precio por unidad</th>
                                         <th>Precio por kilo</th>
-                                        <th>Valido hasta</th>
+                                        <th>Valido desde</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
