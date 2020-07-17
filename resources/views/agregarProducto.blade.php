@@ -27,7 +27,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Peso Unitario</label>
-                                                    <input type="number" name="peso_unitario" min=0 class="form-control" placeholder="Ingrese el peso unitario">
+                                                    <input type="number" name="pesoUnitario" min=0 class="form-control" placeholder="Ingrese el peso unitario">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
