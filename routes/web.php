@@ -66,6 +66,7 @@ Route::get('/listaProductos', 'ProductosController@index')->name('productos.inde
 Route::get('/listaProductos/{id}', 'ProductosController@show')->name('productos.show');
 Route::get('/agregarProducto', 'ProductosController@create')->name('productos.create');
 Route::post('/agregarProducto', 'ProductosController@store')->name('productos.store');
+Route::get('/verPrecios', 'PreciosController@CargaMasivaCreate')->name('precios.create');
 
 
 Route::group(['middleware' => ['role:Administracion']], function () {
