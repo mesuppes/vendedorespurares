@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Producto;
 use App\ProductoFabrica;
-
+use App\Http\Requests\ProductoCreateRequest;
+use Auth;
 
 class ProductosController extends Controller
 {
@@ -37,7 +38,7 @@ class ProductosController extends Controller
                         ->where('id_producto_produccion','!=',NULL)
                         ->pluck('id_producto_produccion')
                         ->toArray();
-                        
+
         $ProductoFabrica=ProductoFabrica::whereNotIn('id_producto',$productosAsignados)->get();
 
         return view('agregarProducto', compact('ProductoFabrica'));
@@ -45,6 +46,7 @@ class ProductosController extends Controller
 
     public function store(ProductoCreateRequest $request)
     {
+
 
         $nuevoProducto=Producto::Create([
             'id_producto_produccion'=>$request['idProductoProduccion'],
