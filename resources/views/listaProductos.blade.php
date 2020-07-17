@@ -30,7 +30,7 @@
                                         <td>
                                             <div class="mb-1">
                                                 <a type="button" class="btn btn-sm col-12 btn-primary"
-                                                   href="{{route('pedido.show', $producto->id_producto)}}"> Ver producto</a>
+                                                   href="{{route('productos.show', $producto->id_producto)}}"> Ver producto</a>
                                             </div>
                                         </td>
                                     </tr>

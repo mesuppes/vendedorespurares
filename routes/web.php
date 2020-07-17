@@ -63,6 +63,9 @@ Route::post('/asignarCredito', 'VendedoresController@storeCredito')->name('vende
 Route::get('/asignarDescuento/{id?}', 'VendedoresController@createDescuentos')->name('vendedor.createDescuento');
 Route::post('/asignarDescuento', 'VendedoresController@storeDescuento')->name('vendedor.descuentoStore');
 Route::get('/listaProductos', 'ProductosController@index')->name('productos.index');
+Route::get('/listaProductos/{id}', 'ProductosController@show')->name('productos.show');
+Route::get('/agregarProducto', 'ProductosController@create')->name('productos.create');
+Route::post('/agregarProducto', 'ProductosController@store')->name('productos.store');
 
 
 Route::group(['middleware' => ['role:Administracion']], function () {
