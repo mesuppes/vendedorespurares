@@ -40,7 +40,7 @@
                                                     <option value= "" selected>Seleccione producto</option>
                                                     <option value= "">Ninguno</option>
                                                         @foreach($ProductoFabrica as $producto)
-                                                            <option value="{{$producto->id_producto}}">{{$producto->nombre_comercial}}
+                                                            <option value="{{$producto->id_producto}}">{{$producto->nombre}}
                                                             </option>
                                                         @endforeach
                                                 </select>
