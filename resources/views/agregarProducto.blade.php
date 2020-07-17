@@ -21,7 +21,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Nombre del producto</label>
-                                                    <input type="text" name="nombre_comercial" class="form-control" placeholder="Ingrese el nombre del producto">
+                                                    <input type="text" name="nombreComercial" class="form-control" placeholder="Ingrese el nombre del producto">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -37,7 +37,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                 <select name="id_producto_produccion">
+                                                 <select name="idProductoProduccion">
                                                     <option value= "" selected>Seleccione producto</option>
                                                     <option value= "">Ninguno</option>
                                                         @foreach($ProductoFabrica as $producto)
