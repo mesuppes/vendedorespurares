@@ -18,6 +18,17 @@ class ProductosController extends Controller
 
     }
 
+    public function show($idproducto)
+    {
+        $producto=Producto::find($idproducto);
+
+        return view('inspeccionarProducto')->with(compact(producto));
+
+    }    
+
+
+
+
     public function create()
     {
         
@@ -44,7 +55,7 @@ class ProductosController extends Controller
         return view('inspeccionarProducto')->with(id);//agregar succes cartel
     }
 
-    public function store(ProductoCreateRequest $request,$id_producto)
+    public function Update(ProductoCreateRequest $request,$id_producto)
     {
         
         $nuevoProducto=Producto::find($id_producto)->update([
