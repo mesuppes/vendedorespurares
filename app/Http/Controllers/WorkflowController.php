@@ -19,7 +19,7 @@ class WorkflowController extends Controller
     	$idUsuario=User::find(Auth::user()->id);
 
     	//si el rol es vendedor->carga aprobación a rol admnistración
-        if ($idUsuario->hasRole('Vendedor')) {
+        if ($idUsuario->hasRole('cliente')||$idUsuario->hasRole('cliente')      ) {
 
             $toRole= Role::findByName('Administracion')->id; //administrador
             $toUser=null;
