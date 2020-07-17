@@ -34,13 +34,30 @@ class PedidosController extends Controller
 	public function index()
 	{
 
-	$idPedidos=DB::table('pedidos_reg')
-				->selectRaw('MAX(id_pedido) as id')
-				->groupBy('id_pedido_padre')
-				->pluck('id')
-				->toArray();
+		$idPedidos=DB::table('pedidos_reg')
+					->selectRaw('MAX(id_pedido) as id')
+					->groupBy('id_pedido_padre')
+					->pluck('id')
+					->toArray();
 
-	$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
+	    $usuario=Auth::user();
+
+	        if ($usuario->hasRole('Administracion')) { 
+	        	#Todos los pedidos
+				$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
+
+	        }elseif ($usuario->hasRole('Gestor_cliente')) {
+	        	#Los pedidos que tengan su ID en alguno de los pedidos
+	        	$idPedidosPadres=Pedido::where('id_usuario_reg','=','2')->pluck('id_pedido_padre')->toArray();
+	            $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
+	            					->whereIn('id_pedido_padre',$idPedidosPadres)
+	        						->get();
+	        }elseif ($usuario->hasRole('Cliente')) {
+	        	#Los Pedidos que le pertencen al vendedor
+	        	$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
+	        						->where('id_vendedor','=',$usuario->vendedor->id_vendedor)
+	        						->get();
+	        }
 
 		return view('listaPedidos', compact('listaPedidos'));
 
@@ -51,7 +68,7 @@ class PedidosController extends Controller
 		//La creación de pedido  ->(Vendedores)
 	public function createRouter(){
 
-		if (Auth::user()->hasRole('Administracion')) {
+		if (Auth::user()->hasAnyRole('Administracion','Gestor_cliente')) {
 			$vendedores=Vendedor::all();
 			return view('seleccionarVendedor')->with(compact('vendedores'));
 		}elseif (Auth::user()->hasRole('Vendedor')) {
@@ -63,10 +80,11 @@ class PedidosController extends Controller
 
 	static public function create()
 	{
-		if (Auth::user()->hasRole('Administracion')) {
+		if (Auth::user()->hasAnyRole('Administracion','Gestor_cliente')) {
 			$vendedor=Vendedor::find(request('idVendedor'));
 			$productos= PedidosController::tablaProductoDescuento(request('idVendedor'));
 			return view('agregarPedido')->with(compact('productos','vendedor'));
+		
 		}elseif (Auth::user()->hasRole('Vendedor')) {
 			$vendedor=User::find(Auth::user()->id)->vendedor;
 			$productos= PedidosController::tablaProductoDescuento($vendedor->id_vendedor);
@@ -80,9 +98,17 @@ class PedidosController extends Controller
 	public function store(CrearPedidoRequest $request)
 	{
 
-		#return $request;    
 		//VALIDAR STOCK
+		$validarStock=¨PedidosController::validarStockPedido($request['idProducto'],$request['tipoMedida'],$request['cantidad']);
+		if ($validarStock!='ok') {
+			return $validarStock;
+		}
+
 		//VALIDAR CRÉDITO
+
+				#!!!PENDIENTE!!!
+				#!!!PENDIENTE!!!
+				#!!!PENDIENTE!!!
 
 	//CREAR PEDIDO
 		$nuevoPedido= Pedido::create([
@@ -226,6 +252,11 @@ class PedidosController extends Controller
 
 
 	//VALIDAR STOCK
+		$validarStock=¨PedidosController::validarStockFactura($request['idProducto'],$request['cantidadKg'],$request['cantidadUnidades']);
+		if ($validarStock!='ok') {
+			return $validarStock;
+		}
+
 	$idVendedor=Pedido::find($request['idPedido'])->id_vendedor;
 
 	$productosTabla=PedidosController::tablaDatosProductosOP($request['idPedido']);
@@ -299,8 +330,46 @@ class PedidosController extends Controller
 	}	
 
 
-	public function validarStock($productosArray,$tipoMedidaArray,$cantidadArray){
-		$a=1;
+	public function validarStockPedido($productos,$tipoMedida,$cantidad){
+		
+		$longitud=count($productos);
+		$stockProductos=ProductoStock::all();
+			
+			for ($i=0; $i <$longitud ; $i++) { 
+				//Cantidad Mayor a cero
+				if ($cantidad[$i]>0) {
+					//Tipo de Medida
+					if ($tipoMedida[$i]=='kg') {
+						$Stock=$stockProductos->find($productos[$i])->stock_kg;		 	
+					}else{
+					 	$Stock=$stockProductos->find($productos[$i])->stock_unidades;
+					} 
+					//VALIDACION
+					if ($Stock<$cantidad[$i]) {
+						return "ERROR- Stock insuficiente".$producto[$i];
+					}
+				}
+			}
+		return "ok";
+	}
+
+	public function validarStockFactura($productos,$cantidad_kg,$cantidad_unidades){
+		
+		$longitud=count($productos);
+		$stockProductos=ProductoStock::all();
+			
+			for ($i=0; $i <$longitud ; $i++) { 
+				//Cantidad Mayor a cero
+				if ($cantidad[$i]>0) {
+					$producto=$stockProductos->find($productos[$i]);
+					//VALIDACION
+					if ($producto->stock_kg < $cantidad_kg[$i] ||
+						$producto->stock_unidades < $cantidad_unidades[$i]) {
+						return "ERROR- Stock insuficiente".$producto[$i];
+					}
+				}
+			}
+		return "ok";
 	}
 
 

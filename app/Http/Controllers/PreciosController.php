@@ -25,12 +25,7 @@ class PreciosController extends Controller
         $productos=$listaPrecios->pluck('id_producto')->toArray();
         $productosSinPrecio=Producto::whereNotIn('id_producto',$productos)->get();
 
-        return $productosSinPrecio;
-
-        //PARA EL FRONT
-        #$PreciosFuturos=PrecioV::find(1)->producto->precio()->where('fecha_desde','>',today())->get();
-        
-        #$mayorAesto=PrecioV::find(1)->producto->precio()->where('fecha_desde','>',today())->where('anulado','=',null)->orderBy('fecha_reg', desc)->first()->fecha_desde;
+        return view('listaPrecios')->with(compact('productosSinPrecio','listaPrecios'));
     }
 
 

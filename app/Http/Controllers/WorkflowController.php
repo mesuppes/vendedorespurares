@@ -19,7 +19,7 @@ class WorkflowController extends Controller
     	$idUsuario=User::find(Auth::user()->id);
 
     	//si el rol es vendedor->carga aprobación a rol admnistración
-        if ($idUsuario->hasRole('cliente')||$idUsuario->hasRole('cliente')      ) {
+        if ($idUsuario->hasAnyRole('cliente','Gestor_cliente'))      ) {
 
             $toRole= Role::findByName('Administracion')->id; //administrador
             $toUser=null;
@@ -40,7 +40,7 @@ class WorkflowController extends Controller
                 $status=4;//aprobado automáticamente
             }
         }else{
-            'Error:Se ah registrado un error al asignar el flujo de aprobación';
+            return 'Error:Se ah registrado un error al asignar el flujo de aprobación';
         }
 
          //Cargar en la DB
