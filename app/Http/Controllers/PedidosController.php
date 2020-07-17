@@ -25,6 +25,7 @@ use App\OptionList;
 use App\FacturaProforma;
 use App\FacturaProformaItem;
 use App\ProductoMov;
+use App\ProductoStock;
 
 
 
