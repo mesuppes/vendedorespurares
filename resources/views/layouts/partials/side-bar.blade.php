@@ -100,6 +100,12 @@
               <p>Agregar producto</p>
             </a>
           </li>
+          <li {{Route::is('precios.create')? 'class=active':''}}>
+            <a href="{{route('precios.create')}}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Ver precios</p>
+            </a>
+          </li>
       @endrole
       @role('admin')
         <li {{Route::is('home')? 'class=active':''}}>
