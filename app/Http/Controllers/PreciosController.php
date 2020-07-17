@@ -36,25 +36,39 @@ class PreciosController extends Controller
 
     static public function productoIndividualStore(PrecioCreateRequest $request){
 
+        //Validar Fecha
+        $validacion=PreciosController::validarFechaDesde($idProducto,$fechaDesde);
+        if ($validacion=='ok') {
+            //Cargar Precios
+            $nuevoPrecio=Precio::create([
+                'id_producto'   =>$request['idProducto'],
+                'precio_kg'     =>$request['precioKg'],
+                'precio_unidad' =>$request['precioUnidad'],
+                'fecha_desde'   =>$request['fechaDesde'],
+            ]);
+            return "Precio actualizado";
+        }else{
+            return "Error".$validacion;
+        }
 
-        $nuevoPrecio=Precio::create([
-            'id_producto'   =>$request['idProducto'],
-            'precio_kg'     =>$request['precioKg'],
-            'precio_unidad' =>$request['precioUnidad'],
-            'fecha_desde'   =>$request['fechaDesde'],
-        ]);
-
-    return "Precio actualizado";
     }
 
     static public function cargaMasivaStore(PrecioCreateRequest $request){
+
+        //VALIDAR QUE CUMPLAN CON LOS REQUISITOS
+        $longitud=count($request['idProducto']);
+        for ($i=0; $i <$longitud ; $i++) { 
+            $validacion=PreciosController::validarFechaDesde($idProducto,$fechaDesde);
+            if ($validacion!='ok') {
+                return "Error".$validacion;
+            }
+        }
+        //CARCAR EN LA BD
 
         $idModificacion=(Precio::orderBy('id_modificacion','desc')
                                 ->first()
                                 ->id_modificacion)
                                 +1;
-
-        $longitud=count($request['idProducto']);
         
         for ($i=0; $i < $longitud ; $i++) { 
             if ($request['precioKg'][$i]>0 && $request['precioUnidad'][$i]>0){
@@ -67,7 +81,30 @@ class PreciosController extends Controller
                 ]);
             }
         } 
-    return "Precio actualizado";
+        return "Precio actualizado";
     }
+
+    static public function validarFechaDesde($idProducto,$fechaDesde){
+
+        if ($fechaDesde>today()) {
+
+            $lastDate=PrecioV::find($idProducto)->producto->precio()->where('fecha_desde','>',today())->where('anulado','=',null)->orderBy('fecha_reg', 'desc')->first()->fecha_desde;
+            
+            if ($lastDate==null) {
+                $respuesta='ok';
+            }else{
+                if ($lastDate>=$fechaDesde) {
+                    $respuesta='ok';
+                }else{
+                    $respuesta='Ya existe una modificación futura';
+                }
+            }
+        }else{
+            $respuesta='La fecha debe ser mayor a hoy';
+        }
+        return $respuesta;
+    }
+
+
 }
 
