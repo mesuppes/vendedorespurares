@@ -62,6 +62,7 @@ Route::get('/asignarCredito/{id?}', 'VendedoresController@createCredito')->name(
 Route::post('/asignarCredito', 'VendedoresController@storeCredito')->name('vendedor.creditoStore');
 Route::get('/asignarDescuento/{id?}', 'VendedoresController@createDescuentos')->name('vendedor.createDescuento');
 Route::post('/asignarDescuento', 'VendedoresController@storeDescuento')->name('vendedor.descuentoStore');
+Route::get('/listaProductos', 'ProductosController@index')->name('productos.index');
 
 
 Route::group(['middleware' => ['role:Administracion']], function () {

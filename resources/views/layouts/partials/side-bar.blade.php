@@ -82,10 +82,16 @@
           </li>
       @endrole
       @role('Administracion')
-        <li {{Route::is('pedido.create')? 'class=active':''}}>
+        <li {{Route::is('pedido.createRouter')? 'class=active':''}}>
             <a href="{{route('pedido.createRouter')}}">
               <i class="nc-icon nc-bank"></i>
               <p>Agregar pedidos</p>
+            </a>
+          </li>
+          <li {{Route::is('productos.index')? 'class=active':''}}>
+            <a href="{{route('productos.index')}}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Ver productos</p>
             </a>
           </li>
       @endrole
