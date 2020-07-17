@@ -33,7 +33,11 @@ class ProductosController extends Controller
     {
 
         //Productos que se fabrican que no estan asignados
-        $productosAsignados=Producto::get()->pluck('id_producto_produccion')->toArray();
+        $productosAsignados=Producto::get()
+                        ->where('id_producto_produccion','!=',NULL)
+                        ->pluck('id_producto_produccion')
+                        ->toArray();
+                        
         $ProductoFabrica=ProductoFabrica::whereNotIn('id_producto',$productosAsignados)->get();
 
         return view('agregarProducto', compact('ProductoFabrica'));
