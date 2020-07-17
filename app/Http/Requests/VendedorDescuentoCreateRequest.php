@@ -6,21 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class VendedorDescuentoCreateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+    
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -31,3 +22,38 @@ class VendedorDescuentoCreateRequest extends FormRequest
         ];
     }
 }
+
+
+/*
+
+ROLES
+1)ADMINSTRADOR GENERAL
+    -Anular Factura
+    -Gestionar Precios
+    -Gestionar Clientes
+        Detalle
+        Usuario
+        Creditos(*)
+        Descuentos(*)
+
+2)ADMINISTRACIÓN
+    -Cargar Compras (y anular)
+    -Cargar Pedido
+        solicitar aprob Cliente
+        dejar en cola para armar
+    -Armar Pedidos
+    -Gestionar Clientes
+        Detalle
+        Usuario
+
+3)GESTOR DE CLIENTES
+    -Puede cargar pedidos a cualquier cliente
+        Aprueba 2 (administracion pedidos)
+    
+4)CLIENTE
+    -Puede cargar sus pedidos
+        Aprueba 2 (administracion pedidos)
+
+
+
+*/
