@@ -20,24 +20,25 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Nombre del producto</label>
-                                                    <input type="text" class="form-control" placeholder="Ingrese el nombre del producto">
+                                                    <input type="text" name="nombre_comercial" class="form-control" placeholder="Ingrese el nombre del producto">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Peso Unitario</label>
-                                                    <input type="number" min=0 class="form-control" placeholder="Ingrese el peso unitario">
+                                                    <input type="number" name="peso_unitario" min=0 class="form-control" placeholder="Ingrese el peso unitario">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Descripción</label>
-                                                    <textarea name="" id="" cols="30" rows="10">Ingrese una descripción</textarea>
+                                                    <textarea name="descripcion" cols="30" rows="10">Ingrese una descripción</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                 <select name="">
+                                                 <select name="id_producto_produccion">
                                                     <option value= "" selected>Seleccione producto</option>
+                                                    <option value= "">Ninguno</option>
                                                         @foreach($ProductoFabrica as $producto)
                                                             <option value="{{$producto->id_producto}}">{{$producto->nombre_comercial}}
                                                             </option>
@@ -49,7 +50,7 @@
                      <div class="bg-white card">
                         <div class="d-inline-flex justify-content-between">
                             <div class="d-flex pr-2">
-                                <button type="submit" id="botonAgregarProducto" class="btn btn-success">Agregar pedido
+                                <button type="submit" id="botonAgregarProducto" class="btn btn-success">Agregar producto
 </button>
                         </div>
                              </div>
