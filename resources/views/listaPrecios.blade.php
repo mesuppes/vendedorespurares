@@ -71,7 +71,7 @@
                                 <tbody>
                                     @foreach($listaPrecios as $producto)
                                     <tr>
-                                        <th>{{$producto->nombre_comercial ?? 'No hay datos'}}</th>
+                                        <th>{{$producto->producto->nombre_comercial ?? 'No hay datos'}}</th>
                                         <th>{{$producto->precio_kg  ?? 'No hay datos'}}</th>
                                         <td>{{$producto->precio_unidad  ?? 'No hay datos'}}</td>
                                         <th>{{$producto->fecha_desde  ?? 'No hay datos'}}</th>
