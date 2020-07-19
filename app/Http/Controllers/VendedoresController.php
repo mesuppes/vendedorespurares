@@ -49,10 +49,10 @@ class VendedoresController extends Controller
     {
 
     //1-Crear Vendedor
-        $nuevoVendedor=Vendeor::Create([
+        $nuevoVendedor=Vendedor::Create([
             'nombre'    =>$request['nombre'],
-            'apellido'  =>$request['apellido'],
-            'telfono1'  =>$request['telfono1'],
+            'apellidos'  =>$request['apellido'],
+            'telefono1'  =>$request['telfono1'],
             'telefono2' =>$request['telefono2'],
             'email'     =>$request['email'],
             'cuit'      =>$request['cuit'],
@@ -63,7 +63,8 @@ class VendedoresController extends Controller
         ]);
 
     //2-Crear descuentos para vendedor
-        return view('VendedorDescuentoCreate'->with($nuevoVendedor->id_vendedor));
+        $idNuevoVendedor=$nuevoVendedor->id_vendedor;
+        return view('VendedorDescuentoCreate')->with(compact('idNuevoVendedor'));
 
     }
 

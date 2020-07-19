@@ -13,7 +13,7 @@ class VendedorCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class VendedorCreateRequest extends FormRequest
             'telefono1' =>'required',
             'telfono2'  =>'nullable',
             'email'     =>'required|email',//Formato de mail 
-            'cuit'      =>'required|unique:Vendedor,cuit',//No exista para otro vendedor
+            'cuit'      =>'required|unique:vendedores,cuit',//No exista para otro vendedor
             'provincia' =>'required',
             'ciudad'    =>'required',
             'direccion' =>'required',
