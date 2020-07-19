@@ -36,7 +36,7 @@ class VendedoresController extends Controller
 
     public function create()
     {
-        return view('VendedorCreate');
+        return view('agregarVendedor');
     }
 
     /**
@@ -102,10 +102,10 @@ class VendedoresController extends Controller
     public function storeDescuento(VendedorDescuentoCreateRequest $request){
 
         //1-DESCUETO GENETAL
-        
+
         #Buscar descuento
         $DescuentoGeneral=VendedorDescuentoGeneral::where('id_vendedor','=',$request['idVendedor']);
-         
+
          if (count($DescuentoGeneral->get()) == null) {
         //NO EXISTE->Guardar el descuento General
             $dg=VendedorDescuentoGeneral::create([
@@ -125,7 +125,7 @@ class VendedoresController extends Controller
         //2-DESCUENTO POR PRODUCTO
             #Eliminar descuentos por productos viejos
             VendedorDescuentoProducto::where('id_vendedor','=',1)->delete();
-            #Guardar el descuento por Producto            
+            #Guardar el descuento por Producto
             $longitud=count($request['idProducto']);
             for ($i=0; $i <$longitud ; $i++) {
                 if ($request['descuentoProducto'][$i]>0) { //Guardar solo si es mayor a cero

@@ -106,6 +106,12 @@
               <p>Ver precios</p>
             </a>
           </li>
+            <li {{Route::is('vendedores.create')? 'class=active':''}}>
+            <a href="{{route('vendedores.create')}}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Agregar vendedor</p>
+            </a>
+          </li>
       @endrole
       @role('admin')
         <li {{Route::is('home')? 'class=active':''}}>
