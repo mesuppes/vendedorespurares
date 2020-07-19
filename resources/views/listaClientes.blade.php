@@ -30,7 +30,7 @@
                                         <td>
                                             <div class="mb-1">
                                                 <a type="button" class="btn btn-sm col-12 btn-primary"
-                                                   href="{{route('vendedores.show', $cliente->id_vendedor)}}"> Ver cliente</a>
+                                                   href="{{route('vendedor.show', $cliente->id_vendedor)}}"> Ver cliente</a>
                                             </div>
                                         </td>
                                     </tr>
