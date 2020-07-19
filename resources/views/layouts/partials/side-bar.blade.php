@@ -112,6 +112,13 @@
               <p>Agregar vendedor</p>
             </a>
           </li>
+          </li>
+            <li {{Route::is('vendedores.index')? 'class=active':''}}>
+            <a href="{{route('vendedores.index')}}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Ver clientes</p>
+            </a>
+          </li>
       @endrole
       @role('admin')
         <li {{Route::is('home')? 'class=active':''}}>

@@ -23,7 +23,7 @@ class VendedoresController extends Controller
     {
         $vendedores=Vendedor::get();
 
-        return view('listaVendedores', compact('vendedores'));
+        return view('listaClientes', compact('vendedores'));
     }
 
     /**
@@ -64,7 +64,8 @@ class VendedoresController extends Controller
 
     //2-Crear descuentos para vendedor
         $idNuevoVendedor=$nuevoVendedor->id_vendedor;
-        return view('VendedorDescuentoCreate')->with(compact('idNuevoVendedor'));
+
+		return redirect()->route('vendedor.createDescuento', ['id' => $idNuevoVendedor]);
 
     }
 
@@ -85,7 +86,10 @@ class VendedoresController extends Controller
             'monto'=>request('monto'),
             'id_usuario_reg'=>Auth::user()->id,
             ]);
-        //return redirect()
+        $id_vendedor=request('idVendedor');
+
+        return redirect()->route('vendedor.show', ['id' => $id_vendedor]);
+
     }
 
 
@@ -138,7 +142,7 @@ class VendedoresController extends Controller
                     ]);
                 }
             }
-        return "exito!";
+       return redirect()->route('vendedor.createCredito', ['id' => $request['idVendedor']]);
 
     }
 
@@ -153,17 +157,16 @@ class VendedoresController extends Controller
     public function show($id)
     {
         //Mostrar el vendedor
-        $vendedor=Vendedor::find($idVendedor);
+        $cliente=Vendedor::find($id);
         //Mostrar Crédito
-        $credito=$vendedor->credito->last();
+       // $credito=$vendedor->credito->last();
         //Mostrar Descuentos
-        $descuentoGeneral=$vendedor->descuentoGeneral;
-        $descuentoProductos=$vendedor->descuentoProducto;
+       // $descuentoGeneral=$vendedor->descuentoGeneral;
+       // $descuentoProductos=$vendedor->descuentoProducto;
         //Mostrar el usuario
-        $usuario=$vendedor->usuario;
+       // $usuario=$vendedor->usuario;
 
-        return view('VendedorShow'->with(compact('vendedor','descuentoGeneral','descuentoProductos','usuario')));
-
+        return view('verCliente')->with(compact('cliente'));
 
     }
 
