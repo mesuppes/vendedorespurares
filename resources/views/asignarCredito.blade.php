@@ -24,9 +24,13 @@
                                         <label>Cliente</label>
                                         <input type="text" class="form-control" placeholder="Vendedor" value="{{$vendedor->nombre}} {{$vendedor->apellidos}}" disabled>
                                     </div>
-                                    <div class="form-group">
+
                                         <label>Monto de crédito</label>
-                                        <input type="number" min="0" step=0.01 class="form-control" name="monto" placeholder="Ingrese el monto">
+                                        <div class="col-md-6 col-xl-6 d-inline-flex form-group input-group pl-0 pr-0">
+                                            <div class="input-group-prepend disabled pr-0">
+                                                    <span class="input-group-text form-control text-center spanPesos" >$ </span>
+                                            </div>
+                                        <input type="number" min="0" step=0.01 class="form-control" name="monto" placeholder="Ingrese el monto" value="{{$vendedor->credito()->orderby('fecha_reg','desc')->first()->monto}}">
                                     </div>
                                     </div>
                                 </div>

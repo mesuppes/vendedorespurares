@@ -38,7 +38,7 @@
                                     <div class="form-group">
                                         <label>Descuento general</label>
                                         <div class="input-group">
-                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general">
+                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" value="{{$vendedor->descuentoGeneral->descuento}}">
                                         <div class="input-group-append pr-0">
                                             <span class="input-group-text text-center">&nbsp;%</span>
                                         </div>
@@ -55,6 +55,28 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($vendedor->descuentoProductos()->get() as $producto)
+                                         <tr>
+                                            <td>
+                                                <select name="idProducto[]">
+                                                      <option value="{{$producto->id_producto}}" selected>{{$producto->producto->nombre_comercial}}
+                                                            </option>
+                                                        @foreach($productos as $productosincargar)
+                                                            <option value="{{$productosincargar->id_producto}}">{{$productosincargar->nombre_comercial}}
+                                                            </option>
+                                                        @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="number" min="0" step=0.1 class="form-control inputDescuento" name="descuentoProducto[]" placeholder="Ingrese porcentaje de descuento" value="{{$producto->descuento}}">
+                                                <div class="input-group-append pr-0">
+                                                    <span class="input-group-text text-center">&nbsp;%</span>
+                                                </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                         <tr id="trDescuentoProducto">
                                             <td>
                                                 <select name="idProducto[]">

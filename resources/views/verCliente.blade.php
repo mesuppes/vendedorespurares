@@ -118,8 +118,8 @@
                         </div>
                         <div class="bg-white card">
                             <div class="form-group">
-                                        <label>Credito</label>
                                   <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
+                                        <label>Credito</label>
                                 <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" disabled>$ </span>
                                             </div>
