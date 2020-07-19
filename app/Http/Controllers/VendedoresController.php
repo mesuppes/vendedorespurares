@@ -14,23 +14,13 @@ use Auth;
 
 class VendedoresController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
         $vendedores=Vendedor::get();
 
         return view('listaClientes', compact('vendedores'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     // ---!!! CREAR VENDEDORES !!!--- //
 
@@ -39,12 +29,13 @@ class VendedoresController extends Controller
         return view('agregarVendedor');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function update($id)
+    {
+        
+        $cliente=Vendedor::find($id);
+        return view('agregarVendedor')->with(compact('cliente'));
+    }
+
     public function store(VendedorCreateRequest $request)
     {
 
@@ -73,7 +64,6 @@ class VendedoresController extends Controller
 
     public function createCredito($idVendedor){
 
-
         $vendedor=Vendedor::find($idVendedor);
 
         return view('asignarCredito')->with(compact('vendedor'));
@@ -91,7 +81,6 @@ class VendedoresController extends Controller
         return redirect()->route('vendedor.show', ['id' => $id_vendedor]);
 
     }
-
 
     // ---!!!DESCUENTOS !!!--- //
 
@@ -129,7 +118,7 @@ class VendedoresController extends Controller
 
         //2-DESCUENTO POR PRODUCTO
             #Eliminar descuentos por productos viejos
-            VendedorDescuentoProducto::where('id_vendedor','=',1)->delete();
+            VendedorDescuentoProducto::where('id_vendedor','=',$request['idVendedor'])->delete();
             #Guardar el descuento por Producto
             $longitud=count($request['idProducto']);
             for ($i=0; $i <$longitud ; $i++) {
@@ -142,54 +131,28 @@ class VendedoresController extends Controller
                     ]);
                 }
             }
-       return redirect()->route('vendedor.createCredito', ['id' => $request['idVendedor']]);
+       
+        if (Vendedor::find($request['idVendedor'])->credito()->count()>0) {
+            return redirect()->route('vendedor.show', $request['idVendedor']);
+        }else{
+            return redirect()->route('vendedor.createCredito', ['id' => $request['idVendedor']]);
+        }        
 
     }
 
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //Mostrar el vendedor
         $cliente=Vendedor::find($id);
-        //Mostrar Crédito
-       // $credito=$vendedor->credito->last();
-        //Mostrar Descuentos
-       // $descuentoGeneral=$vendedor->descuentoGeneral;
-       // $descuentoProductos=$vendedor->descuentoProducto;
-        //Mostrar el usuario
-       // $usuario=$vendedor->usuario;
 
         return view('verCliente')->with(compact('cliente'));
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    //
 
     public function update(VendedorCreateRequest $request, Vendedor $vendedor)
     {
@@ -198,7 +161,6 @@ class VendedoresController extends Controller
         //return succesmsg + Update de view
 
     }
-
 
     public function updateDescuento(VendedorCreateRequest $request, Vendedor $vendedor)
     {
@@ -228,15 +190,4 @@ class VendedoresController extends Controller
         //return succesmsg + Update de view
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
