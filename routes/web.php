@@ -67,6 +67,8 @@ Route::get('/listaProductos/{id}', 'ProductosController@show')->name('productos.
 Route::get('/agregarProducto', 'ProductosController@create')->name('productos.create');
 Route::post('/agregarProducto', 'ProductosController@store')->name('productos.store');
 Route::get('/verPrecios', 'PreciosController@CargaMasivaCreate')->name('precios.create');
+Route::post('/cargaMasivaPrecios', 'PreciosController@cargaMasivaStore')->name('precios.cargaMasiva');
+Route::post('/cargaPrecio', 'PreciosController@productoIndividualStore')->name('precios.cargaProdIndividual');
 
 
 Route::group(['middleware' => ['role:Administracion']], function () {
