@@ -47,7 +47,7 @@ class PedidosController extends Controller
 	        	#Todos los pedidos
 				$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
 
-	        }elseif ($usuario->hasRole('Gestor_cliente')) {
+	        }elseif ($usuario->hasRole('Gestor_Cliente')) {
 	        	#Los pedidos que tengan su ID en alguno de los pedidos
 	        	
 	        	$idPedidosPadres=Pedido::where('id_usuario_reg','=',$usuario->id)->pluck('id_pedido_padre')->toArray();
@@ -55,7 +55,6 @@ class PedidosController extends Controller
 	            					->whereIn('id_pedido_padre',$idPedidosPadres)
 	        						->get();
 	        	
-
 	        }elseif ($usuario->hasRole('Cliente')) {
 	        	#Los Pedidos que le pertencen al vendedor
 	        	$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
@@ -72,7 +71,7 @@ class PedidosController extends Controller
 		//La creación de pedido  ->(Vendedores)
 	public function createRouter(){
 
-		if (Auth::user()->hasAnyRole('Administracion','Gestor_cliente')) {
+		if (Auth::user()->hasAnyRole('Administracion','Gestor_Cliente')) {
 			$vendedores=Vendedor::all();
 			return view('seleccionarVendedor')->with(compact('vendedores'));
 		}elseif (Auth::user()->hasRole('Vendedor')) {
