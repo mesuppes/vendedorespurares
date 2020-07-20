@@ -6,7 +6,7 @@
     <div class="main-panel">
         <!-- nav bar include -->
         @include('layouts.partials.nav')
-
+   @if(Route::is('home'))
     <div class="content">
         <div class="row">
             <div class="col-md-12 pl-1 pr-1">
@@ -43,6 +43,7 @@
             </div>
         </div>
     </div>
+    @endif
 
         @include('errors.custom-message')
 
