@@ -24,13 +24,15 @@ class VendedoresController extends Controller
 
     // ---!!! CREAR VENDEDORES !!!--- //
 
-    public function create()
-    {
+    public function create(){
+
         return view('agregarVendedor');
     }
-        public function edit()
-    {
-        return view('editarVendedor');
+
+    public function edit($id){
+
+        $cliente=Vendedor::find($id);
+        return view('editarVendedor',compact('cliente'));
     }
 
     public function update($id)
@@ -94,7 +96,6 @@ class VendedoresController extends Controller
             'id_usuario_reg'=>Auth::user()->id,
             ]);
         $id_vendedor=request('idVendedor');
-
         return redirect()->route('vendedor.show', ['id' => $id_vendedor]);
 
     }
