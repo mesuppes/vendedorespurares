@@ -37,7 +37,7 @@
                                     @foreach($productosSinPrecio as $producto)
                                     <tr>
                                         <th>{{$producto->nombre_comercial ?? 'No hay datos'}}
-                                        <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
+                                        <input type="hidden"  class="input_idproducto"  name="idProducto[]" value="{{$producto->id_producto}}">
                                         </th>
                                         <th>
                                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
@@ -94,7 +94,7 @@
                                     @foreach($listaPrecios as $producto)
                                     <tr>
                                         <th>{{$producto->producto->nombre_comercial ?? 'No hay datos'}}
-                                        <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
+                                        <input type="hidden" class="input_idproducto" name="idProducto[]" value="{{$producto->id_producto}}">
                                         </th>
                                         <th>
                                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
@@ -168,6 +168,8 @@
             $(this).parent().append('<button type="submit" class="btn btn-sm btn-success">Guardar</button><a class="btn btn-sm btn-danger" onclick="window.location.reload();">Cancelar</a>')
             $('.botonEditar').attr('disabled','true')
             $('.botonPrecioFuturo').attr('disabled','true')
+            $('.input_idproducto').attr('disabled','true')
+            $(this).closest('tr').find('.input_idproducto').removeAttr('disabled')
             $('#botonCargaMasiva').attr('disabled','true')
             $(this).closest('tr').find('.botonEditar').remove()
             $('#formCargaPrecios').attr('action','{{route('precios.cargaProdIndividual')}}')
