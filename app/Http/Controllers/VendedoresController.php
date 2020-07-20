@@ -8,10 +8,12 @@ use App\Producto;
 use App\VendedorCredito;
 use App\VendedorDescuentoGeneral;
 use App\VendedorDescuentoProducto;
+use App\User;
 use App\Http\Requests\VendedorCreateRequest;
 use App\Http\Requests\VendedorDescuentoCreateRequest;
 use App\Http\Requests\VendedorUpdateRequest;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class VendedoresController extends Controller
 {
@@ -155,15 +157,43 @@ class VendedoresController extends Controller
         }else{
             return redirect()->route('vendedor.createCredito', ['id' => $request['idVendedor']]);
         }
-
     }
 
-    public function show($id)
-    {
+    public function show($id){
         //Mostrar el vendedor
         $cliente=Vendedor::find($id);
         return view('verCliente')->with(compact('cliente'));
+    //Vendedor::find(2)->usuario()->count(); mostrar si tiene usuario
+    }
 
+    static public function createUser($id){
+
+        $cliente=Vendedor::find($id);
+
+        //Validar que el mail sea unico
+        $Validacion=User::where('email','=',$cliente->email)->count();
+        if ($Validacion==0) {
+            //Crear Usuario
+            $user=User::create([
+                'name' => $cliente->nombre." ".$cliente->apellidos,
+                'email' => $cliente->email,
+                'password' => Hash::make('Purares123'),
+            ]);
+            //AsignarRol
+            $user->assignRole('Cliente');
+            
+            $respuesta='Usuario generado. Contraseña provisoria: Purares123';
+        }else{
+            $respuesta='ok';
+        }
+        return $respuesta;
+    }
+
+    public function restaurarPassword($id){
+        $cliente=Vendedor::find($id);
+        User::find($cliente->usuario->id)->Update([
+            'password' => Hash::make('Purares123'),
+        ]);
     }
 
 }
