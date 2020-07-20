@@ -12,22 +12,22 @@
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
-                                    <h5 class="card-title">Editat vendedor</h5>
+                                    <h5 class="card-title">Editar vendedor</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" id="formEditarVendedor" action="{{route('vendedor.update')}}">
+                                    <form method="POST" id="formEditarVendedor" action="{{route('vendedor.update',$cliente->id_vendedor)}}">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Nombre</label>
-                                                    <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre" value="">
+                                                    <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre" value="{{$cliente->nombre}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Apellido</label>
-                                                    <input type="text" name="apellido" class="form-control" placeholder="Ingrese el apellido">
+                                                    <input type="text" name="apellido" class="form-control" placeholder="Ingrese el apellido" value="{{$cliente->apellidos}}">
                                                 </div>
                                             </div>
                                             </div>
@@ -35,13 +35,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Telefono 1</label>
-                                                    <input type="tel" name="telefono1" class="form-control" placeholder="Ingrese un telefono">
+                                                    <input type="tel" name="telefono1" class="form-control" placeholder="Ingrese un telefono" value="{{$cliente->telefono1}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Telefono 2</label>
-                                                    <input type="tel" name="telfono2" class="form-control" placeholder="Ingrese otro telefono">
+                                                    <input type="tel" name="telfono2" class="form-control" placeholder="Ingrese otro telefono" value="{{$cliente->telfono2}}">
                                                 </div>
                                             </div>
                                             </div>
@@ -49,13 +49,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Email</label>
-                                                    <input type="mail" name="email" class="form-control" placeholder="Ingrese un mail">
+                                                    <input type="mail" name="email" class="form-control" placeholder="Ingrese un mail" value="{{$cliente->email}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>CUIT</label>
-                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el CUIT">
+                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el CUIT" value="{{$cliente->cuit}}">
                                                 </div>
                                             </div>
                                             </div>
@@ -63,13 +63,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Direccion</label>
-                                                    <input type="text" name="direccion" class="form-control" placeholder="Ingrese la direccion">
+                                                    <input type="text" name="direccion" class="form-control" placeholder="Ingrese la direccion" value="{{$cliente->direccion}}" >
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Ciudad</label>
-                                                    <input type="text" name="ciudad" class="form-control" placeholder="Ingrese la ciudad">
+                                                    <input type="text" name="ciudad" class="form-control" placeholder="Ingrese la ciudad" value="{{$cliente->ciudad}}">
                                                 </div>
                                             </div>
                                             </div>
@@ -77,7 +77,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Provincia</label>
-                                                    <input type="text" name="provincia" class="form-control" placeholder="Ingrese la provincia">
+                                                    <input type="text" name="provincia" class="form-control" placeholder="Ingrese la provincia" value="{{$cliente->provincia}}">
                                                 </div>
                                             </div>
                                             </div>
@@ -85,7 +85,7 @@
                      <div class="bg-white card">
                         <div class="d-inline-flex justify-content-between">
                             <div class="d-flex pr-2">
-                                <button type="submit" id="botonAgregarVendedor" class="btn btn-success">Agregar Vendedor
+                                <button type="submit" id="botonAgregarVendedor" class="btn btn-success">Actualizar Cliente
 </button>
                         </div>
                              </div>
