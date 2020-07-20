@@ -43,7 +43,7 @@
                                             <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" disabled>$ </span>
                                             </div>
-                                                <input type="number"  name="precioKg[]" min=0 step=0.01 class="form-control precioUnidad" placeholder="Precio" value="{{$producto->precio_unidad}}" disabled>
+                                                <input type="number"  name="precioUnidad[]" min=0 step=0.01 class="form-control precioUnidad" placeholder="Precio" value="{{$producto->precio_unidad}}" disabled>
                                             </div>
                                         </th>
                                         <td>
@@ -51,7 +51,7 @@
                                             <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" disabled>$ </span>
                                             </div>
-                                                <input type="number"  name="precioUnidad[]" min=0 step=0.01 class="form-control precioKilo " placeholder="Precio" value="{{$producto->precio_kg}}" disabled>
+                                                <input type="number"  name="precioKg[]" min=0 step=0.01 class="form-control precioKilo " placeholder="Precio" value="{{$producto->precio_kg}}" disabled>
                                             </div>
                                         </td>
                                         <th>
@@ -93,7 +93,7 @@
                                             <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" disabled>$ </span>
                                             </div>
-                                                <input type="number"  name="precioKg[]" min=0 step=0.01 class="form-control precioUnidad " placeholder="Precio" value="{{$producto->precio_unidad}}" disabled>
+                                                <input type="number"  name="precioUnidad[]" min=0 step=0.01 class="form-control precioUnidad " placeholder="Precio" value="{{$producto->precio_unidad}}" disabled>
                                             </div>
                                         </th>
                                         <td>
@@ -101,7 +101,7 @@
                                             <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" disabled>$ </span>
                                             </div>
-                                                <input type="number"  name="precioUnidad[]" min=0 step=0.01 class="form-control precioKilo " placeholder="Precio" value="{{$producto->precio_kg}}" disabled>
+                                                <input type="number"  name="precioKg[]" min=0 step=0.01 class="form-control precioKilo " placeholder="Precio" value="{{$producto->precio_kg}}" disabled>
                                             </div>
                                         </td>
                                         <td>
