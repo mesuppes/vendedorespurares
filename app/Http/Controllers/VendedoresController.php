@@ -10,6 +10,7 @@ use App\VendedorDescuentoGeneral;
 use App\VendedorDescuentoProducto;
 use App\Http\Requests\VendedorCreateRequest;
 use App\Http\Requests\VendedorDescuentoCreateRequest;
+use App\Http\Requests\VendedorUpdateRequest;
 use Auth;
 
 class VendedoresController extends Controller
@@ -35,8 +36,7 @@ class VendedoresController extends Controller
         return view('editarVendedor',compact('cliente'));
     }
 
-    public function update($id)
-    {
+    public function update($id,VendedorUpdateRequest $request){
 
         Vendedor::find($id)->Update([
             'nombre'    =>$request['nombre'],
