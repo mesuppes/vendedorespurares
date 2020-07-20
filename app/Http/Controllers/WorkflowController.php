@@ -13,13 +13,13 @@ use App\Vendedor;
 
 class WorkflowController extends Controller
 {
-        static public function agregarPedidoCreate($idVendedor,$idPedido,$requiereAprobacion){ 
+        static public function agregarPedidoCreate($idVendedor,$idPedido,$requiereAprobacion){
 
     	//1-ID del usuario que lo carga
     	$idUsuario=User::find(Auth::user()->id);
 
     	//si el rol es vendedor->carga aprobación a rol admnistración
-        if ($idUsuario->hasAnyRole('cliente','Gestor_cliente'))      ) {
+        if ($idUsuario->hasAnyRole('cliente','Gestor_cliente'))   {
 
             $toRole= Role::findByName('Administracion')->id; //administrador
             $toUser=null;
@@ -54,26 +54,26 @@ class WorkflowController extends Controller
                     'task_type'     =>1,//pedidos
                     'id_task'       =>$idPedido,
                 ]);
-    
+
         return $insert;
-    	
+
     }
 
-    static public function ListaToDoUser($idUsuario){
+    static public function ListaToDoUser(){
 
         //1-Pending por el id_usuario
         //2-pending por los roles que tiene
-
+        $idUsuario=Auth::user()->id;
         //Roles que tiene el usuario
         $rolesUsuario=User::find($idUsuario)->roles->pluck('id')->toArray();
 
         $listaPending=WorkflowN::whereIn('to_role',$rolesUsuario)
                             ->where('status','=',1) //Pendiente de aprobacion
-                        ->orWhere('to_user','=',$idUsuario) 
+                        ->orWhere('to_user','=',$idUsuario)
                             ->where('status','=',1) //Pendiente de aprobacion
                         ->get();
 
-        return $listaPending;
+        return view('home')->with(compact('listaPending'));
     }
 
 
@@ -84,14 +84,14 @@ class WorkflowController extends Controller
 
     	//Flujo
     	$wf=WorkflowN::find($idWF);
- 
+
     	//0-Ver que el estado siga siendo pendiente
     	if ($wf->status == 1) {
     		$wf->update([
     			'status'	=> $newStatus,
     			'user_done'	=> User::find(Auth::user()->id)->id
     		]);
-    		
+
     		$wf_n=WorkflowController::decodificar(1)->first();
     		$respuesta="El pedido ha sido ". WorkflowController::decodificar(1)->first()->status_n;
 

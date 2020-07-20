@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
 Auth::routes();
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'WorkflowController@ListaToDoUser')->name('home');
 
 
 //PEDIDOS
@@ -53,7 +53,7 @@ Route::get('/listaPedidos/{id}', 'PedidosController@show')->name('pedido.show');
 Route::resource('AgregarPedidos', 'PedidosController@create');
 Route::get('/agregarPedido/{idVendedor?}', 'PedidosController@create')->name('pedido.create');
 
-Route::group(['middleware' => ['can:Pedidos_Clientes']], function (){ 
+Route::group(['middleware' => ['can:Pedidos_Clientes']], function (){
     Route::get('/seleccionarVendedor', 'PedidosController@createRouter')->name('pedido.createRouter');
 });
 
@@ -62,7 +62,7 @@ Route::post('/cargarProductos', 'PedidosController@cargarProductos')->name('carg
 Route::get('/editarPedido/{id?}', 'PedidosController@edit')->name('pedido.edit');
 
 #ARMAR PEDIDO
-Route::group(['middleware' => ['can:Pedidos_Armar']], function (){ 
+Route::group(['middleware' => ['can:Pedidos_Armar']], function (){
     Route::get('/armarPedido/{idPedido}', 'PedidosController@armarPedidoCreate')->name('pedido.armar');
     Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPedido.store');
 });
@@ -70,7 +70,7 @@ Route::group(['middleware' => ['can:Pedidos_Armar']], function (){
 Route::group(['middleware' => ['can:Clientes_VerTodos']], function (){
     Route::get('/verClientes', 'VendedoresController@index')->name('vendedores.index');
     Route::get('/verCliente/{id}', 'VendedoresController@show')->name('vendedor.show');
-}); 
+});
 
 #AGREGAR CLIENTE
 Route::group(['middleware' => ['can:Clientes_Detalles']], function (){
