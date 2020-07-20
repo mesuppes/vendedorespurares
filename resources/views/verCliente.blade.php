@@ -11,6 +11,7 @@
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
+                                <a href="{{route('vendedor.edit',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm">Editar</a>
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Cliente {{$cliente->nombre}} {{$cliente->apellidos}}</h5>
                                 </div>

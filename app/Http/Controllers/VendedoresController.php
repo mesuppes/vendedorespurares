@@ -14,7 +14,7 @@ use Auth;
 
 class VendedoresController extends Controller
 {
-   
+
     public function index()
     {
         $vendedores=Vendedor::get();
@@ -28,10 +28,14 @@ class VendedoresController extends Controller
     {
         return view('agregarVendedor');
     }
+        public function edit()
+    {
+        return view('editarVendedor');
+    }
 
     public function update($id)
     {
-        
+
         Vendedor::find($id)->Update([
             'nombre'    =>$request['nombre'],
             'apellidos'  =>$request['apellido'],
@@ -144,12 +148,12 @@ class VendedoresController extends Controller
                     ]);
                 }
             }
-       
+
         if (Vendedor::find($request['idVendedor'])->credito()->count()>0) {
             return redirect()->route('vendedor.show', $request['idVendedor']);
         }else{
             return redirect()->route('vendedor.createCredito', ['id' => $request['idVendedor']]);
-        }        
+        }
 
     }
 

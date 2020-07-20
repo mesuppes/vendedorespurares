@@ -61,6 +61,8 @@ Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPe
 Route::get('/agregarVendedor', 'VendedoresController@create')->name('vendedores.create');
 Route::get('/verClientes', 'VendedoresController@index')->name('vendedores.index');
 Route::get('/verCliente/{id}', 'VendedoresController@show')->name('vendedor.show');
+Route::get('/editarCliente/{id}', 'VendedoresController@edit')->name('vendedor.edit');
+Route::post('/editarCliente', 'VendedoresController@update')->name('vendedor.update');
 Route::post('/agregarVendedor', 'VendedoresController@store')->name('vendedores.store');
 Route::get('/asignarCredito/{id?}', 'VendedoresController@createCredito')->name('vendedor.createCredito');
 Route::post('/asignarCredito', 'VendedoresController@storeCredito')->name('vendedor.creditoStore');

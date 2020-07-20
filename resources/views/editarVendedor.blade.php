@@ -12,16 +12,16 @@
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
-                                    <h5 class="card-title">Agregar vendedor</h5>
+                                    <h5 class="card-title">Editat vendedor</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" id="formAgregarVendedor" action="{{route('vendedores.store')}}">
+                                    <form method="POST" id="formEditarVendedor" action="{{route('vendedor.update')}}">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Nombre</label>
-                                                    <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre">
+                                                    <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
