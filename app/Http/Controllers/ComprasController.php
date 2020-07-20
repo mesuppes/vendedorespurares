@@ -29,6 +29,8 @@ class ComprasController extends Controller
 
     public function store(CompraCreateRequest $request){
 
+        return 1;#$request;
+
             //1-ENCABEZADO
         $compra=Compra::create([
             'id_proveedor'  =>$request['idProveedor'],

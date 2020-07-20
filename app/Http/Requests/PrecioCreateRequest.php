@@ -13,7 +13,7 @@ class PrecioCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,10 @@ class PrecioCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'idProducto'=>'require',
-            'precioKg'=>'require',
-            'precioUnidad'=>'require',
-            'fechaDesde'=>'require',
+            'idProducto'    =>'required',
+            'precioKg'      =>'required',
+            'precioUnidad'  =>'required',
+            'fechaDesde'    =>'required',
                 //No tiene que existir ninguna fecha posterior ni igual
                 //tiene que ser mayor a hoy
         ];

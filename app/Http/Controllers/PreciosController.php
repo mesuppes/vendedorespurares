@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\PrecioV;
 use App\Producto;
+use App\Http\Requests\PrecioCreateRequest;
 
 class PreciosController extends Controller
 {
@@ -32,7 +33,10 @@ class PreciosController extends Controller
     static public function productoIndividualStore(PrecioCreateRequest $request){
 
         //Validar Fecha
-        $validacion=PreciosController::validarFechaDesde($idProducto,$fechaDesde);
+        $validacion=PreciosController::validarFechaDesde($request['idProducto'],$request['fechaDesde']);
+
+        return 'ok';
+
         if ($validacion=='ok') {
             //Cargar Precios
             $nuevoPrecio=Precio::create([
@@ -53,7 +57,7 @@ class PreciosController extends Controller
         //VALIDAR QUE CUMPLAN CON LOS REQUISITOS
         $longitud=count($request['idProducto']);
         for ($i=0; $i <$longitud ; $i++) { 
-            $validacion=PreciosController::validarFechaDesde($idProducto,$fechaDesde);
+            $validacion=PreciosController::validarFechaDesde($request['idProducto'][$i],$request['fechaDesde'][$i]);
             if ($validacion!='ok') {
                 return "Error".$validacion;
             }
@@ -81,18 +85,25 @@ class PreciosController extends Controller
 
     static public function validarFechaDesde($idProducto,$fechaDesde){
 
-        if ($fechaDesde>today()) {
-
-            $lastDate=PrecioV::find($idProducto)->producto->precio()->where('fecha_desde','>',today())->where('anulado','=',null)->orderBy('fecha_reg', 'desc')->first()->fecha_desde;
-            
-            if ($lastDate==null) {
-                $respuesta='ok';
-            }else{
-                if ($lastDate>=$fechaDesde) {
+        //Mayor o igual a HOY
+        if ($fechaDesde >= today()->format('Y-m-d')) {
+            //Si ya tiene un precio 
+            if (PrecioV::find($idProducto) != null) {
+                    #$lastDate=null;
+                    $lastprice=PrecioV::find($idProducto)->producto->precio()->where('fecha_desde','>',today())->where('anulado','=',null)->orderBy('fecha_reg', 'desc')->first()->fecha_desde;
+                
+                //Determinar  si ya tiene una modificación futura
+                if ($lastprice==null) {
                     $respuesta='ok';
                 }else{
-                    $respuesta='Ya existe una modificación futura';
+                    if ($lastprice->fecha_desde>=$fechaDesde) {
+                        $respuesta='ok';
+                    }else{
+                        $respuesta='Ya existe una modificación futura';
+                    }
                 }
+            }else{
+                $respuesta='ok';
             }
         }else{
             $respuesta='La fecha debe ser mayor a hoy';

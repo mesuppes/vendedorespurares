@@ -49,10 +49,13 @@ class PedidosController extends Controller
 
 	        }elseif ($usuario->hasRole('Gestor_cliente')) {
 	        	#Los pedidos que tengan su ID en alguno de los pedidos
-	        	$idPedidosPadres=Pedido::where('id_usuario_reg','=','2')->pluck('id_pedido_padre')->toArray();
+	        	
+	        	$idPedidosPadres=Pedido::where('id_usuario_reg','=',$usuario->id)->pluck('id_pedido_padre')->toArray();
 	            $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
 	            					->whereIn('id_pedido_padre',$idPedidosPadres)
 	        						->get();
+	        	
+
 	        }elseif ($usuario->hasRole('Cliente')) {
 	        	#Los Pedidos que le pertencen al vendedor
 	        	$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
@@ -81,12 +84,12 @@ class PedidosController extends Controller
 
 	static public function create()
 	{
-		if (Auth::user()->hasAnyRole('Administracion','Gestor_cliente')) {
+		if (Auth::user()->hasAnyRole('Administracion','Gestor_Cliente')) {
 			$vendedor=Vendedor::find(request('idVendedor'));
 			$productos= PedidosController::tablaProductoDescuento(request('idVendedor'));
 			return view('agregarPedido')->with(compact('productos','vendedor'));
 		
-		}elseif (Auth::user()->hasRole('Vendedor')) {
+		}elseif (Auth::user()->hasRole('Cliente')) {
 			$vendedor=User::find(Auth::user()->id)->vendedor;
 			$productos= PedidosController::tablaProductoDescuento($vendedor->id_vendedor);
 			return view('agregarPedido')->with(compact('productos','vendedor'));

@@ -181,7 +181,11 @@ class VendedoresController extends Controller
             ]);
             //AsignarRol
             $user->assignRole('Cliente');
-            
+            //Asignar usuario al cliente
+            $cliente->update([
+                'id_usuario_vendedor'=>$user->id,
+            ]);
+
             $respuesta='Usuario generado. Contraseña provisoria: Purares123';
         }else{
             $respuesta='El mail ya se encuentra registrado';

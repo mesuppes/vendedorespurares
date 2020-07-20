@@ -14,7 +14,6 @@ class ProductosController extends Controller
     public function index()
     {
         $productos=Producto::all();
-
         return view('listaProductos', compact('productos'));
 
     }
@@ -22,12 +21,8 @@ class ProductosController extends Controller
     public function show($idproducto)
     {
         $producto=Producto::find($idproducto);
-
         return view('inspeccionarProducto')->with(compact('producto'));
-
     }
-
-
 
 
     public function create()
@@ -57,8 +52,8 @@ class ProductosController extends Controller
             'id_usuario_reg'        =>Auth::user()->id,
         ]);
 
-        $id=$nuevoProducto->id_producto;
-        return view('inspeccionarProducto')->with(id);//agregar succes cartel
+        $producto=Producto::find($nuevoProducto->id_producto);
+        return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
 
     public function Update(ProductoCreateRequest $request,$id_producto)
@@ -73,8 +68,8 @@ class ProductosController extends Controller
             'id_usuario_reg'        =>Auth::user()->id,
         ]);
 
-        $id=$nuevoProducto->id_producto;
-        return view('inspeccionarProducto')->with(id);//agregar succes cartel
+        $producto=Producto::find($nuevoProducto->id_producto);
+        return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
 
 }
