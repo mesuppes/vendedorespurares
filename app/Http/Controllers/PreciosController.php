@@ -12,14 +12,12 @@ use App\Http\Requests\PrecioCreateRequest;
 class PreciosController extends Controller
 {
     
-
     static public function productoIndividualCreate($idProducto){
         $listaPrecios=PrecioV::find($idProducto);
         return $listaPrecios;
     }
 
     static public function CargaMasivaCreate(){
-
         //La vista lista de precios
         $listaPrecios=PrecioV::all();
 
@@ -30,11 +28,8 @@ class PreciosController extends Controller
         return view('listaPrecios')->with(compact('productosSinPrecio','listaPrecios'));
     }
 
-
     static public function productoIndividualStore(PrecioCreateRequest $request){
 
-        return $request;
-        
             //Cargar Precios
             $nuevoPrecio=Precio::create([
                 'id_producto'   =>$request['idProducto'][0],
@@ -46,7 +41,6 @@ class PreciosController extends Controller
     }
 
     static public function cargaMasivaStore(PrecioCreateRequest $request){
-
         
         $idModificacion=(Precio::orderBy('id_modificacion','desc')
                                 ->first()
@@ -64,7 +58,7 @@ class PreciosController extends Controller
                 ]);
             }
         } 
-        return "Precio actualizado";
+        return PreciosController::CargaMasivaCreate();
     }
 
 }
