@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Precio;
 use App\PrecioV;
 use App\Producto;
 use App\Http\Requests\PrecioCreateRequest;
@@ -35,8 +36,7 @@ class PreciosController extends Controller
         //Validar Fecha
         $validacion=PreciosController::validarFechaDesde($request['idProducto'],$request['fechaDesde']);
 
-        return 'ok';
-
+        return $request;
         if ($validacion=='ok') {
             //Cargar Precios
             $nuevoPrecio=Precio::create([
@@ -87,24 +87,7 @@ class PreciosController extends Controller
 
         //Mayor o igual a HOY
         if ($fechaDesde >= today()->format('Y-m-d')) {
-            //Si ya tiene un precio 
-            if (PrecioV::find($idProducto) != null) {
-                    #$lastDate=null;
-                    $lastprice=PrecioV::find($idProducto)->producto->precio()->where('fecha_desde','>',today())->where('anulado','=',null)->orderBy('fecha_reg', 'desc')->first()->fecha_desde;
-                
-                //Determinar  si ya tiene una modificación futura
-                if ($lastprice==null) {
-                    $respuesta='ok';
-                }else{
-                    if ($lastprice->fecha_desde>=$fechaDesde) {
-                        $respuesta='ok';
-                    }else{
-                        $respuesta='Ya existe una modificación futura';
-                    }
-                }
-            }else{
-                $respuesta='ok';
-            }
+            $respuesta='ok';
         }else{
             $respuesta='La fecha debe ser mayor a hoy';
         }
