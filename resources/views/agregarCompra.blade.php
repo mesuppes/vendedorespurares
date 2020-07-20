@@ -15,7 +15,7 @@
                                     <h5 class="card-title">Agregar Compra</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form type="POST" action="{{route('compras.store')}}">
+                                    <form method="POST" action="{{route('compras.store')}}">
                                     @csrf
                                         <div class="row">
                                             <div class="col-md-6">
@@ -103,7 +103,7 @@
                             <p>TOTAL: $ <a class="monto_total"></a></p>
                         </div>
                         <div class="d-flex pr-2">
-                            <button id="botonHacerCompra" class="btn btn-success">Hacer compra
+                            <button  type="submit" id="botonHacerCompra" class="btn btn-success">Hacer compra
 </button>
                         </div>
                              </div>
