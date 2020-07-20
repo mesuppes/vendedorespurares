@@ -184,7 +184,7 @@ class VendedoresController extends Controller
             
             $respuesta='Usuario generado. Contraseña provisoria: Purares123';
         }else{
-            $respuesta='ok';
+            $respuesta='El mail ya se encuentra registrado';
         }
         return $respuesta;
     }
