@@ -12,14 +12,12 @@ use App\Http\Requests\PrecioCreateRequest;
 class PreciosController extends Controller
 {
     
-
     static public function productoIndividualCreate($idProducto){
         $listaPrecios=PrecioV::find($idProducto);
         return $listaPrecios;
     }
 
     static public function CargaMasivaCreate(){
-
         //La vista lista de precios
         $listaPrecios=PrecioV::all();
 
@@ -30,40 +28,20 @@ class PreciosController extends Controller
         return view('listaPrecios')->with(compact('productosSinPrecio','listaPrecios'));
     }
 
-
     static public function productoIndividualStore(PrecioCreateRequest $request){
 
-        //Validar Fecha
-        $validacion=PreciosController::validarFechaDesde($request['idProducto'],$request['fechaDesde']);
-
-        return $request;
-        if ($validacion=='ok') {
             //Cargar Precios
             $nuevoPrecio=Precio::create([
-                'id_producto'   =>$request['idProducto'],
-                'precio_kg'     =>$request['precioKg'],
-                'precio_unidad' =>$request['precioUnidad'],
-                'fecha_desde'   =>$request['fechaDesde'],
+                'id_producto'   =>$request['idProducto'][0],
+                'precio_kg'     =>$request['precioKg'][0],
+                'precio_unidad' =>$request['precioUnidad'][0],
+                'fecha_desde'   =>today()->format('Y-m-d'),
             ]);
-            return "Precio actualizado";
-        }else{
-            return "Error".$validacion;
-        }
-
+            return PreciosController::CargaMasivaCreate();
     }
 
     static public function cargaMasivaStore(PrecioCreateRequest $request){
-
-        //VALIDAR QUE CUMPLAN CON LOS REQUISITOS
-        $longitud=count($request['idProducto']);
-        for ($i=0; $i <$longitud ; $i++) { 
-            $validacion=PreciosController::validarFechaDesde($request['idProducto'][$i],$request['fechaDesde'][$i]);
-            if ($validacion!='ok') {
-                return "Error".$validacion;
-            }
-        }
-        //CARCAR EN LA BD
-
+        
         $idModificacion=(Precio::orderBy('id_modificacion','desc')
                                 ->first()
                                 ->id_modificacion)
@@ -76,24 +54,12 @@ class PreciosController extends Controller
                     'id_producto'   =>$request['idProducto'][$i],
                     'precio_kg'     =>$request['precioKg'][$i],
                     'precio_unidad' =>$request['precioUnidad'][$i],
-                    'fecha_desde'   =>$request['fechaDesde'][$i],
+                    'fecha_desde'   =>today()->format('Y-m-d'),
                 ]);
             }
         } 
-        return "Precio actualizado";
+        return PreciosController::CargaMasivaCreate();
     }
-
-    static public function validarFechaDesde($idProducto,$fechaDesde){
-
-        //Mayor o igual a HOY
-        if ($fechaDesde >= today()->format('Y-m-d')) {
-            $respuesta='ok';
-        }else{
-            $respuesta='La fecha debe ser mayor a hoy';
-        }
-        return $respuesta;
-    }
-
 
 }
 

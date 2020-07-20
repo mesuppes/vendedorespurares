@@ -53,7 +53,7 @@ Route::get('/listaPedidos/{id}', 'PedidosController@show')->name('pedido.show');
 Route::resource('AgregarPedidos', 'PedidosController@create');
 Route::get('/agregarPedido/{idVendedor?}', 'PedidosController@create')->name('pedido.create');
 
-Route::group(['middleware' => ['can:Productos_Gestionar']], function (){ 
+Route::group(['middleware' => ['can:Pedidos_Clientes']], function (){ 
     Route::get('/seleccionarVendedor', 'PedidosController@createRouter')->name('pedido.createRouter');
 });
 
