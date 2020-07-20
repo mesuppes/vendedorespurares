@@ -119,6 +119,18 @@
               <p>Ver clientes</p>
             </a>
           </li>
+             <li {{Route::is('compras.index')? 'class=active':''}}>
+            <a href="{{route('compras.index')}}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Ver compras</p>
+            </a>
+          </li>
+            <li {{Route::is('compras.create')? 'class=active':''}}>
+            <a href="{{route('compras.create')}}">
+              <i class="nc-icon nc-bank"></i>
+              <p>Agregar compra</p>
+            </a>
+          </li>
       @endrole
       @role('admin')
         <li {{Route::is('home')? 'class=active':''}}>

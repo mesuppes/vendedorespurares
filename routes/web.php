@@ -75,6 +75,10 @@ Route::post('/agregarProducto', 'ProductosController@store')->name('productos.st
 Route::get('/verPrecios', 'PreciosController@CargaMasivaCreate')->name('precios.create');
 Route::post('/cargaMasivaPrecios', 'PreciosController@cargaMasivaStore')->name('precios.cargaMasiva');
 Route::post('/cargaPrecio', 'PreciosController@productoIndividualStore')->name('precios.cargaProdIndividual');
+Route::get('/listaCompras', 'ComprasController@index')->name('compras.index');
+Route::get('/verCompra/{id}', 'ComprasController@show')->name('compras.show');
+Route::get('/agregarCompra', 'ComprasController@create')->name('compras.create');
+Route::post('/agregarCompra', 'ComprasController@store')->name('compras.store');
 
 
 Route::group(['middleware' => ['role:Administracion']], function () {
