@@ -12,11 +12,11 @@
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
                             <div class="alert
-                            @if($wf->status=2||$wf->status=4)
+                            @if($wf->status==2||$wf->status==4)
                             alert-success
-                            @elseif($wf->status=1)
+                            @elseif($wf->status==1)
                             alert-warning
-                            @elseif($wf->status=3)
+                            @elseif($wf->status==3)
                             alert-danger
                             @endif
                              " role="alert">
@@ -26,10 +26,13 @@
                                     <h5 class="card-title">Datos del pedido
                                     <span class="badge badge-warning">{{$wf->statusN->nombre}}</span>
                                     </h5>
-                                    <a href="{{route('pedido.edit', $pedidoDescUltimo->id_pedido)}}" class="btn btn-sm btn-primary ml-auto">Editar pedido</a>
-                                    <a href="{{route('pedido.armar', $pedidoDescUltimo->id_pedido)}}"  class="btn btn-sm btn-success ml-auto">Armar pedido</a>
-                                    <a class="btn btn-sm btn-danger ml-auto">Rechazar pedido</a>
+                                    
+                                    @if($accion=='si')
 
+                                    <a href="{{route('pedido.armar', $pedidoDescUltimo->id_pedido)}}"  class="btn btn-sm btn-success ml-auto">Armar pedido</a>
+                                    
+                                    <a class="btn btn-sm btn-danger ml-auto">Rechazar pedido</a>
+                                    @endif
                                 </div>
                                 <div class="card-body">
                                     <form>
@@ -84,7 +87,7 @@
                                             <tbody>
                                                 @foreach($pedidoProdUltimo as $producto)
                                                 <tr>
-                                                    <td>{{$producto->producto['nombre_comercial']}}</td>
+                                                    <td>{{$producto->items->nombre_comercial}}</td>
                                                     <td>${{$producto->precio_unitario}}/{{$producto->tipo_medida}}</td>
                                                     <td>
                                                         <div class="mb-1">

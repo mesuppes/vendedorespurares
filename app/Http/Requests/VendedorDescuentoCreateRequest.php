@@ -16,9 +16,9 @@ class VendedorDescuentoCreateRequest extends FormRequest
     {
         return [
             'idVendedor'        =>'required',
-            'descuentoGeneral'  =>'nullable',#'between:0,1',
+            'descuentoGeneral'  =>'nullable | between:0,100',
             'idProducto'        =>'nullable',
-            'descuentoProducto' =>'nullable',#'between:0,1',
+            'descuentoProducto' =>'nullable | between:0,100',
         ];
     }
 }

@@ -96,18 +96,15 @@ class PedidosController extends Controller
 			return "ERROR - Su rol no permite realizar la operación";
 		}}
 
-	//Almacenar el Pedido
-
-	public function store(CrearPedidoRequest $request)
-	{
-
+	public function store(CrearPedidoRequest $request){
+		
 		//VALIDAR STOCK
-		$validarStock=¨PedidosController::validarStockPedido($request['idProducto'],$request['tipoMedida'],$request['cantidad']);
+		$validarStock=PedidosController::validarStockPedido($request['idProducto'],$request['tipoMedida'],$request['cantidad']);
 		if ($validarStock!='ok') {
 			return $validarStock;
 		}
 
-		//VALIDAR CRÉDITO
+	//VALIDAR CRÉDITO
 
 				#!!!PENDIENTE!!!
 				#!!!PENDIENTE!!!
@@ -180,7 +177,7 @@ class PedidosController extends Controller
 
 	}
 
-	public function show($id){
+	static public function show($id){
 
 		//Buscar El Pedido Hijo mas Reciente
 		$pedidoHijo=Pedido::where('id_pedido_padre','=',$id)->latest()->first();
@@ -208,11 +205,21 @@ class PedidosController extends Controller
 								['task_type','=','1'], // 1->Corresponde a la tabla Pedido
 								['id_task','=',$pedidoDescUltimo->id_pedido]
 							])
+					->orderBy('id_workflow','desc')
 					->first();
-
+		
+ 
+		$ok=WorkflowController::ListaToDoUserQuery()->pluck('id_workflow')->toArray();
+		
+		if (in_array($wf->id_workflow, $ok)) {
+			$accion='si';
+		}else{ 
+			$accion='no';
+		}
+		
 	$msjStatus=PedidosController::statusMensaje($wf->id_workflow);
 
-	return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf','msjStatus'));
+	return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf','msjStatus','accion'));
 
 	}
 
@@ -240,6 +247,20 @@ class PedidosController extends Controller
 		return $msg;
 	}
 
+	static public function rechazar($idwf){
+		
+		#$wf=WorkflowN::find($idwf)
+		//$pedido=pedido::find($idPedido);
+
+		//Anular pedido
+
+		//Modificar el WF
+		#WorkflowController::actualizar($idWF,$newStatus)
+
+	}
+
+
+		/// -------------ARMAR PEDIDOS------------- ///
 
 	static public function armarPedidoCreate($idPedido){
 
@@ -254,10 +275,17 @@ class PedidosController extends Controller
 	public function armarPedidoStore(ArmarPedidoRequest $request){
 
 
+	//VALIDAR QUE SIGA PENDIENTE
+		$wf=WorkflowN::where('task_type','=',1)->where('id_task','=',$request['idPedido'])->orderBy('id_workflow','desc')->first();
+
+		if(isset($wf->user_done)){
+			return "El pedido ya se ha ".$wf->statusN->nombre." por ".$wf->userDoneN->name;
+		}		
+
 	//VALIDAR STOCK
-		$validarStock=¨PedidosController::validarStockFactura($request['idProducto'],$request['cantidadKg'],$request['cantidadUnidades']);
+		$validarStock=PedidosController::validarStockFactura($request['idProducto'],$request['cantidadKg'],$request['cantidadUnidades']);
 		if ($validarStock!='ok') {
-			return $validarStock;
+			return "Stock insuficiente";
 		}
 
 	$idVendedor=Pedido::find($request['idPedido'])->id_vendedor;
@@ -328,6 +356,10 @@ class PedidosController extends Controller
 				]);
 			}
 		}
+
+		//Cambiar estado de wf
+		$newWf=WorkflowController::armarPedido($wf->id_workflow);
+
 		return "factura creada".$idFactura;
 		//return redirect('/listaFacturas/'.$idFactura)->with('facturaCreada');		
 	}	
@@ -363,7 +395,7 @@ class PedidosController extends Controller
 			
 			for ($i=0; $i <$longitud ; $i++) { 
 				//Cantidad Mayor a cero
-				if ($cantidad[$i]>0) {
+				if ($cantidad_kg[$i]>0 && $cantidad_unidades[$i]>0) {
 					$producto=$stockProductos->find($productos[$i]);
 					//VALIDACION
 					if ($producto->stock_kg < $cantidad_kg[$i] ||

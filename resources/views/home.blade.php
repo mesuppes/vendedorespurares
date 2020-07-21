@@ -19,15 +19,27 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Pendiente</th>
+                                        <th>Tarea</th>
+                                        <th>Estado</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @forelse($listaPending as $pendiente)
                                     <tr>
-                                        <td>{{$pendiente}}</td>
+                                        <td>{{$pendiente->fromUserN->name}} ha 
+                                            <b>{{$pendiente->actionDoneN->nombre}}</b>. Requiere que tome acción. ({{$pendiente->date_start->diffForHumans()}}) 
+                                        </td>
                                         <td>
+                                            {{$pendiente->statusN->nombre}}
+                                        </td>
+                                        <td>
+                                            @if($pendiente->task_type==1) <!--1=Pedidos-->
+                                            <div class="mb-1">
+                                                <a type="button" class="btn btn-sm col-12 btn-primary"
+                                                   href="{{route('pedido.show', $pendiente->id_task)}}"> Ver pedido</a>
+                                            </div>
+                                            @endif
                                         </td>
                                     </tr>
                                     @empty

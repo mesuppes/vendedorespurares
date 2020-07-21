@@ -11,22 +11,23 @@ use App\WorkflowN;
 use DB;
 use App\Vendedor;
 
-class WorkflowController extends Controller
-{
+class WorkflowController extends Controller{
+        
+
         static public function agregarPedidoCreate($idVendedor,$idPedido,$requiereAprobacion){
 
     	//1-ID del usuario que lo carga
-    	$idUsuario=User::find(Auth::user()->id);
+    	$Usuario=Auth::user();
 
     	//si el rol es vendedor->carga aprobación a rol admnistración
-        if ($idUsuario->hasAnyRole('cliente','Gestor_cliente'))   {
+        if ($Usuario->hasAnyRole('Cliente','Gestor_Cliente'))   {
 
             $toRole= Role::findByName('Administracion')->id; //administrador
             $toUser=null;
             $actionToDo=4;//aprobar pedido
             $status=1;
         //Si el rol es Vendedor->Cargar WF o saltar Aprob
-        }elseif ($idUsuario->hasRole('Administracion')) {
+        }elseif ($Usuario->hasRole('Administracion')) {
             //Si el campo saltar aprobación no esta tildado
             if ($requiereAprobacion==1) {
                 $toRole=null;
@@ -45,7 +46,7 @@ class WorkflowController extends Controller
 
          //Cargar en la DB
                 $insert=WorkflowN::create([
-                    'from_user'     =>User::find(Auth::user()->id)->id,
+                    'from_user'     =>Auth::user()->id,
                     'action_done'   =>1,//Agregar Pedido
                     'to_role'       =>$toRole,
                     'to_user'       =>$toUser,
@@ -59,19 +60,54 @@ class WorkflowController extends Controller
 
     }
 
+
+    static public function armarpedido($idWF){
+
+        //Actualizar el WF
+        $wf=WorkflowN::find($idWF);
+
+        $wf->update([
+            'user_done'=>Auth::user()->id,
+            'resolution'=>6,//Pedido aprobado
+        ]);
+
+        //Cargar un nuevo 
+        $insert=WorkflowN::create([
+                    'from_user'     =>Auth::user()->id,
+                    'action_done'   =>6,//Agregar Pedido
+                    'status'        =>2,
+                    'task_type'     =>1,//pedidos
+                    'id_task'       =>$wf->id_task,
+                    'user_done'     =>Auth::user()->id,  
+                ]);
+
+        return $insert;
+    }
+
+
+    static public function ListaToDoUserQuery(){    
+        
+        //1-Pending por el id_usuario
+        //2-pending por los roles que tiene
+        $idUsuario=Auth::user()->id;
+        
+        //Roles que tiene el usuario
+        $rolesUsuario=User::find($idUsuario)->roles->pluck('id')->toArray();
+
+        $listaPending=WorkflowN::whereIn('to_role',$rolesUsuario)//1-ROL
+                            ->where('user_done','=',null) //Pendiente de aprobacion
+                        ->orWhere('to_user','=',$idUsuario)//2-USER
+                            ->where('user_done','=',null) //Pendiente de aprobacion
+                        ->get();
+
+        return $listaPending;
+    }
+
     static public function ListaToDoUser(){
 
         //1-Pending por el id_usuario
         //2-pending por los roles que tiene
-        $idUsuario=Auth::user()->id;
-        //Roles que tiene el usuario
-        $rolesUsuario=User::find($idUsuario)->roles->pluck('id')->toArray();
-
-        $listaPending=WorkflowN::whereIn('to_role',$rolesUsuario)
-                            ->where('status','=',1) //Pendiente de aprobacion
-                        ->orWhere('to_user','=',$idUsuario)
-                            ->where('status','=',1) //Pendiente de aprobacion
-                        ->get();
+        $listaPending=WorkflowController::ListaToDoUserQuery();
 
         return view('home')->with(compact('listaPending'));
     }
@@ -89,7 +125,7 @@ class WorkflowController extends Controller
     	if ($wf->status == 1) {
     		$wf->update([
     			'status'	=> $newStatus,
-    			'user_done'	=> User::find(Auth::user()->id)->id
+    			'user_done'	=> Auth::user()->id,
     		]);
 
     		$wf_n=WorkflowController::decodificar(1)->first();

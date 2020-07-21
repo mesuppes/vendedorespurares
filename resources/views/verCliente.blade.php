@@ -86,7 +86,7 @@
                                         <label>Descuento general</label>
                                           <a href="{{route('vendedor.createDescuento',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm">Editar</a>
                                         <div class="input-group">
-                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" readonly value="{{$cliente->descuentoGeneral->descuento}}">
+                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" readonly value="{{$cliente->descuentoGeneral->descuento ?? 'No hay datos'}}">
                                         <div class="input-group-append pr-0">
                                             <span class="input-group-text text-center">&nbsp;%</span>
                                         </div>
@@ -124,13 +124,13 @@
                                 <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" disabled>$ </span>
                                             </div>
-                                                <input type="number"  name="" min=0 step=0.01 class="form-control " placeholder="Credito" value="{{$cliente->credito()->orderby('fecha_reg','desc')->first()->monto}}" readonly>
+                                                <input type="number"  name="" min=0 step=0.01 class="form-control " placeholder="Credito" value="{{$cliente->credito()->orderby('fecha_reg','desc')->first()->monto ?? 'No hay datos'}}" readonly>
                                             </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Fecha desde</label>
                                   <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                                <input type="text"  name="" class="form-control " placeholder="fecha desde" value="{{$cliente->credito()->orderby('fecha_reg','desc')->first()->fecha_reg->formatLocalized('%d/%m/%Y')}}" readonly>
+                                                <input type="text"  name="" class="form-control " placeholder="fecha desde" value="{{$cliente->credito()->orderby('fecha_reg','desc')->first()->fecha_reg ?? 'No hay datos'}}" readonly>
                                             </div>
                                     </div>
                                          <a href="{{route('vendedor.createCredito',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm">Editar</a>

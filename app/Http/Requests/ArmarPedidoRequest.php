@@ -20,7 +20,7 @@ class ArmarPedidoRequest extends FormRequest
     public function rules()
     {
         return [
-            #'idPedido'      =>'required',
+            'idPedido'      =>'required',
             'idProducto'    =>'required',
             'cantidadUnidades'=>'required',
             'cantidadKg'    =>'required',            

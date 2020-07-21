@@ -34,7 +34,7 @@
                                         <td><font color="#ffffff">
                                             <span style="font-size: 10.5px; white-space: nowrap; background-color: rgb(81, 203, 206);">
                                                 <b>
-                                                Pendiente    
+                                                {{$pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre ?? "error"}}    
                                                 </b>
                                             </span></font></td>
                                         <th>${{$pedido->productos->sum('precio_final')}}</th>

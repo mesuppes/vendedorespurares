@@ -30,7 +30,7 @@
                                             <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" >$ </span>
                                             </div>
-                                        <input type="number" min="0" step=0.01 class="form-control" name="monto" placeholder="Ingrese el monto" value="{{$vendedor->credito()->orderby('fecha_reg','desc')->first()->monto}}">
+                                        <input type="number" min="0" step=0.01 class="form-control" name="monto" placeholder="Ingrese el monto" value="{{$vendedor->credito()->orderby('fecha_reg','desc')->first()->monto ?? ''}}">
                                     </div>
                                     </div>
                                 </div>

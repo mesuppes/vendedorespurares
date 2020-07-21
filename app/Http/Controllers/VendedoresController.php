@@ -124,14 +124,14 @@ class VendedoresController extends Controller
         //NO EXISTE->Guardar el descuento General
             $dg=VendedorDescuentoGeneral::create([
                         'id_vendedor'   =>$request['idVendedor'],
-                        'descuento'     =>$request['descuentoGeneral'],
+                        'descuento'     =>$request['descuentoGeneral']/100,
                         'id_usuario_reg'=>Auth::user()->id,
             ]);
          }else{
         //EXISTE->actualizar el descuento General
             $dg=$DescuentoGeneral->update([
                         'id_vendedor'   =>$request['idVendedor'],
-                        'descuento'     =>$request['descuentoGeneral'],
+                        'descuento'     =>$request['descuentoGeneral']/100,
                         'id_usuario_act'=>Auth::user()->id,
             ]);
         }
@@ -146,7 +146,7 @@ class VendedoresController extends Controller
                     VendedorDescuentoProducto::create([
                         'id_vendedor'   =>$request['idVendedor'],
                         'id_producto'   =>$request['idProducto'][$i],
-                        'descuento'     =>$request['descuentoProducto'][$i],
+                        'descuento'     =>$request['descuentoProducto'][$i]/100,
                         'id_usuario_reg'=>Auth::user()->id,
                     ]);
                 }

@@ -43,10 +43,15 @@ class PreciosController extends Controller
     static public function cargaMasivaStore(PrecioCreateRequest $request){
         
 
-        $idModificacion=(Precio::orderBy('id_modificacion','desc')
+        $lastId=Precio::orderBy('id_modificacion','desc')
                                 ->first()
-                                ->id_modificacion)
-                                +1;
+                                ->id_modificacion;
+        
+        if (isset($lastId)==1) {
+            $idModificacion=$lastId+1;
+        }else{
+            $idModificacion=1;
+        }
         
         $longitud=count($request['idProducto']);
         for ($i=0; $i < $longitud ; $i++) { 

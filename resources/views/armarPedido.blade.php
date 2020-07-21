@@ -72,6 +72,7 @@
                                             </thead>
                                             <tbody>
                                             @foreach($productosTabla as $productoPedido)
+                                            @if(isset($productoPedido->cantidad_pedida))
                                                 <tr>
                                                     <td>{{$productoPedido->nombre_comercial}}
                                                            <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
@@ -101,6 +102,7 @@
                                                     <td>{{$productoPedido->descuento_pedido}}</td>
                                                     <td>$ <a class="monto_producto"></a></td>
                                                 </tr>
+                                            @endif
                                             @endforeach
                                             </tbody>
                                         </table>
