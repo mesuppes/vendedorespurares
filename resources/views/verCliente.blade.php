@@ -135,6 +135,7 @@
                                     </div>
                                          <a href="{{route('vendedor.createCredito',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm">Editar</a>
                         </div>
+                           <a href="{{route('vendedor.generarUser',$cliente->id_vendedor)}}" class="btn btn-info btn-sm">Generar Usuario</a>
                              </div>
                          </form>
                     </div>

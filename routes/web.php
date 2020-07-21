@@ -78,6 +78,8 @@ Route::group(['middleware' => ['can:Clientes_Detalles']], function (){
     Route::post('/agregarVendedor', 'VendedoresController@store')->name('vendedores.store');
     Route::get('/editarCliente/{id}', 'VendedoresController@edit')->name('vendedor.edit');
     Route::post('/editarCliente/{id}', 'VendedoresController@update')->name('vendedor.update');
+    Route::get('/generarUsuario/{id}', 'VendedoresController@createUser')->name('vendedor.generarUser');
+
 });
 #AGREGAR CREDITO AL CLIENTE
 Route::group(['middleware' => ['can:Clientes_Credito']], function (){
