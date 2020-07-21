@@ -12,6 +12,11 @@ class WorkflowN extends Model
 	const UPDATED_AT = 'date_done';
     const CREATED_AT = 'date_start';
 
+
+    public function fromUserN(){
+        return $this->belongsTo(User::class,'from_user','id');
+    }
+
     public function actionDoneN(){
     	return $this->belongsTo(OptionList::class,'action_done','id_interno')
     	->where('filtro','=','WF-action');

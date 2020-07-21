@@ -42,19 +42,26 @@ class PreciosController extends Controller
 
     static public function cargaMasivaStore(PrecioCreateRequest $request){
         
+
         $idModificacion=(Precio::orderBy('id_modificacion','desc')
                                 ->first()
                                 ->id_modificacion)
                                 +1;
         
+        $longitud=count($request['idProducto']);
         for ($i=0; $i < $longitud ; $i++) { 
-            if ($request['precioKg'][$i]>0 && $request['precioUnidad'][$i]>0){
+            #if ($request['precioKg'][$i]!=null && $request['precioUnidad'][$i]!=null){
+            if ((isset($request['precioKg'][$i])==1) && 
+                (isset($request['precioUnidad'][$i])==1)) {    
+                
+                //return $request['idProducto'][$i];
                 //Cargar nuevo precio
                 $nuevoPrecio=Precio::create([
                     'id_producto'   =>$request['idProducto'][$i],
                     'precio_kg'     =>$request['precioKg'][$i],
                     'precio_unidad' =>$request['precioUnidad'][$i],
                     'fecha_desde'   =>today()->format('Y-m-d'),
+                    'id_modificacion'=>$idModificacion,
                 ]);
             }
         } 
