@@ -271,11 +271,11 @@ class PedidosController extends Controller
 
 	static public function armarPedidoCreate($idPedido){
 
-		$pedidoDesc=Pedido::find($idPedido);
+		$pedido=Pedido::find($idPedido);
 
 		$productosTabla=PedidosController::tablaDatosProductosOP($idPedido);
 		
-		return view('armarPedido')->with(compact('productosTabla','pedidoDesc'));
+		return view('armarPedido')->with(compact('productosTabla','pedido'));
 
 	}
 

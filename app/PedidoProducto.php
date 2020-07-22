@@ -12,7 +12,7 @@ class PedidoProducto extends Model
     const CREATED_AT = null;//No existe en la BD
 
 
-	public function items(){
+	public function producto(){
         return $this->belongsTo(Producto::class,'id_producto','id_producto');
     }
 

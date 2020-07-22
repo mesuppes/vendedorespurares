@@ -16,6 +16,10 @@ class Producto extends Model
         return $this->belongsTo(Stockproducto::class,'id_producto','id_producto');
     }
 
+    public function stockLote(){
+        return $this->hasMany(ProductoStocklote::class,'id_producto','id_producto');
+    }
+
     public function precio(){
     	return $this->hasMany(Precio::class,'id_producto','id_producto');
     }

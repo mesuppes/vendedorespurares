@@ -17,30 +17,30 @@
                                 <div class="card-body">
                                     <form method="POST" id="formArmarPedido" action="{{route('armarPedido.store')}}">
                                         @csrf
-                                         <input type="hidden"  name="idPedido"  class="form-control" value="{{$pedidoDesc->id_pedido}}">
+                                         <input type="hidden"  name="idPedido"  class="form-control" value="{{$pedido->id_pedido}}">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Vendedor</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Vendedor" value="{{$pedidoDesc->vendedor['nombre']}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Vendedor" value="{{$pedido->vendedor['nombre']}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Condición del pago</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la condición del pago" value="{{$pedidoDesc->condicion_pago}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la condición del pago" value="{{$pedido->condicion_pago}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Forma de entrega</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la forma de entrega" value="{{$pedidoDesc->forma_entrega}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese la forma de entrega" value="{{$pedido->forma_entrega}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Datos del flete</label>
-                                                    <input type="text" class="form-control" disabled placeholder="Ingrese los datos del flete" value="{{$pedidoDesc->datos_flete}}">
+                                                    <input type="text" class="form-control" disabled placeholder="Ingrese los datos del flete" value="{{$pedido->datos_flete}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -71,14 +71,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($productosTabla as $productoPedido)
-                                            @if(isset($productoPedido->cantidad_pedida))
+                                            @foreach($pedido->productos as $productoPedido)
+                                            @if(isset($productoPedido->cantidad))
                                                 <tr>
-                                                    <td>{{$productoPedido->nombre_comercial}}
+                                                    <td>{{$productoPedido->producto->nombre_comercial}}
                                                            <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
                                                     </td>
-                                                    <td><a class="precio_unidad_pedido">{{$productoPedido->precio_unitario_pedido}}</a> / {{$productoPedido->medida_pedido}}</td>
-                                                    <td>{{$productoPedido->cantidad_pedida}} <a class="unidad_pedida">{{$productoPedido->medida_pedido}}</a></td>
+                                                    <td><a class="precio_unidad_pedido">
+                                                        @if($productoPedido->tipo_medida=="kg")
+                                                            {{$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}}
+                                                            </a> / 
+                                                            {{$productoPedido->tipo_medida}}
+                                                        @elseif($productoPedido->tipo_medida=="Unidades")
+                                                        {{$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}}
+                                                            </a> / 
+                                                            {{$productoPedido->tipo_medida}}
+                                                        @else
+                                                            error
+                                                        @endif
+                                                    </td>
+                                                    
+                                                    <td>{{$productoPedido->cantidad}} <a class="unidad_pedida">{{$productoPedido->tipo_medida}}</a></td>
                                                     <td>
                                                         <div>
                                                             <input type="number"  name="cantidadUnidades[]" min=0 step=1 max="{{$productoPedido->stock_unidades}}" class="form-control unidades_a_enviar" placeholder="Uds. a entregar">
