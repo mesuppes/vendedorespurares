@@ -24,18 +24,20 @@ class ComprasController extends Controller
         //Todos los productos que no se fabrican
         $productos=Producto::where('id_producto_produccion','=',null)->get();
 
-        return view('agregarCompra', compact('productos'));
+        //nroLote
+        $loteCompra=Compra::where('anulado','=',null)->orderBy('lote_compra','desc')->first()->lote_compra +1;
+
+        return view('agregarCompra', compact('productos','loteCompra'));
     }
 
     public function store(CompraCreateRequest $request){
-
-        return 1;#$request;
 
             //1-ENCABEZADO
         $compra=Compra::create([
             'id_proveedor'  =>$request['idProveedor'],
             'nro_remito'    =>$request['nroRemito'],
             'fecha_compra'  =>$request['fechaCompra'],
+            'lote_compra'   =>$request['loteCompra'],
             'comentarios'   =>$request['comentarios'],
             'id_usuario_reg'=>Auth::user()->id,
         ]);
@@ -48,6 +50,7 @@ class ComprasController extends Controller
                 $producto¨=ProductoMov::create([
                    'id_producto'=>$request['idProducto'],
                    'id_compra'  =>$compra->id_compra,
+                   'lote_compra'=>$request['loteCompra'],
                    'unidades'   =>$request['unidades'],
                    'peso_kg'    =>$request['peso_kg'],
                    'id_cuenta'     =>2,//Coressponde a la cuenta Compra

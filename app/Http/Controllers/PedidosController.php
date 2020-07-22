@@ -26,6 +26,7 @@ use App\FacturaProforma;
 use App\FacturaProformaItem;
 use App\ProductoMov;
 use App\ProductoStock;
+use App\ProductoStockLote;
 
 
 
@@ -283,9 +284,14 @@ class PedidosController extends Controller
 		}		
 
 	//VALIDAR STOCK
-		$validarStock=PedidosController::validarStockFactura($request['idProducto'],$request['cantidadKg'],$request['cantidadUnidades']);
+
+		$validarStock=PedidosController::validarStockFactura($request['idProducto'],
+															$request['cantidadUnidades'],
+															$request['cantidadKg'],
+															$request['loteProduccion'],
+															$request['loteCompra']);
 		if ($validarStock!='ok') {
-			return "Stock insuficiente";
+			return $validarStock;
 		}
 
 	$idVendedor=Pedido::find($request['idPedido'])->id_vendedor;
@@ -313,7 +319,9 @@ class PedidosController extends Controller
 			if ($request['cantidadUnidades'][$i]>0 || $request['cantidadKg'][$i]>0) {
 				
 				#DETERMINAR DE QUE LISTA DE PRECIO SE REFIERE
-				if ($listaPrecio=1) {
+				$listaPrecio=1;
+
+				if ($listaPrecio==1) {
 						#Determinar que precio utilizar (kg/unidad)
 						if ($request['tipoUnidad'][$i]=='kg') {
 							$precio=$producto->precio_kg;
@@ -388,22 +396,53 @@ class PedidosController extends Controller
 		return "ok";
 	}
 
-	public function validarStockFactura($productos,$cantidad_kg,$cantidad_unidades){
+	public function validarStockFactura($idProducto,$cantidadUnidades,$cantidadKg,$loteProduccion,$loteCompra){
 		
-		$longitud=count($productos);
-		$stockProductos=ProductoStock::all();
+		$longitud=count($idProducto);
+		$stockProductosLote=ProductoStockLote::all();
 			
 			for ($i=0; $i <$longitud ; $i++) { 
 				//Cantidad Mayor a cero
-				if ($cantidad_kg[$i]>0 && $cantidad_unidades[$i]>0) {
-					$producto=$stockProductos->find($productos[$i]);
-					//VALIDACION
-					if ($producto->stock_kg < $cantidad_kg[$i] ||
-						$producto->stock_unidades < $cantidad_unidades[$i]) {
-						return "ERROR- Stock insuficiente".$producto[$i];
-					}
-				}
-			}
+				if ($cantidadKg[$i]>0 && $cantidadUnidades[$i]>0) {
+					#1)
+					//Buscar en Lote de **PRODUCCION**	
+					if(isset($loteProduccion[$i])){
+						$productoLote=$stockProductosLote
+											->where('id_producto','=',$idProducto[$i])
+											->where('lote_produccion','=',$loteProduccion[$i])
+											->first();
+						$lote="produccion: ".$loteProduccion[$i];
+						return "entro!";
+					//Buscar en Lote de **COMPRA**
+					}elseif (isset($loteCompra[$i])) {
+						$productoLote=$stockProductosLote
+											->where('id_producto','=',$idProducto[$i])
+											->where('lote_compra','=',$loteCompra[$i])
+											->first();
+						$lote="compra: ".$loteCompra[$i];
+						#return $productoLote;
+					}else{
+						return "ERROR - lote no definido para el producto ".
+						Producto::find($idProducto[$i])->nombre_comercial;
+					}#if lotes
+					
+					#2)
+					if (isset($productoLote)) { #Si no figura el IdProducto+Lote => no esta seteado
+						if ($productoLote->stock_kg < $cantidadKg[$i] ||
+							$productoLote->stock_unidades < $cantidadUnidades[$i]) {
+
+								return "ERROR - Stock insuficiente ".
+									Producto::find($idProducto[$i])->nombre_comercial.
+									" - Lote ". $lote;
+						}#if Stock
+					}else{
+						return "ERROR - Stock insuficiente ".
+									Producto::find($idProducto[$i])->nombre_comercial.
+									" - Lote ". $lote;
+					}#if lote nulo
+				}#if Q>0
+			}#for
+		
 		return "ok";
 	}
 
@@ -437,6 +476,8 @@ class PedidosController extends Controller
 
 	static public function tablaDatosProductosOP($idPedido){
 
+		//se usa para armar el pedido 
+
 		$idVendedor=Pedido::find($idPedido)->id_vendedor;
 
 		$productosTabla=DB::table('v_productos_precios AS p_v')
@@ -445,7 +486,7 @@ class PedidosController extends Controller
 									$join->on('p_p.id_producto','=','p_v.id_producto');
 									$join->where('p_p.id_pedido','=',$idPedido);
 								})
-							->leftJoin('v_productos_stock AS p_s','p_s.id_producto','=','p_v.id_producto')
+							->leftJoin('v_productos_stock_lotes AS p_s','p_s.id_producto','=','p_v.id_producto')
 							->leftJoin('vendedores_dto_prod AS p_d',function($join) use ($idVendedor){
 									$join->on('p_d.id_producto','=','p_v.id_producto');
 									$join->where('p_d.id_vendedor','=', $idVendedor);
@@ -453,7 +494,7 @@ class PedidosController extends Controller
 							->join('vendedores_dto_general AS v_d',function($join) use ($idVendedor){
 									$join->where('v_d.id_vendedor','=', $idVendedor);
 								})
-							->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor','p_s.stock_unidades','p_s.stock_kg',
+							->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor','p_s.stock_unidades','p_s.stock_kg','p_s.lote_produccion','p_s.lote_compra',
 								\DB::raw('(CASE 
 											WHEN p_d.descuento>v_d.descuento
 											THEN p_d.descuento

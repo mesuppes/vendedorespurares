@@ -32,6 +32,12 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <label>N° Lote de compra</label>
+                                                    <input type="text" class="form-control" name="loteCompra" value=" {{$loteCompra}} " disabled placeholder="lote de compra" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <label>Fecha de compra</label>
                                                     <input type="date" class="form-control" name="fechaCompra"  placeholder="fecha">
                                                 </div>

@@ -16,15 +16,15 @@ class CompraCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'idProveedor'=>'nullable',#'required',
-                #Exista en la BD
-            'nroRemito'=>'nullable',#'required',
-            'fechaCompra'=>'nullable',#'required',
+            'idProveedor'=>'required',
+            'nroRemito'=>'required',
+            'fechaCompra'=>'required',
                 #formato fecha
+            'loteCompra'=>'required',
             'comentarios'=>'nullable',
-            'id_producto'=>'nullable',#'required',
-            'unidades'=>'nullable',#'required',
-            'peso_kg'=>'nullable',#'required',
+            'id_producto'=>'required',
+            'unidades'=>'required',
+            'peso_kg'=>'required',
         ];
     }
 }
