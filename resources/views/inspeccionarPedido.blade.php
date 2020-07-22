@@ -16,11 +16,16 @@
                             alert-success
                             @elseif($wf->status==1)
                             alert-warning
-                            @elseif($wf->status==3)
+                            @elseif($wf->status==3||$wf->status==6)
                             alert-danger
                             @endif
                              " role="alert">
                             {{$msjStatus}}
+                            @if($wf->status==6)
+                            <br>
+                            <b>Motivo:</b>
+                            {{$pedidoDescUltimo->motivo_baja}}
+                            @endif
                             </div>
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Datos del pedido
@@ -29,9 +34,12 @@
                                     
                                     @if($accion=='si')
 
-                                    <a href="{{route('pedido.armar', $pedidoDescUltimo->id_pedido)}}"  class="btn btn-sm btn-success ml-auto">Armar pedido</a>
+                                    <a href="{{route('pedido.armar', $pedidoDescUltimo->id_pedido)}}"  class="btn btn-sm btn-success ml-auto">Armar pedido
+                                    </a>
                                     
-                                    <a class="btn btn-sm btn-danger ml-auto">Rechazar pedido</a>
+                                    <a  href="{{route('pedido.rechazar', $pedidoDescUltimo->id_pedido)}}"
+                                        class="btn btn-sm btn-danger ml-auto">Rechazar pedido
+                                    </a>
                                     @endif
                                 </div>
                                 <div class="card-body">

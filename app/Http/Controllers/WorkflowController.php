@@ -60,7 +60,6 @@ class WorkflowController extends Controller{
 
     }
 
-
     static public function armarpedido($idWF){
 
         //Actualizar el WF
@@ -84,6 +83,28 @@ class WorkflowController extends Controller{
         return $insert;
     }
 
+    static public function rechazarPedido($idWF){
+
+        //Actualizar el WF
+        $wf=WorkflowN::find($idWF);
+
+        $wf->update([
+            'user_done'=>Auth::user()->id,
+            'resolution'=>7,//Pedido aprobado
+        ]);
+
+        //Cargar un nuevo 
+        $insert=WorkflowN::create([
+                    'from_user'     =>Auth::user()->id,
+                    'action_done'   =>3,//Agregar Pedido
+                    'status'        =>6,
+                    'task_type'     =>1,//pedidos
+                    'id_task'       =>$wf->id_task,
+                    'user_done'     =>Auth::user()->id,  
+                ]);
+
+        return $insert;
+    }
 
     static public function ListaToDoUserQuery(){    
         

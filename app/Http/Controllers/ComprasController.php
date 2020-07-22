@@ -89,6 +89,7 @@ class ComprasController extends Controller
                 ProductoMov::create([
                    'id_producto'=>$producto->id_producto,
                    'id_compra'  =>$producto->id_compra,
+                   'lote_compra'=>$producto->lote_compra,
                    'unidades'   =>($producto->unidades)*-1,
                    'peso_kg'    =>($producto->peso_kg)*-1,
                    'id_cuenta'     =>5,//Cuenta-> Anular Compra

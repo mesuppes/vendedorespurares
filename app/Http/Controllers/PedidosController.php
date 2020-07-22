@@ -248,16 +248,22 @@ class PedidosController extends Controller
 		return $msg;
 	}
 
-	static public function rechazar($idwf){
+	static public function rechazar($idPedido){
 		
-		#$wf=WorkflowN::find($idwf)
-		//$pedido=pedido::find($idPedido);
+		//1-VALIDAR QUE SIGA PENDIENTE
+			$wf=WorkflowN::where('task_type','=',1)->where('id_task','=',$idPedido)->orderBy('id_workflow','desc')->first();
 
-		//Anular pedido
+			if(isset($wf->user_done)){
+				return "El pedido ya se ha ".$wf->statusN->nombre." por ".$wf->userDoneN->name;
+			}
 
-		//Modificar el WF
-		#WorkflowController::actualizar($idWF,$newStatus)
-
+		//2-ANULAR!!
+			$wfNew=WorkflowController::rechazarPedido($wf->id_workflow);
+			//agregar Motivo del rechazo
+			$pedido=Pedido::find($wf->id_task)->update([
+						'motivo_baja'=>request('motivoBaja'),
+						]);
+		return show($pedido->pedido_padre);
 	}
 
 
@@ -344,6 +350,8 @@ class PedidosController extends Controller
 				$nuevoItem=FacturaProformaItem::create([
 					'id_factura_proforma'=>$idFactura,
 					'id_producto'		=>$request['idProducto'][$i],
+					'lote_produccion'	=>$request['loteProduccion'][$i],
+					'lote_compra'		=>$request['loteCompra'][$i],	
 					'cantidad_unidades'	=>$request['cantidadUnidades'][$i],
 					'cantidad_kg'		=>$request['cantidadKg'][$i],
 					'tipo_unidad'		=>$producto->medida_pedido,
@@ -357,8 +365,10 @@ class PedidosController extends Controller
 					'id_factura_proforma'=>$nuevoItem->id_factura_proforma,
 					'id_compra'			=>null,
 					'id_ordenprod'		=>null,
-					'unidades'			=>$nuevoItem->cantidad_unidades,
-					'peso_kg'			=>$nuevoItem->cantidad_kg,
+					'lote_produccion'	=>$request['loteProduccion'][$i],
+					'lote_compra'		=>$request['loteCompra'][$i],
+					'unidades'			=>($nuevoItem->cantidad_unidades)*-1,
+					'peso_kg'			=>($nuevoItem->cantidad_kg)*-1,
 					'id_cuenta'			=>1,
 					'id_usuario_reg'	=>Auth::user()->id,
 				]);
@@ -506,10 +516,6 @@ class PedidosController extends Controller
 
 		return $productosTabla;
 	}
-
-
-
-
 
 	public function cargarProductos(Request $request)
 	{

@@ -65,6 +65,9 @@ Route::get('/editarPedido/{id?}', 'PedidosController@edit')->name('pedido.edit')
 Route::group(['middleware' => ['can:Pedidos_Armar']], function (){
     Route::get('/armarPedido/{idPedido}', 'PedidosController@armarPedidoCreate')->name('pedido.armar');
     Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPedido.store');
+    
+    Route::get('/rechazarPedido/{idPedido}', 'PedidosController@rechazar')->name('pedido.rechazar');
+
 });
 #VER CLIENTES
 Route::group(['middleware' => ['can:Clientes_VerTodos']], function (){
