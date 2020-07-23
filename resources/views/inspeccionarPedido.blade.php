@@ -42,7 +42,7 @@
                                     </a>
                                     @endif
                                     @if(isset($idFacturaProforma))
-                                        <a  href="{{route('pedido.armar', $idFacturaProforma)}}"
+                                        <a  href="{{route('facturaProforma.show', $idFacturaProforma)}}"
                                             class="btn btn-sm btn-danger ml-auto">Ver factura
                                         </a>                                        
 
@@ -77,7 +77,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-</div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -122,9 +122,9 @@
                                     </div>
                                 </div>
                             </div>
-</div>
-</div>
-                            </div>
+                        </div>
+                    </div>
+                </div>
 
     <script src="{{asset('dashboard/assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>

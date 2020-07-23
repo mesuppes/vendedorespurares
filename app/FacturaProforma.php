@@ -11,7 +11,7 @@ class FacturaProforma extends Model
     const UPDATED_AT = null;//No existe en la BD
     const CREATED_AT = 'fecha_reg';//No existe en la BD
 
-	public function item(){
+	public function productos(){
     	return $this->hasMany(FacturaProformaItem::class,'id_factura_proforma','id');
     }
 }

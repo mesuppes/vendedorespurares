@@ -281,7 +281,7 @@ class PedidosController extends Controller
 
 	public function armarPedidoStore(ArmarPedidoRequest $request){
 
-#		return $request;
+		return $request;
 	//VALIDAR QUE SIGA PENDIENTE
 		$wf=WorkflowN::where('task_type','=',1)->where('id_task','=',$request['idPedido'])->orderBy('id_workflow','desc')->first();
 

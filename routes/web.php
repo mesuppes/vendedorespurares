@@ -61,12 +61,17 @@ Route::post('/agregarPedido', 'PedidosController@store')->name('pedido.store');
 Route::post('/cargarProductos', 'PedidosController@cargarProductos')->name('cargarProductos.post');
 Route::get('/editarPedido/{id?}', 'PedidosController@edit')->name('pedido.edit');
 
+
+
 #ARMAR PEDIDO
 Route::group(['middleware' => ['can:Pedidos_Armar']], function (){
     Route::get('/armarPedido/{idPedido}', 'PedidosController@armarPedidoCreate')->name('pedido.armar');
     Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPedido.store');
     
     Route::get('/rechazarPedido/{idPedido}', 'PedidosController@rechazar')->name('pedido.rechazar');
+
+#FACTURA PROFORMA
+Route::get('/facturaProforma/{id}', 'FacturasController@show')->name('facturaProforma.show');
 
 });
 #VER CLIENTES

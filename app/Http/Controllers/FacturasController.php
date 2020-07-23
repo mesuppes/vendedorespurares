@@ -20,7 +20,8 @@ class FacturasController extends Controller
     {
      
         $factura=FacturaProforma::find($id);
-        return view('inspeccionarFacturasProforma', compact('factura'));   
+        
+        return view('inspeccionarFacturaProforma', compact('factura'));   
     }
 
     public function anular($id)
