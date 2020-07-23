@@ -272,16 +272,14 @@ class PedidosController extends Controller
 	static public function armarPedidoCreate($idPedido){
 
 		$pedido=Pedido::find($idPedido);
-
-		$productosTabla=PedidosController::tablaDatosProductosOP($idPedido);
 		
-		return view('armarPedido')->with(compact('productosTabla','pedido'));
+		return view('armarPedido')->with(compact('pedido'));
 
 	}
 
 	public function armarPedidoStore(ArmarPedidoRequest $request){
 
-
+#		return $request;
 	//VALIDAR QUE SIGA PENDIENTE
 		$wf=WorkflowN::where('task_type','=',1)->where('id_task','=',$request['idPedido'])->orderBy('id_workflow','desc')->first();
 
@@ -325,26 +323,18 @@ class PedidosController extends Controller
 			if ($request['cantidadUnidades'][$i]>0 || $request['cantidadKg'][$i]>0) {
 				
 				#DETERMINAR DE QUE LISTA DE PRECIO SE REFIERE
-				$listaPrecio=1;
 
-				if ($listaPrecio==1) {
-						#Determinar que precio utilizar (kg/unidad)
-						if ($request['tipoUnidad'][$i]=='kg') {
-							$precio=$producto->precio_kg;
-						}else{
-							$precio=$producto->precio_unidad;
-						}
-					$descuento=$producto->dcto_usar;
-				}else{
-					$precio=$producto->precio_unitario_pedido;
-					$descuento=$producto->descuento_pedido;
+				#DETERMINAR QUE PRECIO UTILIAR(UNIDAD/KG)
+				if ($request['tipoMedida'][$i]=='Unidades') {
+					$cantidad=$request['cantidadUnidades'][$i];
+						$precio=$request['precio'][$i];
+						$descuento=$request['descuento'][$i];
+				}elseif ($request['tipoMedida'][$i]=='kg') {
+					$cantidad=$request['cantidadKg'][$i];
+						$precio=$request['precio'][$i];
+						$descuento=$request['descuento'][$i];
 				}
-				#Determinar que cantidad utilizar
-				if ($request['tipoUnidad'][$i]=='kg') {
-					$cantidad=$request['cantidadKg'];
-				}else{
-					$cantidad=$request['tipoUnidad'];
-				}
+				
 
 				#INSERT DB ITEM DE FACTURA PROFORMA 
 				$nuevoItem=FacturaProformaItem::create([
@@ -354,7 +344,7 @@ class PedidosController extends Controller
 					'lote_compra'		=>$request['loteCompra'][$i],	
 					'cantidad_unidades'	=>$request['cantidadUnidades'][$i],
 					'cantidad_kg'		=>$request['cantidadKg'][$i],
-					'tipo_unidad'		=>$producto->medida_pedido,
+					'tipo_unidad'		=>$request['tipoMedida'][$i],
 					'precio_unitario'	=>$precio,
 					'descuento'			=>($precio*$cantidad)*$descuento,
 					'precio_total'		=>($precio*$cantidad)*(1-$descuento),
@@ -365,8 +355,8 @@ class PedidosController extends Controller
 					'id_factura_proforma'=>$nuevoItem->id_factura_proforma,
 					'id_compra'			=>null,
 					'id_ordenprod'		=>null,
-					'lote_produccion'	=>$request['loteProduccion'][$i],
-					'lote_compra'		=>$request['loteCompra'][$i],
+					'lote_produccion'	=>$nuevoItem->lote_compra,
+					'lote_compra'		=>$nuevoItem->lote_produccion,
 					'unidades'			=>($nuevoItem->cantidad_unidades)*-1,
 					'peso_kg'			=>($nuevoItem->cantidad_kg)*-1,
 					'id_cuenta'			=>1,
@@ -374,10 +364,10 @@ class PedidosController extends Controller
 				]);
 			}
 		}
-
+/*
 		//Cambiar estado de wf
 		$newWf=WorkflowController::armarPedido($wf->id_workflow);
-
+*/
 		return "factura creada".$idFactura;
 		//return redirect('/listaFacturas/'.$idFactura)->with('facturaCreada');		
 	}	
@@ -422,7 +412,6 @@ class PedidosController extends Controller
 											->where('lote_produccion','=',$loteProduccion[$i])
 											->first();
 						$lote="produccion: ".$loteProduccion[$i];
-						return "entro!";
 					//Buscar en Lote de **COMPRA**
 					}elseif (isset($loteCompra[$i])) {
 						$productoLote=$stockProductosLote

@@ -95,7 +95,7 @@
                                             <tbody>
                                                 @foreach($pedidoProdUltimo as $producto)
                                                 <tr>
-                                                    <td>{{$producto->items->nombre_comercial}}</td>
+                                                    <td>{{$producto->producto->nombre_comercial}}</td>
                                                     <td>${{$producto->precio_unitario}}/{{$producto->tipo_medida}}</td>
                                                     <td>
                                                         <div class="mb-1">

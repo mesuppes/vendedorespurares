@@ -62,6 +62,7 @@
                                                     <th>Producto</th>
                                                     <th>Precio</th>
                                                     <th>Cantidad pedida</th>
+                                                    <th>Lote</th>
                                                     <th>Unidades a entregar</th>
                                                     <th>Stock</th>
                                                     <th>Kg a entregar</th>
@@ -72,50 +73,78 @@
                                             </thead>
                                             <tbody>
                                             @foreach($pedido->productos as $productoPedido)
-                                            @if(isset($productoPedido->cantidad))
-                                                <tr>
-                                                    <td>{{$productoPedido->producto->nombre_comercial}}
-                                                           <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
-                                                    </td>
-                                                    <td><a class="precio_unidad_pedido">
-                                                        @if($productoPedido->tipo_medida=="kg")
-                                                            {{$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}}
-                                                            </a> / 
-                                                            {{$productoPedido->tipo_medida}}
-                                                        @elseif($productoPedido->tipo_medida=="Unidades")
-                                                        {{$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}}
-                                                            </a> / 
-                                                            {{$productoPedido->tipo_medida}}
-                                                        @else
-                                                            error
-                                                        @endif
-                                                    </td>
-                                                    
-                                                    <td>{{$productoPedido->cantidad}} <a class="unidad_pedida">{{$productoPedido->tipo_medida}}</a></td>
-                                                    <td>
-                                                        <div>
-                                                            <input type="number"  name="cantidadUnidades[]" min=0 step=1 max="{{$productoPedido->stock_unidades}}" class="form-control unidades_a_enviar" placeholder="Uds. a entregar">
-                                                        <div class="input-group-append pr-0">
-                                                            <span class="input-group-text text-center">&nbsp; uds.
-                                                            </span>
-                                                        </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>{{$productoPedido->stock_unidades}} Unidades</td>
-                                                    <td>
-                                                        <div>
-                                                            <input type="number"  name="cantidadKg[]" min=0 step=0.001 max="{{$productoPedido->stock_kg}}" class="form-control kg_a_enviar" placeholder="Kg. a entregar">
-                                                        <div class="input-group-append pr-0">
-                                                            <span class="input-group-text text-center">&nbsp; kg.
-                                                            </span>
-                                                        </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>{{$productoPedido->stock_kg}} Kilos</td>
-                                                    <td>{{$productoPedido->descuento_pedido}}</td>
-                                                    <td>$ <a class="monto_producto"></a></td>
-                                                </tr>
-                                            @endif
+                                                @foreach($productoPedido->producto->stockLote as $loteProducto)
+                                                    @if(isset($productoPedido->cantidad))
+                                                        <tr>
+                                                            <td>
+                                                                {{$productoPedido->producto->nombre_comercial}}
+                                                                   <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
+                                                            </td>
+                                                            <td><a class="precio_unidad_pedido">
+                                                                @if($productoPedido->tipo_medida=="kg")
+                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}}
+                                                                    </a> $/ 
+                                                                    {{$productoPedido->tipo_medida}}
+                                                                @elseif($productoPedido->tipo_medida=="Unidades")
+                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}}
+                                                                    </a> $/ 
+                                                                    {{$productoPedido->tipo_medida}}
+                                                                @else
+                                                                    error
+                                                                @endif
+                                                            
+                                                            <input type="hidden"  name="precio[]"  class="form-control" value="{{$precio}}">
+                                                            <input type="hidden"  name="tipoMedida[]"  class="form-control" value="{{$productoPedido->tipo_medida}}">
+                                                            </td>
+                                                            
+                                                            <td>
+                                                                {{$productoPedido->cantidad}} <a class="unidad_pedida">{{$productoPedido->tipo_medida}}</a>
+                                                            </td>
+                                                            
+                                                            <td>
+
+                                                                @if(isset($loteProducto->lote_compra))
+                                                                    <b>C-</b>
+                                                                @elseif(isset($loteProducto->lote_produccion))
+                                                                    <b>P-</b>
+                                                                @endif
+
+                                                                {{$loteProducto->lote_produccion}}
+                                                                <input type="hidden"  name="loteProduccion[]"  class="form-control" value="{{$loteProducto->lote_produccion}}">
+                                                                
+                                                                {{$loteProducto->lote_compra}}
+                                                                <input type="hidden"  name="loteCompra[]"  class="form-control" value="{{$loteProducto->lote_compra}}">
+                                                            </td>
+                                                            <td>
+                                                                <div>
+                                                                    <input type="number"  name="cantidadUnidades[]" min=0 step=1 max="{{$productoPedido->stock_unidades}}" class="form-control unidades_a_enviar" placeholder="Uds. a entregar">
+                                                                <div class="input-group-append pr-0">
+                                                                    <span class="input-group-text text-center">&nbsp; uds.
+                                                                    </span>
+                                                                </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>{{$loteProducto->stock_unidades}} Unidades</td>
+                                                            <td>
+                                                                <div>
+                                                                    <input type="number"  name="cantidadKg[]" min=0 step=0.001 max="{{$productoPedido->stock_kg}}" class="form-control kg_a_enviar" placeholder="Kg. a entregar">
+                                                                <div class="input-group-append pr-0">
+                                                                    <span class="input-group-text text-center">&nbsp; kg.
+                                                                    </span>
+                                                                </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>{{$loteProducto->stock_kg}} Kilos</td>
+                                                            <td>
+                                                                {{$productoPedido->descuento}}
+                                                                <input type="hidden"  name="descuento[]"  class="form-control" value="{{$productoPedido->descuento}}">
+                                                            </td>
+                                                            <td>
+                                                                $ <a class="monto_producto"></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
                                             @endforeach
                                             </tbody>
                                         </table>
