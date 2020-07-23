@@ -41,6 +41,12 @@
                                         class="btn btn-sm btn-danger ml-auto">Rechazar pedido
                                     </a>
                                     @endif
+                                    @if(isset($idFacturaProforma))
+                                        <a  href="{{route('pedido.armar', $idFacturaProforma)}}"
+                                            class="btn btn-sm btn-danger ml-auto">Ver factura
+                                        </a>                                        
+
+                                    @endif
                                 </div>
                                 <div class="card-body">
                                     <form>

@@ -220,7 +220,9 @@ class PedidosController extends Controller
 		
 	$msjStatus=PedidosController::statusMensaje($wf->id_workflow);
 
-	return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf','msjStatus','accion'));
+	$idFacturaProforma=$pedidoDescUltimo->facturaProforma()->where('anulado','=',null)->first()->id;
+
+	return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf','msjStatus','accion','idFacturaProforma'));
 
 	}
 

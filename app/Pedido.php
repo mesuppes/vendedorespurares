@@ -30,5 +30,8 @@ class Pedido extends Model
         ->where('task_type','=',1); //task type->1 = Pedidos 
     }
 
+    public function facturaProforma(){
+        return $this->hasMany(FacturaProforma::class,'id_pedido','id_pedido');
+    }
 
 }
