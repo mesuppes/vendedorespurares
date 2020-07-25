@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table" id="dt-mant-table">
                                 <thead>
                                     <tr>
                                         <th>Tarea</th>
@@ -27,11 +27,21 @@
                                 <tbody>
                                 @forelse($listaPending as $pendiente)
                                     <tr>
-                                        <td>{{$pendiente->fromUserN->name}} ha 
-                                            <b>{{$pendiente->actionDoneN->nombre}}</b>. Requiere que tome acción. ({{$pendiente->date_start->diffForHumans()}}) 
+                                        <td>{{$pendiente->fromUserN->name}} ha
+                                            <b>{{$pendiente->actionDoneN->nombre}}</b>. Requiere que tome acción. ({{$pendiente->date_start->diffForHumans()}})
                                         </td>
                                         <td>
-                                            {{$pendiente->statusN->nombre}}
+                                            <h5><span class="badge
+										@if($pendiente->statusN->nombre=='Pendiente de aprobación'or'Modificado')
+												badge-warning
+										@elseif($pendiente->statusN->nombre=='Aprobado')
+											    badge-success
+										@elseif($pendiente->statusN->nombre=='Abortado'or'Rechazado')
+ 												badge-danger
+										@elseif($pendiente->statusN->nombre=='Aprobado automática')
+												badge-secondary
+										@endif
+                                            	">{{$pendiente->statusN->nombre}}</span></h5>
                                         </td>
                                         <td>
                                             @if($pendiente->task_type==1) <!--1=Pedidos-->

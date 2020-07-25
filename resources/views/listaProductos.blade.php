@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table" id="dt-mant-table"">
                                 <thead>
                                     <tr>
                                         <th>Productos</th>

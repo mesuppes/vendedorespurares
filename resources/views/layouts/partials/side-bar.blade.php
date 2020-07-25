@@ -18,20 +18,18 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-      
-      @role('admin')
+
         <li {{Route::is('home')? 'class=active':''}}>
           <a href="{{route('home')}}">
-            <i class="nc-icon nc-bank"></i>
-            <p>Dashboard</p>
+            <i class="nc-icon nc-bullet-list-67"></i>
+            <p>Pendientes</p>
           </a>
         </li>
-      @endrole
 
       @can('Usuarios_Gestionar')
       <li {{Route::is('permissions.index')||Route::is('permissions.create')||Route::is('permissions.edit')||Route::is('roles.index')||Route::is('roles.create')||Route::is('roles.edit')||Route::is('users.index')||Route::is('users.create')||Route::is('users.edit')? 'class=active':''}}>
           <a data-toggle="collapse" href="#users" aria-expanded="false" class="collapsed">
-              <i class="nc-icon nc-bank"></i>
+              <i class="nc-icon nc-badge"></i>
               <p>Cambiar permisos y roles</p>
               <b class="caret"></b>
           </a>
@@ -58,28 +56,28 @@
           </ul>
         </div>
       @endcan
-  
+
 
       @can('Pedidos_Propios')
         <li {{Route::is('pedido.index')? 'class=active':''}}>
             <a href="{{route('pedido.index')}}">
-              <i class="nc-icon nc-bank"></i>
+              <i class="nc-icon  nc-align-left-2"></i>
               <p>Mis pedidos</p>
             </a>
         </li>
 
         <li {{Route::is('pedido.create')? 'class=active':''}}>
             <a href="{{route('pedido.create')}}">
-              <i class="nc-icon nc-bank"></i>
+              <i class="nc-icon nc-notes"></i>
               <p>Agregar pedido</p>
             </a>
         </li>
       @endcan
-      
-      @can('Clientes_Detalles')  
+
+      @can('Clientes_Detalles')
          <li {{Route::is('pedido.index')? 'class=active':''}}>
             <a href="{{route('pedido.index')}}">
-              <i class="nc-icon nc-bank"></i>
+              <i class="nc-icon nc-align-left-2"></i>
               <p>Ver todos los pedidos</p>
             </a>
           </li>
@@ -87,64 +85,64 @@
 
         <li {{Route::is('pedido.createRouter')? 'class=active':''}}>
           <a href="{{route('pedido.createRouter')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-single-copy-04"></i>
             <p>Agregar pedidos</p>
           </a>
         </li>
       @endcan
 
-      @can('Productos_Gestionar')  
+      @can('Productos_Gestionar')
         <li {{Route::is('productos.index')? 'class=active':''}}>
           <a href="{{route('productos.index')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-tag-content"></i>
             <p>Ver productos</p>
           </a>
         </li>
         <li {{Route::is('productos.create')? 'class=active':''}}>
           <a href="{{route('productos.create')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-simple-add"></i>
             <p>Agregar producto</p>
           </a>
         </li>
       @endcan
-      
+
       @can('Precios_Ver')
         <li {{Route::is('precios.create')? 'class=active':''}}>
           <a href="{{route('precios.create')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-money-coins"></i>
             <p>Ver precios</p>
           </a>
         </li>
       @endcan
 
-      @can('Clientes_Detalles')  
+      @can('Clientes_Detalles')
         <li {{Route::is('vendedores.create')? 'class=active':''}}>
           <a href="{{route('vendedores.create')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-simple-add"></i>
             <p>Agregar vendedor</p>
           </a>
         </li>
       @endcan
-      
-      @can('Clientes_VerTodos') 
+
+      @can('Clientes_VerTodos')
         <li {{Route::is('vendedores.index')? 'class=active':''}}>
           <a href="{{route('vendedores.index')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-badge"></i>
             <p>Ver clientes</p>
           </a>
         </li>
       @endcan
-      
+
       @can('Compras_Gestionar')
         <li {{Route::is('compras.index')? 'class=active':''}}>
           <a href="{{route('compras.index')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-delivery-fast"></i>
             <p>Ver compras</p>
           </a>
         </li>
         <li {{Route::is('compras.create')? 'class=active':''}}>
           <a href="{{route('compras.create')}}">
-            <i class="nc-icon nc-bank"></i>
+            <i class="nc-icon nc-simple-add"></i>
             <p>Agregar compra</p>
           </a>
         </li>

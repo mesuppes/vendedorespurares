@@ -31,12 +31,12 @@
                                     <h5 class="card-title">Datos del pedido
                                     <span class="badge badge-warning">{{$wf->statusN->nombre}}</span>
                                     </h5>
-                                    
+
                                     @if($accion=='si')
 
                                     <a href="{{route('pedido.armar', $pedidoDescUltimo->id_pedido)}}"  class="btn btn-sm btn-success ml-auto">Armar pedido
                                     </a>
-                                    
+
                                     <a  href="{{route('pedido.rechazar', $pedidoDescUltimo->id_pedido)}}"
                                         class="btn btn-sm btn-danger ml-auto">Rechazar pedido
                                     </a>
@@ -44,7 +44,7 @@
                                     @if(isset($idFacturaProforma))
                                         <a  href="{{route('facturaProforma.show', $idFacturaProforma)}}"
                                             class="btn btn-sm btn-danger ml-auto">Ver factura
-                                        </a>                                        
+                                        </a>
 
                                     @endif
                                 </div>
@@ -99,6 +99,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @php
+                                                $precioTotalPedido=0
+                                                @endphp
                                                 @foreach($pedidoProdUltimo as $producto)
                                                 <tr>
                                                     <td>{{$producto->producto->nombre_comercial}}</td>
@@ -110,12 +113,16 @@
                                                     </td>
                                                     <td>${{$producto->precio_final}}</td>
                                                 </tr>
+                                                @php
+                                                $precioTotalPedido=$precioTotalPedido+$producto->precio_final
+                                                @endphp
                                                 @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>X productos</th>
-                                                    <th colspan="2">TOTAL $ </th>
+                                                    <th colspan="2"></th>
+                                                    <th>TOTAL</th>
+                                                    <th>$ {{$precioTotalPedido}}</th>
                                                 </tr>
                                             </tfoot>
                                         </table>

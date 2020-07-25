@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="{{asset('dashboard/assets/img/apple-icon.png')}}">
-  <link rel="icon" type="image/png" href="{{asset('dashboard/assets/img/favicon.png')}}">
+  <link rel="icon" type="image/png" href="{{asset('dashboard/assets/img/LogoPurares.ico')}}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Dashboard
+    Purares Clientes
     @yield('title')
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
@@ -23,9 +23,6 @@
   <!-- <link href="{{ asset('dashboard/assets/datatable/rowReorder.dataTables.min.css') }}" rel="stylesheet" /> -->
   <link href="{{ asset('dashboard/assets/datatable/responsive.dataTables.min.css') }}" rel="stylesheet" />
 
-
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="{{asset('dashboard/assets/demo/demo.css')}}" rel="stylesheet" />
 
   <!-- Styles -->
   <link href="{{ asset('css/style.css') }}" rel="stylesheet">
