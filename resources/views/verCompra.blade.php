@@ -37,7 +37,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Datos del flete</label>
+                                                    <label>Comentarios</label>
                                                     <textarea class="form-control" readonly placeholder="comentarios">{{$compra->comentarios}}</textarea>
                                                 </div>
                                             </div>

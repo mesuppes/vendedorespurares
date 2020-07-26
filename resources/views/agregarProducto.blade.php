@@ -32,19 +32,22 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Descripción</label>
-                                                    <textarea name="descripcion" cols="30" rows="10">Ingrese una descripción</textarea>
-                                                </div>
+                                                <label>Descripcion</label>
+                                                <textarea rows="5" name="descripcion" class="form-control border-input" placeholder="Describa el producto"></textarea>
+                                            </div>
                                             </div>
                                             <div class="col-md-6">
-                                                 <select name="idProductoProduccion">
-                                                    <option value= "" selected>Seleccione producto</option>
-                                                    <option value= "">Ninguno</option>
+                                            <div class="form-group">
+                                            <label for="selectVendedor">Producto de fabrica</label>
+                                            <select class="selectpicker form-control" data-style="btn btn-danger btn-block" name="idProductoProduccion">
+                                             <option value= "" selected>Seleccione producto</option>
+                                             <option value= "">Ninguno</option>
                                                         @foreach($ProductoFabrica as $producto)
                                                             <option value="{{$producto->id_producto}}">{{$producto->nombre}}
                                                             </option>
                                                         @endforeach
-                                                </select>
+                                            </select>
+                                            </div>
                                             </div>
                                         </div>
                                 </div>

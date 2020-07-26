@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table"  id="dt-mant-table">
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
@@ -31,12 +31,20 @@
                                     <tr>
                                         <th>{{$pedido->fecha_reg->formatLocalized('%d/%m/%Y - %H:%M')}}</th>
                                         <th>{{$pedido->vendedor['nombre']}}</th>
-                                        <td><font color="#ffffff">
-                                            <span style="font-size: 10.5px; white-space: nowrap; background-color: rgb(81, 203, 206);">
-                                                <b>
-                                                {{$pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre ?? "error"}}    
-                                                </b>
-                                            </span></font></td>
+                                        <td><h5><span class="badge
+                                                @if(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Pendiente de aprobación'or'Modificado'))
+                                                badge-warning
+                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado'))
+                                                badge-success
+                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Abortado'or'Rechazado'))
+                                                badge-danger
+                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado automática'))
+                                                badge-secondary
+                                                @elseif(!isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre))
+                                                badge-danger
+                                                @endif
+                                                ">{{$pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre ?? "error"}}
+                                            </span></h5></td>
                                         <th>${{$pedido->productos->sum('precio_final')}}</th>
                                         <td>
                                             <div class="mb-1">

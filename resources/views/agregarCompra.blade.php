@@ -45,7 +45,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Comentario</label>
-                                                    <textarea class="form-control" name="comentarios"  placeholder="comentarios"></textarea>
+                                                    <textarea class="form-control" name="comentarios"  placeholder="Ingrese algún comentario"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -77,8 +77,8 @@
                                                            <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$producto->id_producto}}">
                                                     </td>
                                                     <td>
-                                                        <div>
-                                                            <input type="number"  name="unidades[]" min=0 step=1 class="form-control" placeholder="Uds. a entregar">
+                                                        <div class="input-group">
+                                                            <input type="number"  name="unidades[]" min=0 step=1 class="form-control" placeholder="Uds. a comprar">
                                                         <div class="input-group-append pr-0">
                                                             <span class="input-group-text text-center">&nbsp; uds.
                                                             </span>
@@ -86,8 +86,8 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div>
-                                                            <input type="number"  name="peso_kg[]" min=0 step=0.001 class="form-control" placeholder="Kg. a entregar">
+                                                        <div  class="input-group">
+                                                            <input type="number"  name="peso_kg[]" min=0 step=0.001 class="form-control" placeholder="Kg. a comprar">
                                                         <div class="input-group-append pr-0">
                                                             <span class="input-group-text text-center">&nbsp; kg.
                                                             </span>
@@ -104,17 +104,17 @@
                             </div>
 </div>
   <div class="bg-white card">
-                    <div class="d-inline-flex justify-content-between">
+                <div class="d-inline-flex justify-content-between">
                         <div class="align-items-end d-flex pl-3">
                             <p>TOTAL: $ <a class="monto_total"></a></p>
                         </div>
                         <div class="d-flex pr-2">
-                            <button  type="submit" id="botonHacerCompra" class="btn btn-success">Hacer compra
+                            <button type="submit" id="botonHacerPedido" class="btn btn-success">Hacer compra
 </button>
                         </div>
                              </div>
-                         </form>
                     </div>
+                         </form>
 </div>
                             </div>
 
