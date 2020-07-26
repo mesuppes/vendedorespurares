@@ -44,18 +44,18 @@ class PedidosController extends Controller
 
 	    $usuario=Auth::user();
 
-	        if ($usuario->hasRole('Administracion')) {
+	        if ($usuario->hasRole('Administracion')) { 
 	        	#Todos los pedidos
 				$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
 
 	        }elseif ($usuario->hasRole('Gestor_Cliente')) {
 	        	#Los pedidos que tengan su ID en alguno de los pedidos
-
+	        	
 	        	$idPedidosPadres=Pedido::where('id_usuario_reg','=',$usuario->id)->pluck('id_pedido_padre')->toArray();
 	            $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
 	            					->whereIn('id_pedido_padre',$idPedidosPadres)
 	        						->get();
-
+	        	
 	        }elseif ($usuario->hasRole('Cliente')) {
 	        	#Los Pedidos que le pertencen al vendedor
 	        	$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
@@ -68,7 +68,7 @@ class PedidosController extends Controller
 	}
 
 	//Se ejecuta el createRouter para determinar si muestra:
-		//seleccioón de vendedor ->(para no Vendedores)
+		//seleccioón de vendedor ->(para no Vendedores) 
 		//La creación de pedido  ->(Vendedores)
 	public function createRouter(){
 
@@ -80,7 +80,7 @@ class PedidosController extends Controller
 		}else{
 			return "ERROR - Su rol no permite realizar la operación";
 		}
-	}
+	} 
 
 	static public function create()
 	{
@@ -88,7 +88,7 @@ class PedidosController extends Controller
 			$vendedor=Vendedor::find(request('idVendedor'));
 			$productos= PedidosController::tablaProductoDescuento(request('idVendedor'));
 			return view('agregarPedido')->with(compact('productos','vendedor'));
-
+		
 		}elseif (Auth::user()->hasRole('Cliente')) {
 			$vendedor=User::find(Auth::user()->id)->vendedor;
 			$productos= PedidosController::tablaProductoDescuento($vendedor->id_vendedor);
@@ -98,7 +98,7 @@ class PedidosController extends Controller
 		}}
 
 	public function store(CrearPedidoRequest $request){
-
+		
 		//VALIDAR STOCK
 		$validarStock=PedidosController::validarStockPedido($request['idProducto'],$request['tipoMedida'],$request['cantidad']);
 		if ($validarStock!='ok') {
@@ -121,7 +121,7 @@ class PedidosController extends Controller
 			'id_usuario_reg'=>Auth::user()->id,
 		]);
 		$idPedido = $nuevoPedido->id_pedido;
-
+	   
 	//AGREGAR PRODUCTOS AL PEDIDO
 		//Cantidad producto
 		$longitud=count($request['idProducto']);
@@ -148,12 +148,12 @@ class PedidosController extends Controller
 				]);
 			}
 		}
-
+	
 		if ($request['requiereAprobacion']==null) {
 			$requiereAprobacion=0;
 		}else{
 			$requiereAprobacion=1;
-		}
+		}        
 	//CREAR WORKFLOW
 		$respuesta=WorkflowController::agregarPedidoCreate($request['idVendedor'],$idPedido,$requiereAprobacion);
 
@@ -180,49 +180,57 @@ class PedidosController extends Controller
 
 	static public function show($id){
 
-		//Buscar El Pedido Hijo mas Reciente
-		$pedidoHijo=Pedido::where('id_pedido_padre','=',$id)->latest()->first();
+		$usuario=Auth::user();
+		#PERMISOS PARA VERLO
+		if($usuario->hasRole('Administracion') || #Si tiene el rol Admin
+			PedidosController::canView($id)){ #Si esta dentro de los que el usuario gestiono
 
-		//Si no tiene pedido Hijo Muestra el Pedido Padre
-		if ($pedidoHijo==null) {
-			$pedidoDescUltimo=Pedido::find($id);
-			$pedidoProdUltimo= $pedidoDescUltimo->productos;
-			$pedidoDescAnterior=null;
-			$pedidoProdAnterior=null;
+			//Buscar El Pedido Hijo mas Reciente
+			$pedidoHijo=Pedido::where('id_pedido_padre','=',$id)->latest()->first();
 
-		 }else{
-			$pedidoDescUltimo=$pedidoHijo;
-			$pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
-			if ($pedidoDescAnterior==null) {
-				$pedidoDescAnterior=Pedido::find($id);
+			//Si no tiene pedido Hijo Muestra el Pedido Padre
+			if ($pedidoHijo==null) {
+				$pedidoDescUltimo=Pedido::find($id);
+				$pedidoProdUltimo= $pedidoDescUltimo->productos;
+				$pedidoDescAnterior=null;
+				$pedidoProdAnterior=null;
+
+			 }else{
+				$pedidoDescUltimo=$pedidoHijo;
+				$pedidoDescAnterior=Pedido::where('id_pedido_padre','=',$id)->latest()->skip(1)->first();
+				if ($pedidoDescAnterior==null) {
+					$pedidoDescAnterior=Pedido::find($id);
+				}
+
+				$pedidoProdUltimo=$pedidoDescUltimo->productos;
+				$pedidoProdAnterior=$pedidoDescAnterior->productos;
+
 			}
+			//WORKFLOW
+			$wf=WorkflowN::where([
+									['task_type','=','1'], // 1->Corresponde a la tabla Pedido
+									['id_task','=',$pedidoDescUltimo->id_pedido]
+								])
+						->orderBy('id_workflow','desc')
+						->first();
+			
+	 
+			$ok=WorkflowController::ListaToDoUserQuery()->pluck('id_workflow')->toArray();
+			
+			if (in_array($wf->id_workflow, $ok)) {
+				$accion='si';
+			}else{ 
+				$accion='no';
+			}
+			
+			$msjStatus=PedidosController::statusMensaje($wf->id_workflow);
 
-			$pedidoProdUltimo=$pedidoDescUltimo->productos;
-			$pedidoProdAnterior=$pedidoDescAnterior->productos;
+			$idFacturaProforma=$pedidoDescUltimo->facturaProforma()->where('anulado','=',null)->first()->id;
 
-		}
-		//WORKFLOW
-		$wf=WorkflowN::where([
-								['task_type','=','1'], // 1->Corresponde a la tabla Pedido
-								['id_task','=',$pedidoDescUltimo->id_pedido]
-							])
-					->orderBy('id_workflow','desc')
-					->first();
-
-
-		$ok=WorkflowController::ListaToDoUserQuery()->pluck('id_workflow')->toArray();
-
-		if (in_array($wf->id_workflow, $ok)) {
-			$accion='si';
+			return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf','msjStatus','accion','idFacturaProforma'));
 		}else{
-			$accion='no';
+			return 'no permisos para acceder ';
 		}
-
-	$msjStatus=PedidosController::statusMensaje($wf->id_workflow);
-
-	$idFacturaProforma=$pedidoDescUltimo->facturaProforma()->where('anulado','=',null)->first()->id;
-
-	return view('inspeccionarPedido')->with(compact('pedidoDescUltimo','pedidoProdUltimo','pedidoDescAnterior','pedidoProdAnterior','wf','msjStatus','accion','idFacturaProforma'));
 
 	}
 
@@ -230,9 +238,9 @@ class PedidosController extends Controller
 	static public function statusMensaje($idWF){
 
 		$wf=WorkflowN::find($idWF);
-
+		
 		if ($wf->user_done==null) {
-		#SI NO ESTA HECHA
+		#SI NO ESTA HECHA 
 			if ($wf->to_user != null) { #
 				$to=$wf->toUserN->name;
 			}else{
@@ -245,13 +253,13 @@ class PedidosController extends Controller
 			$wf->statusN->nombre.
 			" por ".$wf->userDoneN->name.
 			" el ".$wf->date_done->formatLocalized('%d/%m/%Y a las %H:%M');
-
+			
 		}
 		return $msg;
 	}
 
 	static public function rechazar($idPedido){
-
+		
 		//1-VALIDAR QUE SIGA PENDIENTE
 			$wf=WorkflowN::where('task_type','=',1)->where('id_task','=',$idPedido)->orderBy('id_workflow','desc')->first();
 
@@ -265,7 +273,7 @@ class PedidosController extends Controller
 			$pedido=Pedido::find($wf->id_task)->update([
 						'motivo_baja'=>request('motivoBaja'),
 						]);
-		return back();
+		return show($pedido->pedido_padre);
 	}
 
 
@@ -274,7 +282,7 @@ class PedidosController extends Controller
 	static public function armarPedidoCreate($idPedido){
 
 		$pedido=Pedido::find($idPedido);
-
+		
 		return view('armarPedido')->with(compact('pedido'));
 
 	}
@@ -287,7 +295,7 @@ class PedidosController extends Controller
 
 		if(isset($wf->user_done)){
 			return "El pedido ya se ha ".$wf->statusN->nombre." por ".$wf->userDoneN->name;
-		}
+		}		
 
 	//VALIDAR STOCK
 
@@ -305,7 +313,7 @@ class PedidosController extends Controller
 	$productosTabla=PedidosController::tablaDatosProductosOP($request['idPedido']);
 
 	//GENERAR FACTURA PROFORMA
-
+		
 		$nuevaFactura= FacturaProforma::create([
 			'id_cliente'	=>$idVendedor,
 			'id_pedido'		=>$request['idPedido'],
@@ -319,11 +327,11 @@ class PedidosController extends Controller
 		#Buscar tabla de precios y descuento
 
 		$longitud=count($request['idProducto']);
-		for ($i=0; $i < $longitud; $i++) {
+		for ($i=0; $i < $longitud; $i++) { 
 			$producto=$productosTabla->where('id_producto','=',$request['idProducto'][$i])->first();
 			#DETERMINAR QUE LA CANTIDAD SEA MAYOR A CERO
 			if ($request['cantidadUnidades'][$i]>0 || $request['cantidadKg'][$i]>0) {
-
+				
 				#DETERMINAR DE QUE LISTA DE PRECIO SE REFIERE
 
 				#DETERMINAR QUE PRECIO UTILIAR(UNIDAD/KG)
@@ -336,14 +344,14 @@ class PedidosController extends Controller
 						$precio=$request['precio'][$i];
 						$descuento=$request['descuento'][$i];
 				}
+				
 
-
-				#INSERT DB ITEM DE FACTURA PROFORMA
+				#INSERT DB ITEM DE FACTURA PROFORMA 
 				$nuevoItem=FacturaProformaItem::create([
 					'id_factura_proforma'=>$idFactura,
 					'id_producto'		=>$request['idProducto'][$i],
 					'lote_produccion'	=>$request['loteProduccion'][$i],
-					'lote_compra'		=>$request['loteCompra'][$i],
+					'lote_compra'		=>$request['loteCompra'][$i],	
 					'cantidad_unidades'	=>$request['cantidadUnidades'][$i],
 					'cantidad_kg'		=>$request['cantidadKg'][$i],
 					'tipo_unidad'		=>$request['tipoMedida'][$i],
@@ -371,24 +379,44 @@ class PedidosController extends Controller
 		$newWf=WorkflowController::armarPedido($wf->id_workflow);
 */
 		return "factura creada".$idFactura;
-		//return redirect('/listaFacturas/'.$idFactura)->with('facturaCreada');
-	}
+		//return redirect('/listaFacturas/'.$idFactura)->with('facturaCreada');		
+	}	
+
+	static public function canView($idPedido){
+		//1-Buscar pedidos hijo del mismo padre
+			#Pedido Padre
+			$pPadre=Pedido::find($idPedido)->id_pedido_padre;
+			#Pedidos Hijo
+			$pHijos=Pedido::where('id_pedido_padre','=',$pPadre)->pluck('id_pedido')->toArray();
+		//2-Todos los usuarios que estuvieron dentro del WF
+			$wfs=WorkflowN::whereIn('id_task',$pHijos)->get();
+				$idUserFrom=$wfs->pluck('from_user')->toArray();
+				$idUserTo=$wfs->pluck('to_user')->toArray();
+		//3-Usuario del vendedor		
+				$idVendedor=Pedido::find($idPedido)->pluck('id_vendedor')->toArray();
+
+		//4-Verificar si el rol del usario esta dentro de estos array
+				$usersCan=array_merge($idUserFrom,$idUserTo,$idVendedor);
+
+		return in_array(Auth::user()->id,$usersCan);
+
+	}		
 
 
 	public function validarStockPedido($productos,$tipoMedida,$cantidad){
-
+		
 		$longitud=count($productos);
 		$stockProductos=ProductoStock::all();
-
-			for ($i=0; $i <$longitud ; $i++) {
+			
+			for ($i=0; $i <$longitud ; $i++) { 
 				//Cantidad Mayor a cero
 				if ($cantidad[$i]>0) {
 					//Tipo de Medida
 					if ($tipoMedida[$i]=='kg') {
-						$Stock=$stockProductos->find($productos[$i])->stock_kg;
+						$Stock=$stockProductos->find($productos[$i])->stock_kg;		 	
 					}else{
 					 	$Stock=$stockProductos->find($productos[$i])->stock_unidades;
-					}
+					} 
 					//VALIDACION
 					if ($Stock<$cantidad[$i]) {
 						return "ERROR- Stock insuficiente".$producto[$i];
@@ -399,15 +427,15 @@ class PedidosController extends Controller
 	}
 
 	public function validarStockFactura($idProducto,$cantidadUnidades,$cantidadKg,$loteProduccion,$loteCompra){
-
+		
 		$longitud=count($idProducto);
 		$stockProductosLote=ProductoStockLote::all();
-
-			for ($i=0; $i <$longitud ; $i++) {
+			
+			for ($i=0; $i <$longitud ; $i++) { 
 				//Cantidad Mayor a cero
 				if ($cantidadKg[$i]>0 && $cantidadUnidades[$i]>0) {
 					#1)
-					//Buscar en Lote de **PRODUCCION**
+					//Buscar en Lote de **PRODUCCION**	
 					if(isset($loteProduccion[$i])){
 						$productoLote=$stockProductosLote
 											->where('id_producto','=',$idProducto[$i])
@@ -426,7 +454,7 @@ class PedidosController extends Controller
 						return "ERROR - lote no definido para el producto ".
 						Producto::find($idProducto[$i])->nombre_comercial;
 					}#if lotes
-
+					
 					#2)
 					if (isset($productoLote)) { #Si no figura el IdProducto+Lote => no esta seteado
 						if ($productoLote->stock_kg < $cantidadKg[$i] ||
@@ -443,7 +471,7 @@ class PedidosController extends Controller
 					}#if lote nulo
 				}#if Q>0
 			}#for
-
+		
 		return "ok";
 	}
 
@@ -463,7 +491,7 @@ class PedidosController extends Controller
 									$join->where('v_d.id_vendedor','=', $idVendedor);
 								})
 							->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor','p_s.stock_unidades','p_s.stock_kg',
-								\DB::raw('(CASE
+								\DB::raw('(CASE 
 											WHEN p_d.descuento>v_d.descuento
 											THEN p_d.descuento
 											ELSE v_d.descuento
@@ -477,7 +505,7 @@ class PedidosController extends Controller
 
 	static public function tablaDatosProductosOP($idPedido){
 
-		//se usa para armar el pedido
+		//se usa para armar el pedido 
 
 		$idVendedor=Pedido::find($idPedido)->id_vendedor;
 
@@ -496,7 +524,7 @@ class PedidosController extends Controller
 									$join->where('v_d.id_vendedor','=', $idVendedor);
 								})
 							->select('p_desc.nombre_comercial','p_desc.url_foto','p_v.*','p_d.descuento AS descuento_producto','p_d.id_vendedor','v_d.descuento AS descuento_Vendedor','p_s.stock_unidades','p_s.stock_kg','p_s.lote_produccion','p_s.lote_compra',
-								\DB::raw('(CASE
+								\DB::raw('(CASE 
 											WHEN p_d.descuento>v_d.descuento
 											THEN p_d.descuento
 											ELSE v_d.descuento

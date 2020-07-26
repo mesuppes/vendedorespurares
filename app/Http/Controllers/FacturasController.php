@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\FacturaProforma;
 use App\FacturaProformaItem;
+use Auth;
 
 class FacturasController extends Controller
 {
@@ -16,12 +17,19 @@ class FacturasController extends Controller
         return view('listaFacturasProforma', compact('facturas'));
     }
 
-    public function show($id)
-    {
-     
-        $factura=FacturaProforma::find($id);
+    public function show($id){
+    
+        $usuario=Auth::user();
+        $idPedido=FacturaProforma::find($id)->id_pedido;
         
-        return view('inspeccionarFacturaProforma', compact('factura'));   
+        if($usuario->hasRole('Administracion') || #Si tiene el rol Admin
+            PedidosController::canView($idPedido)){ #Si esta dentro de los que el usuario gestiono
+     
+                $factura=FacturaProforma::find($id);   
+                return view('inspeccionarFacturaProforma', compact('factura')); 
+        }else{
+            return "prohibido!";
+        }  
     }
 
     public function anular($id)
