@@ -72,45 +72,50 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            	   @php
+                                               $numerotrproducto=0
+                                            @endphp
                                             @foreach($pedido->productos as $productoPedido)
-                                                i{{$i=0}}i
+                                            @php
+                                               $i=0;
+                                            @endphp
+                                                        <tr>
                                                 @foreach($productoPedido->producto->stockLote as $loteProducto)
                                                     @if(isset($productoPedido->cantidad))
-                                                    z{{$z=$productoPedido->producto->stockLote->count()}}z
-                                                        <tr>
+                                                    @php
+                                                    $z=$productoPedido->producto->stockLote->count()
+                                                    @endphp
                                                             <!--PRODUCTO-->
                                                             @if($i==0)
-                                                            <td rowspan="{{$z}}">        
-                                                                {{$productoPedido->producto->nombre_comercial}}
-                                                            </td>
-                                                            @endif
-                                                                <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
-                                                            
-                                                            <!--PRECIO-->
-                                                            @if($i==0)
                                                             <td rowspan="{{$z}}">
-                                                                <a class="precio_unidad_pedido">
-                                                                @if($productoPedido->tipo_medida=="kg")
-                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}}
-                                                                    </a> $/ 
-                                                                    {{$productoPedido->tipo_medida}}
-                                                                @elseif($productoPedido->tipo_medida=="Unidades")
-                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}}
-                                                                    </a> $/ 
-                                                                    {{$productoPedido->tipo_medida}}
-                                                                @else
-                                                                    error
-                                                                @endif
+                                                                {{$productoPedido->producto->nombre_comercial}}
+                                                                <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
                                                             </td>
                                                             @endif
 
+                                                            <!--PRECIO-->
+                                                            @if($i==0)
+                                                            <td rowspan="{{$z}}">
+                                                                <a>$
+                                                                @if($productoPedido->tipo_medida=="kg")
+                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}} / kg
+                                                                    </a>
+                                                                @elseif($productoPedido->tipo_medida=="Unidades")
+                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}} / Unidad
+                                                                    </a>
+                                                                @else
+                                                                    error
+                                                                @endif
                                                             <input type="hidden"  name="precio[]"  class="form-control" value="{{$precio}}">
                                                             <input type="hidden"  name="tipoMedida[]"  class="form-control" value="{{$productoPedido->tipo_medida}}">
-                                                            
+                                                            </td>
+                                                            @endif
+
+
                                                             <!--CANTIDAD PEDIDA-->
                                                             @if($i==0)
                                                             <td rowspan="{{$z}}">
-                                                                {{$productoPedido->cantidad}} <a class="unidad_pedida">{{$productoPedido->tipo_medida}}</a>
+                                                                {{$productoPedido->cantidad}} <a>{{$productoPedido->tipo_medida}}</a>
                                                             </td>
                                                             @endif
 
@@ -124,31 +129,38 @@
 
                                                                 {{$loteProducto->lote_produccion}}
                                                                 <input type="hidden"  name="loteProduccion[]"  class="form-control" value="{{$loteProducto->lote_produccion}}">
-                                                                
+                                                                 <input type="hidden" class="unidad_pedida" value="{{$productoPedido->tipo_medida}}">
+                                                                 <input type="hidden" class="precio_unidad_pedido" value="
+                                                                 @if($productoPedido->tipo_medida=="kg")
+                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}}
+                                                                @elseif($productoPedido->tipo_medida=="Unidades")
+                                                                    {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}}
+                                                                 @endif
+                                                                    ">
                                                                 {{$loteProducto->lote_compra}}
                                                                 <input type="hidden"  name="loteCompra[]"  class="form-control" value="{{$loteProducto->lote_compra}}">
                                                             </td>
-                                                            
+
                                                             <!--UNIDADES A ENTREGAR-->
                                                             <td>
-                                                                <div>
-                                                                    <input type="number"  name="cantidadUnidades[]" min=0 step=1 max="{{$productoPedido->stock_unidades}}" class="form-control unidades_a_enviar" placeholder="Uds. a entregar">
+                                                                <div class="input-group">
+                                                                    <input type="number"  name="cantidadUnidades[]" min=0 step=1 max="{{$productoPedido->stock_unidades}}" class="form-control unidades_a_enviar inputUnidades{{$numerotrproducto}}" id="{{$numerotrproducto}} unit" placeholder="Uds. a entregar">
                                                                 <div class="input-group-append pr-0">
                                                                     <span class="input-group-text text-center">&nbsp; uds.
                                                                     </span>
                                                                 </div>
                                                                 </div>
                                                             </td>
-                                                            
+
                                                             <!--STOCK UNIDADES-->
                                                             <td>
                                                                 {{$loteProducto->stock_unidades}} Unidades
                                                             </td>
-                                                            
+
                                                             <!--KG A ENTREGAR-->
                                                             <td>
-                                                                <div>
-                                                                    <input type="number"  name="cantidadKg[]" min=0 step=0.001 max="{{$productoPedido->stock_kg}}" class="form-control kg_a_enviar" placeholder="Kg. a entregar">
+                                                                <div class="input-group">
+                                                                    <input type="number"  name="cantidadKg[]" min=0 step=0.001 max="{{$productoPedido->stock_kg}}" class="form-control kg_a_enviar inputKilos{{$numerotrproducto}}" id="{{$numerotrproducto}} kilo" placeholder="Kg. a entregar">
                                                                 <div class="input-group-append pr-0">
                                                                     <span class="input-group-text text-center">&nbsp; kg.
                                                                     </span>
@@ -160,33 +172,37 @@
                                                             <td>
                                                                 {{$loteProducto->stock_kg}} Kilos
                                                             </td>
-                                                            
+
                                                             <!--DESCUENTO-->
                                                             <td>
-                                                                {{$productoPedido->descuento}}
+                                                                {{$productoPedido->descuento*100}} %
                                                             </td>
-                                                            
+
                                                                 <input type="hidden"  name="descuento[]"  class="form-control" value="{{$productoPedido->descuento}}">
-                                                            
+
                                                             <!--MONTO TOTAL-->
                                                             <td>
-                                                                $ <a class="monto_producto"></a>
+                                                                $ <a class="monto_producto montoTotalLote{{$numerotrproducto}}"></a>
                                                             </td>
-                                                        </tr>
+
                                                     @endif
-                                                {{$i=$i+1}}            
+                                                        </tr>
+                                                @php
+                                                $i=$i+1
+                                                @endphp
                                                 @endforeach
+									<tr class="{{$numerotrproducto}}">
+                                                <td colspan="4" class="text-right">Sub total:</td>
+                                                <td class="tdSubtotalUnidades"></td>
+                                                <td></td>
+                                                <td class="tdSubtotalKilos"></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td></td>
-                                                <td>Sub total:</td>
-                                                <td>100 u</td>
-                                                <td></td>
-                                                <td>100 kg</td>
-                                                <td></td>
-                                                <td>$ 500</td>
-                                                <td>$ 3500</td>
-    
+                                                <td class="tdSubtotalMonto"></td>
+									</tr>
+									@php
+									$numerotrproducto=$numerotrproducto+1
+									@endphp
                                             @endforeach
                                             </tbody>
                                         </table>
@@ -219,24 +235,85 @@
 
 $(".unidades_a_enviar").bind("keyup change", function(e) {
 
-    if($(this).closest('td').parent().find('.unidad_pedida').text()=="Unidades"){
+    if($(this).closest('td').parent().find('.unidad_pedida').val()=="Unidades"){
 
-        var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').text())
+        var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
         var monto_producto=($(this).val()*precio_unidad).toFixed(2)
         $(this).closest('td').parent().find('.monto_producto').text(monto_producto)
     }
-actualizarMontoTotal()
+       var id=$(this).attr('id')
+	   var numerotr=id.substring(0, id.length - 5)
 
+	   var subtotalUnidades=0
+
+		$(".inputUnidades"+numerotr).each(function() {
+
+    		if(isNaN(parseFloat($(this).val()))){
+        		subtotalUnidades=subtotalUnidades+0
+    		}else{
+        		subtotalUnidades=subtotalUnidades+parseFloat($(this).val())
+    		}
+		});
+		subtotalUnidades=subtotalUnidades.toFixed(0)
+
+	   $(this).closest('tr').siblings("."+numerotr).find('.tdSubtotalUnidades').html(subtotalUnidades+' unidades')
+
+	      var subtotalMontoProducto=0
+
+	   $(".montoTotalLote"+numerotr).each(function() {
+
+    		if(isNaN(parseFloat($(this).text()))){
+        		subtotalMontoProducto=subtotalMontoProducto+0
+    		}else{
+        		subtotalMontoProducto=subtotalMontoProducto+parseFloat($(this).text())
+    		}
+		});
+		subtotalMontoProducto=subtotalMontoProducto.toFixed(2)
+
+	   $(this).closest('tr').siblings("."+numerotr).find('.tdSubtotalMonto').html('$ '+ subtotalMontoProducto)
+
+actualizarMontoTotal()
 
 })
 $(".kg_a_enviar").bind("keyup change", function(e) {
 
-    if($(this).closest('td').parent().find('.unidad_pedida').text()=="Kg."){
+    if($(this).closest('td').parent().find('.unidad_pedida').val()=="Kg."){
 
-        var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').text())
+        var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
         var monto_producto=($(this).val()*precio_unidad).toFixed(2)
         $(this).closest('td').parent().find('.monto_producto').text(monto_producto)
     }
+     	var id=$(this).attr('id')
+	   var numerotr=id.substring(0, id.length - 5)
+
+	   var subtotalKilos=0
+
+		$(".inputKilos"+numerotr).each(function() {
+
+    		if(isNaN(parseFloat($(this).val()))){
+        		subtotalKilos=subtotalKilos+0
+    		}else{
+        		subtotalKilos=subtotalKilos+parseFloat($(this).val())
+    		}
+		});
+		subtotalKilos=subtotalKilos.toFixed(3)
+
+	   $(this).closest('tr').siblings("."+numerotr).find('.tdSubtotalKilos').html(subtotalKilos+' kilos')
+
+	   var subtotalMontoProducto=0
+
+	   $(".montoTotalLote"+numerotr).each(function() {
+
+    		if(isNaN(parseFloat($(this).text()))){
+        		subtotalMontoProducto=subtotalMontoProducto+0
+    		}else{
+        		subtotalMontoProducto=subtotalMontoProducto+parseFloat($(this).text())
+    		}
+		});
+		subtotalMontoProducto=subtotalMontoProducto.toFixed(2)
+
+	   $(this).closest('tr').siblings("."+numerotr).find('.tdSubtotalMonto').html('$ '+ subtotalMontoProducto)
+
 actualizarMontoTotal()
 })
 
