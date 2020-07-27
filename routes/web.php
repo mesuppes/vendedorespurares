@@ -69,11 +69,11 @@ Route::group(['middleware' => ['can:Pedidos_Armar']], function (){
     Route::post('/armarPedido', 'PedidosController@armarPedidoStore')->name('armarPedido.store');
 
     Route::post('/rechazarPedido/{idPedido}', 'PedidosController@rechazar')->name('pedido.rechazar');
+});
 
 #FACTURA PROFORMA
 Route::get('/facturaProforma/{id}', 'FacturasController@show')->name('facturaProforma.show');
 
-});
 #VER CLIENTES
 Route::group(['middleware' => ['can:Clientes_VerTodos']], function (){
     Route::get('/verClientes', 'VendedoresController@index')->name('vendedores.index');
