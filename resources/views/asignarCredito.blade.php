@@ -24,9 +24,9 @@
                                         <label>Cliente</label>
                                         <input type="text" class="form-control" placeholder="Vendedor" value="{{$vendedor->nombre}} {{$vendedor->apellidos}}" disabled>
                                     </div>
-
+                                      <div class="form-group">
                                         <label>Monto de crédito</label>
-                                        <div class="col-md-6 col-xl-6 d-inline-flex form-group input-group pl-0 pr-0">
+                                        <div class="col-md-6 col-xl-6 form-group input-group pl-0 pr-0">
                                             <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" >$ </span>
                                             </div>

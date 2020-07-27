@@ -38,7 +38,7 @@
                                     <div class="form-group">
                                         <label>Descuento general</label>
                                         <div class="input-group">
-                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" value="{{$vendedor->descuentoGeneral->descuento ?? ''}}">
+                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" value="{{$vendedor->descuentoGeneral->descuento*100 ?? ''}}">
                                         <div class="input-group-append pr-0">
                                             <span class="input-group-text text-center">&nbsp;%</span>
                                         </div>
@@ -47,7 +47,8 @@
                                     </div>
                                 </div>
                             <div class="row">
-                                <table id="tablaDescuentosProductos">
+                                <div class="table-responsive col-6">
+                                <table id="tablaDescuentosProductos" class="table">
                                     <thead>
                                         <tr>
                                            <th>Producto</th>
@@ -58,7 +59,8 @@
                                         @foreach($vendedor->descuentoProductos()->get() as $producto)
                                          <tr>
                                             <td>
-                                                <select name="idProducto[]">
+                                                <div class="input-group">
+                                                <select name="idProducto[]" class="selectpicker form-control">
                                                       <option value="{{$producto->id_producto}}" selected>{{$producto->producto->nombre_comercial}}
                                                             </option>
                                                         @foreach($productos as $productosincargar)
@@ -66,10 +68,11 @@
                                                             </option>
                                                         @endforeach
                                                 </select>
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="input-group">
-                                                    <input type="number" min="0" step=0.1 class="form-control inputDescuento" name="descuentoProducto[]" placeholder="Ingrese porcentaje de descuento" value="{{$producto->descuento}}">
+                                                    <input type="number" min="0" step=0.1 class="form-control inputDescuento" name="descuentoProducto[]" placeholder="Ingrese porcentaje de descuento" value="{{$producto->descuento*100}}">
                                                 <div class="input-group-append pr-0">
                                                     <span class="input-group-text text-center">&nbsp;%</span>
                                                 </div>
@@ -79,13 +82,15 @@
                                         @endforeach
                                         <tr id="trDescuentoProducto">
                                             <td>
-                                                <select name="idProducto[]">
+                                                <div class="input-group">
+                                                <select name="idProducto[]" class="selectpicker form-control">
                                                     <option value= "" selected>Seleccione producto</option>
                                                         @foreach($productos as $producto)
                                                             <option value="{{$producto->id_producto}}">{{$producto->nombre_comercial}}
                                                             </option>
                                                         @endforeach
                                                 </select>
+                                            </div>
                                             </td>
                                             <td>
                                                 <div class="input-group">
@@ -98,6 +103,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
                             </div>
                             <div class="row">
                                 <button class="btn btn-info" id="botonAgregarDescuentoProducto">Agregar producto</button>

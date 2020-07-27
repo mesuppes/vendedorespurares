@@ -16,8 +16,11 @@
                                     <a href="{{route('pedido.edit', $producto->id_producto)}}" class="btn btn-sm btn-primary ml-auto" disabled>Editar producto</a>
                                 </div>
                                 <div class="card-body">
+                                    <div class="col-4 d-inline">
+                                        <img src= "{{$producto->url_foto}}" class="d-inline" width="100" alt="Imagen del producto">
+                                    </div>
+                                    <div class="col-8 d-inline">
                                     <form>
-                                        <img src= "{{$producto->url_foto}}" width="100" alt="Card image cap">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -31,15 +34,17 @@
                                                     <input type="number" class="form-control" readonly placeholder="Ingrese el peso unitario" value="{{$producto->peso_unitario}}">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
+                                              </div>
+                                            <div class="row">
+                                                <div class="form-group col-12">
                                                     <label>Descripción</label>
-                                                    <textarea name="" id="" cols="30" rows="10" readonly>{{$producto->descripcion}}</textarea>
+                                                    <textarea class="form-control" readonly>{{$producto->descripcion}}</textarea>
                                                 </div>
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="row">
-</div>
+                                        </div>
+                                         </div>
                                     </form>
                                 </div>
                             </div>

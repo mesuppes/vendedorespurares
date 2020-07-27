@@ -11,9 +11,9 @@
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
-                                <a href="{{route('vendedor.edit',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm">Editar</a>
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Cliente {{$cliente->nombre}} {{$cliente->apellidos}}</h5>
+                                <a href="{{route('vendedor.edit',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm ml-auto">Editar datos</a>
                                 </div>
                                 <div class="card-body">
                                         <div class="row">
@@ -81,21 +81,26 @@
                                             </div>
                                             </div>
                                 </div>
-                     <div class="bg-white card">
-                            <div class="form-group">
-                                        <label>Descuento general</label>
-                                          <a href="{{route('vendedor.createDescuento',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm">Editar</a>
-                                        <div class="input-group">
-                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" readonly value="{{$cliente->descuentoGeneral->descuento ?? 'No hay datos'}}">
-                                        <div class="input-group-append pr-0">
-                                            <span class="input-group-text text-center">&nbsp;%</span>
+                                </div>
+                         <div class="bg-white card card-user">
+                                <div class="card-header d-flex">
+                                    <h5 class="card-title">Descuentos</h5>
+                                <a href="{{route('vendedor.createDescuento',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm ml-auto">Editar descuentos</a>
+                                </div>
+                                <div class="card-body">
+                                        <div class="form-group col-3">
+                                            <label for="descuentoGeneral">Descuento general</label>
+                                              <div class="input-group">
+                                            <input type="number" min="0" step=0.1 class="input-group-text form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" readonly value="{{$cliente->descuentoGeneral->descuento*100 ?? 'No hay datos'}}">
+                                        <div class="input-group-append">
+                                            <span class="form-control text-center" disabled>&nbsp;%</span>
                                         </div>
+                                         </div>
                                         </div>
-                                    </div>
-                        </div>
-                        <div class="bg-white card">
-                             <div class="row">
-                                <table id="tablaDescuentosProductos">
+                                        <br>
+                             <div class="row col-6">
+                                <div class="table-responsive">
+                                <table id="tablaDescuentosProductos" class="table">
                                     <thead>
                                         <tr>
                                            <th>Producto</th>
@@ -109,33 +114,41 @@
                                                 {{$producto->producto->nombre_comercial}}
                                             </td>
                                             <td>
-                                                {{$producto->descuento}} %
+                                                {{$producto->descuento*100}} %
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
-                        <div class="bg-white card">
-                            <div class="form-group">
-                                  <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                        <label>Credito</label>
-                                <div class="input-group-prepend disabled pr-0">
+                        </div>
+                            <div class="bg-white card card-user">
+                                <div class="card-header d-flex">
+                                    <h5 class="card-title">Crédito</h5>
+                                <a href="{{route('vendedor.createCredito',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm ml-auto">Editar crédito</a>
+                                <a href="{{route('vendedor.generarUser',$cliente->id_vendedor)}}" class="btn btn-info btn-sm  ml-auto">Generar Usuario</a>
+                                </div>
+                                <div class="card-body">
+                                        <div class="form-group col-3">
+                                            <label for="descuentoGeneral">Crédito</label>
+                                              <div class="input-group">
+                                             <div class="input-group-prepend disabled pr-0">
                                                     <span class="input-group-text form-control text-center spanPesos" disabled>$ </span>
                                             </div>
                                                 <input type="number"  name="" min=0 step=0.01 class="form-control " placeholder="Credito" value="{{$cliente->credito()->orderby('fecha_reg','desc')->first()->monto ?? 'No hay datos'}}" readonly>
                                             </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Fecha desde</label>
-                                  <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                                <input type="text"  name="" class="form-control " placeholder="fecha desde" value="{{$cliente->credito()->orderby('fecha_reg','desc')->first()->fecha_reg ?? 'No hay datos'}}" readonly>
+                                         </div>
+                                          <div class="form-group col-3">
+                                            <label for="descuentoGeneral">Fecha desde</label>
+                                              <div class="input-group">
+                                                 <input type="text"  name="" class="form-control " placeholder="fecha desde" value="{{$cliente->credito()->orderby('fecha_reg','desc')->first()->fecha_reg ?? 'No hay datos'}}" readonly>
                                             </div>
-                                    </div>
-                                         <a href="{{route('vendedor.createCredito',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm">Editar</a>
+                                         </div>
+                                        </div>
                         </div>
-                           <a href="{{route('vendedor.generarUser',$cliente->id_vendedor)}}" class="btn btn-info btn-sm">Generar Usuario</a>
+                        </div>
                              </div>
                          </form>
                     </div>
