@@ -128,7 +128,6 @@
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Crédito</h5>
                                 <a href="{{route('vendedor.createCredito',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm ml-auto">Editar crédito</a>
-                                <a href="{{route('vendedor.generarUser',$cliente->id_vendedor)}}" class="btn btn-info btn-sm  ml-auto">Generar Usuario</a>
                                 </div>
                                 <div class="card-body">
                                         <div class="form-group col-3">
@@ -148,6 +147,44 @@
                                          </div>
                                         </div>
                         </div>
+                        
+                        <!-- USUARIO -->
+
+                        <div class="bg-white card card-user">
+                                <div class="card-header d-flex">
+                                    <h5 class="card-title">Usuario del Sistema</h5>
+                                
+                                @if(isset($cliente->usuario))
+                                </div>
+                                     <div class="card-body">
+                            <div class="col-md-6"   >
+                                <label for="descuentoGeneral">Mail del Usuario</label>
+                                  <div class="input-group">
+                                 <div class="input-group-prepend disabled pr-0">
+                                </div>
+                                    <input type="mail" name="" class="form-control" placeholder="email" value="{{$cliente->usuario->email ?? 'No hay datos'}}" readonly>
+                                </div>
+                             </div>
+                              <div class="col-md-6">
+                                <label for="descuentoGeneral">Fecha alta</label>
+                                  <div class="input-group">
+                                     <input type="text"  name="" class="form-control " placeholder="fecha alta" value="{{$cliente->usuario->created_at->formatLocalized('%d/%m/%Y - %H:%M') ?? 'No hay datos'}}" readonly>
+                                </div>
+                             </div>
+                            </div>
+
+                                @else
+                                <a href="{{route('vendedor.generarUser',$cliente->id_vendedor)}}" class="btn btn-info btn-sm  ml-auto">Generar Usuario</a>
+                                </div>
+                                @endif
+                                
+               
+                        </div>
+
+
+
+
+
                         </div>
                              </div>
                          </form>

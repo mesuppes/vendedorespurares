@@ -37,14 +37,14 @@
                                     <a href="{{route('pedido.armar', $pedidoDescUltimo->id_pedido)}}"  class="btn btn-sm btn-success ml-auto">Armar pedido
                                     </a>
 
-                                    <a  class="btn btn-sm btn-danger ml-auto" data-toggle="modal" data-target="#modalRechazarPedido">Rechazar pedido
-                                    </a>
                                     @endif
                                     @if(isset($idFacturaProforma))
                                         <a  href="{{route('facturaProforma.show', $idFacturaProforma)}}"
                                             class="btn btn-sm btn-danger ml-auto">Ver factura
                                         </a>
-
+                                    @else
+                                        <a  class="btn btn-sm btn-danger ml-auto" data-toggle="modal" data-target="#modalRechazarPedido">Rechazar pedido
+                                        </a>
                                     @endif
                                 </div>
                                 <div class="card-body">

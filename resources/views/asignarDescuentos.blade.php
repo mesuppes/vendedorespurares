@@ -38,7 +38,7 @@
                                     <div class="form-group">
                                         <label>Descuento general</label>
                                         <div class="input-group">
-                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" value="{{$vendedor->descuentoGeneral->descuento*100 ?? ''}}">
+                                            <input type="number" min="0" step=0.1 class="form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" value="{{$vendedor->descuentoGeneral->descuento ?? ''}}*100">
                                         <div class="input-group-append pr-0">
                                             <span class="input-group-text text-center">&nbsp;%</span>
                                         </div>

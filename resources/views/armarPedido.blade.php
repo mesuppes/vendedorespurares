@@ -86,10 +86,10 @@
                                                     $z=$productoPedido->producto->stockLote->count()
                                                     @endphp
                                                             <!--PRODUCTO-->
+                                                                <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
                                                             @if($i==0)
                                                             <td rowspan="{{$z}}">
                                                                 {{$productoPedido->producto->nombre_comercial}}
-                                                                <input type="hidden"  name="idProducto[]"  class="form-control" value="{{$productoPedido->id_producto}}">
                                                             </td>
                                                             @endif
 
@@ -106,11 +106,11 @@
                                                                 @else
                                                                     error
                                                                 @endif
-                                                            <input type="hidden"  name="precio[]"  class="form-control" value="{{$precio}}">
-                                                            <input type="hidden"  name="tipoMedida[]"  class="form-control" value="{{$productoPedido->tipo_medida}}">
                                                             </td>
                                                             @endif
 
+                                                            <input type="hidden"  name="precio[]"  class="form-control" value="{{$precio}}">
+                                                            <input type="hidden"  name="tipoMedida[]"  class="form-control" value="{{$productoPedido->tipo_medida}}">
 
                                                             <!--CANTIDAD PEDIDA-->
                                                             @if($i==0)
