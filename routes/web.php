@@ -99,12 +99,14 @@ Route::group(['middleware' => ['can:Clientes_Descuento']], function (){
     Route::get('/asignarDescuento/{id?}', 'VendedoresController@createDescuentos')->name('vendedor.createDescuento');
     Route::post('/asignarDescuento', 'VendedoresController@storeDescuento')->name('vendedor.descuentoStore');
 });
-
+//PRODUCTOS
 Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
     Route::get('/listaProductos', 'ProductosController@index')->name('productos.index');
     Route::get('/listaProductos/{id}', 'ProductosController@show')->name('productos.show');
     Route::get('/agregarProducto', 'ProductosController@create')->name('productos.create');
     Route::post('/agregarProducto', 'ProductosController@store')->name('productos.store');
+    #workaround para ver mov Productos
+    Route::get('/movimientoProductos', 'ProductosController@movProductos')->name('productos.movimiento');
 });
 //PRODUCTOS
 Route::group(['middleware' => ['can:Productos_Gestionar']], function (){

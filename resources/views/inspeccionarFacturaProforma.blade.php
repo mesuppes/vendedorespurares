@@ -29,30 +29,30 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Vendedor</label>
-                                                    <input type="text" class="form-control" disabled  value="{{$factura->id_cliente}}">
+                                                    <label>Cliente</label>
+                                                    <input type="text" class="form-control" disabled  value="{{$factura->cliente->nombre}} {{$factura->cliente->apellidos}}">
                                                 </div>
                                             </div>
                                         
-                                        <br>DATOS DEL PEDIDO<br>
+                                        DATOS DEL PEDIDO
 
                                         
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Condición del pago</label>
-                                                    <input type="text" class="form-control" disabled value="1">
+                                                    <input type="text" class="form-control" disabled value="{{$factura->pedido->condicion_pago}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Forma de entrega</label>
-                                                    <input type="text" class="form-control" disabled  value="1">
+                                                    <input type="text" class="form-control" disabled  value="{{$factura->pedido->forma_entrega}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Datos del flete</label>
-                                                    <input type="text" class="form-control" disabled  value="1">
+                                                    <label>Datos de transporte</label>
+                                                    <input type="text" class="form-control" disabled  value="{{$factura->pedido->datos_flete}}">
                                                 </div>
                                             </div>
                                         </div>

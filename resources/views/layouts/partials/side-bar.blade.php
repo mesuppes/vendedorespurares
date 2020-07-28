@@ -98,6 +98,12 @@
             <p>Ver productos</p>
           </a>
         </li>
+        <li {{Route::is('productos.movimiento')? 'class=active':''}}>
+          <a href="{{route('productos.movimiento')}}">
+            <i class="nc-icon nc-align-left-2"></i>
+            <p>Ver Mov.Productos</p>
+          </a>
+        </li>
         <li {{Route::is('productos.create')? 'class=active':''}}>
           <a href="{{route('productos.create')}}">
             <i class="nc-icon nc-simple-add"></i>

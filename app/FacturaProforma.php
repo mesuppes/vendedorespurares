@@ -14,4 +14,12 @@ class FacturaProforma extends Model
 	public function productos(){
     	return $this->hasMany(FacturaProformaItem::class,'id_factura_proforma','id');
     }
+
+    public function cliente(){
+    	return $this->belongsTo(Vendedor::class,'id_cliente','id_vendedor');
+    }
+
+    public function pedido(){
+    	return $this->belongsTo(Pedido::class,'id_pedido','id_pedido');
+    }
 }

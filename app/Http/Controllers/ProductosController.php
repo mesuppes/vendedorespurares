@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Producto;
 use App\ProductoFabrica;
+use App\ProductoMov;
 use App\Http\Requests\ProductoCreateRequest;
 use Auth;
 
@@ -71,5 +72,13 @@ class ProductosController extends Controller
         $producto=Producto::find($nuevoProducto->id_producto);
         return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
+
+    public function movProductos(){
+
+        $movimientos=ProductoMov::orderby('id_movimiento','desc')->paginate(10);
+
+        return view('tablaMovProducto',compact('movimientos'));
+    }
+
 
 }

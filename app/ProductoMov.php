@@ -15,6 +15,13 @@ class ProductoMov extends Model
         return $this->belongsTo(Producto::class,'id_producto','id_producto');
     }
 
+	public function cuenta(){
+        return $this->belongsTo(OptionList::class,'id_cuenta','id_interno')
+    				->where('filtro','=','Cuentas');
+    }
 
+	public function usuario(){
+        return $this->belongsTo(User::class,'id_usuario_reg','id');
+    }
 
 }
