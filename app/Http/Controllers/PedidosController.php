@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CrearPedidoRequest;
 use App\Http\Requests\ArmarPedidoRequest;
 use App\Http\Controllers\WorkflowController;
+use App\Http\Controllers\FacturasController;
 
 // USUARIO Y ROLES
 use App\User;
@@ -296,14 +297,13 @@ class PedidosController extends Controller
 
 	public function armarPedidoStore(ArmarPedidoRequest $request){
 
-		return $request;
+
 	//VALIDAR QUE SIGA PENDIENTE
 		$wf=WorkflowN::where('task_type','=',1)->where('id_task','=',$request['idPedido'])->orderBy('id_workflow','desc')->first();
 
 		if(isset($wf->user_done)){
 			return "El pedido ya se ha ".$wf->statusN->nombre." por ".$wf->userDoneN->name;
 		}		
-
 	//VALIDAR STOCK
 
 		$validarStock=PedidosController::validarStockFactura($request['idProducto'],
@@ -314,6 +314,7 @@ class PedidosController extends Controller
 		if ($validarStock!='ok') {
 			return $validarStock;
 		}
+
 
 	$idVendedor=Pedido::find($request['idPedido'])->id_vendedor;
 
@@ -381,12 +382,13 @@ class PedidosController extends Controller
 				]);
 			}
 		}
-/*
+
 		//Cambiar estado de wf
 		$newWf=WorkflowController::armarPedido($wf->id_workflow);
-*/
-		return "factura creada".$idFactura;
-		//return redirect('/listaFacturas/'.$idFactura)->with('facturaCreada');		
+
+		$factura=FacturaProforma::find($idFactura);   
+        return view('inspeccionarFacturaProforma', compact('factura'));
+
 	}	
 
 	static public function canView($idPedido){
@@ -426,7 +428,8 @@ class PedidosController extends Controller
 					} 
 					//VALIDACION
 					if ($Stock<$cantidad[$i]) {
-						return "ERROR- Stock insuficiente".$producto[$i];
+						$mensaje="ERROR- Stock insuficiente de ".Producto::find($productos[$i])->nombre_comercial;
+						return  $mensaje;
 					}
 				}
 			}
