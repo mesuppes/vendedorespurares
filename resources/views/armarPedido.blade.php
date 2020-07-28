@@ -144,7 +144,7 @@
                                                             <!--UNIDADES A ENTREGAR-->
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number"  name="cantidadUnidades[]" min=0 step=1 max="{{$productoPedido->stock_unidades}}" class="form-control unidades_a_enviar inputUnidades{{$numerotrproducto}}" id="{{$numerotrproducto}} unit" placeholder="Uds. a entregar">
+                                                                    <input type="number"  name="cantidadUnidades[]" min=0 step=1 max="{{$loteProducto->stock_unidades}}" class="form-control unidades_a_enviar inputUnidades{{$numerotrproducto}}" id="{{$numerotrproducto}} unit" placeholder="Uds. a entregar">
                                                                 <div class="input-group-append pr-0">
                                                                     <span class="input-group-text text-center">&nbsp; uds.
                                                                     </span>
@@ -160,7 +160,7 @@
                                                             <!--KG A ENTREGAR-->
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number"  name="cantidadKg[]" min=0 step=0.001 max="{{$productoPedido->stock_kg}}" class="form-control kg_a_enviar inputKilos{{$numerotrproducto}}" id="{{$numerotrproducto}} kilo" placeholder="Kg. a entregar">
+                                                                    <input type="number"  name="cantidadKg[]" min=0 step=0.001 max="{{$loteProducto->stock_kg}}" class="form-control kg_a_enviar inputKilos{{$numerotrproducto}}" id="{{$numerotrproducto}} kilo" placeholder="Kg. a entregar">
                                                                 <div class="input-group-append pr-0">
                                                                     <span class="input-group-text text-center">&nbsp; kg.
                                                                     </span>
@@ -175,7 +175,7 @@
 
                                                             <!--DESCUENTO-->
                                                             <td>
-                                                                {{$productoPedido->descuento*100}} %
+                                                                <a class="descuento">{{$productoPedido->descuento*100}}</a> %
                                                             </td>
 
                                                                 <input type="hidden"  name="descuento[]"  class="form-control" value="{{$productoPedido->descuento}}">
@@ -237,7 +237,8 @@ $(".unidades_a_enviar").bind("keyup change", function(e) {
 
     if($(this).closest('td').parent().find('.unidad_pedida').val()=="Unidades"){
 
-        var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
+    	var descuento=parseFloat($(this).closest('td').parent().find('.descuento').text())/100
+        var precio_unidad=(1-descuento)*parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
         var monto_producto=($(this).val()*precio_unidad).toFixed(2)
         $(this).closest('td').parent().find('.monto_producto').text(monto_producto)
     }
@@ -279,6 +280,7 @@ $(".kg_a_enviar").bind("keyup change", function(e) {
 
     if($(this).closest('td').parent().find('.unidad_pedida').val()=="Kg."){
 
+		var descuento=(1-descuento)*parseFloat($(this).closest('td').parent().find('.descuento').text())/100
         var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
         var monto_producto=($(this).val()*precio_unidad).toFixed(2)
         $(this).closest('td').parent().find('.monto_producto').text(monto_producto)
