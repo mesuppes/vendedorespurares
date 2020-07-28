@@ -13,30 +13,27 @@
                             <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">FACTURA PROFORMA</h5>
+                                    <a class="btn btn-warning ml-auto" onclick="descargarFactura();">Descargar factura</a>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" id="formInspeccionarFactura">
-                                        @csrf
-
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>N° Factura Proforma</label>
                                                     <input type="text" class="form-control" disabled value={{$factura->id}}>
                                                 </div>
-                                        </div>
-
-                                        <div class="row">
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Cliente</label>
                                                     <input type="text" class="form-control" disabled  value="{{$factura->cliente->nombre}} {{$factura->cliente->apellidos}}">
                                                 </div>
                                             </div>
-                                        
-                                        DATOS DEL PEDIDO
-
-                                        
+                                        </div>
+                                        <br>
+                                        <h6>DATOS DEL PEDIDO</h6>
+                                        <br>
+                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Condición del pago</label>
@@ -49,6 +46,8 @@
                                                     <input type="text" class="form-control" disabled  value="{{$factura->pedido->forma_entrega}}">
                                                 </div>
                                             </div>
+                                            </div>
+                                            <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Datos de transporte</label>
@@ -56,8 +55,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-</div>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +120,7 @@
                                 </div>
                             </div>
 </div>
-  
+
 
     <script src="{{asset('dashboard/assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>
@@ -131,10 +128,26 @@
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+  <script type="text/javascript" src="{{asset('dashboard/assets/js/plugins/jspdf.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('dashboard/assets/js/plugins/jspdf.plugin.autotable')}}"></script>
 
+ <script>
 
+     function descargarFactura(){
+
+        var factura= new jsPDF();
+
+        alert('aca se descarga')
+
+     }
+
+ </script>
+
+ <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
 
 
 

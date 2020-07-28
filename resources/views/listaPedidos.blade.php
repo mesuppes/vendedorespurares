@@ -57,8 +57,6 @@
 									No existen pedidos
 									@endforelse
                                 </tbody>
-                                <tfoot>
-</tfoot>
                             </table>
                         </div>
                     </div>
@@ -66,8 +64,13 @@
 	        </div>
 	    </div>
 	</div>
-</div>
-</div>
 
+
+
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
+</div>
+@endsection
 
 
