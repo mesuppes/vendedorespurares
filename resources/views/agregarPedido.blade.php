@@ -25,20 +25,36 @@
 							    <input type="hidden" name="idVendedor" value="{{$vendedor->id_vendedor}}">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Condición del pago</label>
-                                        <input type="text" class="form-control"  name="condicionPago"  placeholder="Ingrese la condición del pago" value="{{old('condicionPago')}}">
+										 <label for="condicionPago">Condición del pago</label>
+                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="condicionPago">
+                                              <option selected>Seleccione condición de pago</option>
+                                              <option value="Contado">Contado</option>
+                                              <option value="Valores">Valores</option>
+     										  <option value="Deposito">Deposito</option>
+                                              <option value="Transferencia">Transferencia</option>
+                                            </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Forma de entrega</label>
-                                        <input type="text" class="form-control"  name="formaEntrega"  placeholder="Ingrese la forma de entrega"  value="{{old('formaEntrega')}}">
+ 										<label for="formaEntrega">Forma de entrega</label>
+                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="formaEntrega">
+                                              <option selected>Seleccione forma de entrega</option>
+                                              <option value="Purares">Purares</option>
+                                              <option value="Retira en fábrica">Retira en fábrica</option>
+     										  <option value="Transporte de terceros">Transporte de terceros</option>
+                                              <option value="Comisionista">Comisionista</option>
+                                            </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Datos del flete</label>
-                                        <input type="text" name="datosFlete"  class="form-control" placeholder="Ingrese los datos del flete"  value="{{old('datosFlete')}}">
+										<label for="datosFlete">Datos del flete</label>
+                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"   name="datosFlete" >
+                                              <option selected>Seleccione datos del flete</option>
+                                              <option value="Frio">Con frío</option>
+                                              <option value="Sin Frio">Sin frio</option>
+                                            </select>
                                     </div>
                                 </div>
                             </div>
