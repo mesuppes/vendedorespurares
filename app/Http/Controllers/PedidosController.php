@@ -121,6 +121,7 @@ class PedidosController extends Controller
 			'forma_entrega' =>$request['formaEntrega'],
 			'datos_flete'   =>$request['datosFlete'],
 			'condicion_pago'=>$request['condicionPago'],
+			'comentarios'	=>$request['comentarios']
 			'id_usuario_reg'=>Auth::user()->id,
 		]);
 		$idPedido = $nuevoPedido->id_pedido;
