@@ -158,11 +158,16 @@ class VendedoresController extends Controller
                 }
             }
 
-        if (Vendedor::find($request['idVendedor'])->credito()->count()>0) {
+        return redirect()->route('vendedor.show', $request['idVendedor']);
+
+    #SI SE AVANZA CON CREDITO, SE DEBE USAR ESTA PARTE:
+/*        if (Vendedor::find($request['idVendedor'])->credito()->count()>0) {
             return redirect()->route('vendedor.show', $request['idVendedor']);
         }else{
             return redirect()->route('vendedor.createCredito', ['id' => $request['idVendedor']]);
-        }
+        }*/
+
+
     }
 
     public function show($id){

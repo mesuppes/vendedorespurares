@@ -100,6 +100,8 @@ class PedidosController extends Controller
 
 	public function store(CrearPedidoRequest $request){
 		
+		return $request;
+
 		//VALIDAR STOCK
 		$validarStock=PedidosController::validarStockPedido($request['idProducto'],$request['tipoMedida'],$request['cantidad']);
 		if ($validarStock!='ok') {
