@@ -41,16 +41,19 @@ class VendedoresController extends Controller
     public function update($id,VendedorUpdateRequest $request){
 
         Vendedor::find($id)->Update([
-            'nombre'    =>$request['nombre'],
-            'apellidos'  =>$request['apellido'],
-            'telefono1'  =>$request['telfono1'],
-            'telefono2' =>$request['telefono2'],
-            'email'     =>$request['email'],
-            'cuit'      =>$request['cuit'],
-            'provincia' =>$request['provincia'],
-            'ciudad'    =>$request['ciudad'],
-            'direccion' =>$request['direccion'],
-            'id_usuario_reg'=> Auth::user()->id,
+            'nombre'           =>$request['nombre'],
+            'apellidos'        =>$request['apellido'],
+            'telefono1'        =>$request['telfono1'],
+            'telefono2'        =>$request['telefono2'],
+            'email'            =>$request['email'],
+            'tipo_documento'   =>$request['tipoDocumento'],
+            'inscripcion_afip' =>$request['inscripcionAfip'],
+            'cuit'             =>$request['cuit'],
+            'codigo_postal'    =>$request['codigoPostal'],
+            'provincia'        =>$request['provincia'],
+            'ciudad'           =>$request['ciudad'],
+            'direccion'        =>$request['direccion'],
+            'id_usuario_reg'   => Auth::user()->id,
         ]);
 
         return redirect()->route('vendedor.show', $id);
@@ -61,16 +64,19 @@ class VendedoresController extends Controller
 
     //1-Crear Vendedor
         $nuevoVendedor=Vendedor::Create([
-            'nombre'    =>$request['nombre'],
-            'apellidos'  =>$request['apellido'],
-            'telefono1'  =>$request['telfono1'],
-            'telefono2' =>$request['telefono2'],
-            'email'     =>$request['email'],
-            'cuit'      =>$request['cuit'],
-            'provincia' =>$request['provincia'],
-            'ciudad'    =>$request['ciudad'],
-            'direccion' =>$request['direccion'],
-            'id_usuario_reg'=> Auth::user()->id,
+            'nombre'          =>$request['nombre'],
+            'apellidos'       =>$request['apellido'],
+            'telefono1'       =>$request['telfono1'],
+            'telefono2'       =>$request['telefono2'],
+            'email'           =>$request['email'],
+            'tipo_documento'  =>$request['tipoDocumento'],
+            'inscripcion_afip'=>$request['inscripcionAfip'],
+            'cuit'            =>$request['cuit'],
+            'codigo_postal'   =>$request['codigoPostal'],
+            'provincia'       =>$request['provincia'],
+            'ciudad'          =>$request['ciudad'],
+            'direccion'       =>$request['direccion'],
+            'id_usuario_reg'  => Auth::user()->id,
         ]);
 
     //2-Crear descuentos para vendedor

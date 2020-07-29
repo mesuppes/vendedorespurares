@@ -24,15 +24,18 @@ class VendedorCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'    =>'required',
-            'apellido'  =>'required',
-            'telefono1' =>'required',
-            'telfono2'  =>'nullable',
-            'email'     =>'required|email',//Formato de mail 
-            'cuit'      =>'required|unique:vendedores,cuit',//No exista para otro vendedor
-            'provincia' =>'required',
-            'ciudad'    =>'required',
-            'direccion' =>'required',
+            'nombre'        =>'required',
+            'apellido'      =>'required',
+            'telefono1'     =>'required',
+            'telfono2'      =>'nullable',
+            'email'         =>'required|email',//Formato de mail 
+            'tipoDocumento' =>'required',
+            'inscripcionAfip'=>'required',
+            'cuit'          =>'required|unique:vendedores,cuit',//No exista para otro vendedor
+            'codigoPostal'  =>'nullable',
+            'provincia'     =>'required',
+            'ciudad'        =>'required',
+            'direccion'     =>'required',
         ];
     }
 }

@@ -25,13 +25,45 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Cliente</label>
-                                                    <input type="text" class="form-control" disabled  value="{{$factura->cliente->nombre}} {{$factura->cliente->apellidos}}">
+                                                    <label>Fecha factura proforma</label>
+                                                    <input type="text" class="form-control" disabled  value="{{$factura->fecha_reg->formatLocalized('%d/%m/%Y - %H:%M')}}">
                                                 </div>
                                             </div>
                                         </div>
                                         <br>
-                                        <h6>DATOS DEL PEDIDO</h6>
+                        <h6>DATOS DEL Cliente</h6>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Nombre</label>
+                                                <input type="text" class="form-control" disabled  value="{{$factura->cliente->nombre}} {{$factura->cliente->nombre}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Cuit/Cuil</label>
+                                                <input type="text" class="form-control" disabled  value="{{$factura->cliente->cuit}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Dirección</label>
+                                                <input type="text" class="form-control" disabled  value="{{$factura->cliente->direccion}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Localidad</label>
+                                                <input type="text" class="form-control" disabled  value="{{$factura->cliente->ciudad}}, {{$factura->cliente->provincia}} - (C.P: {{$factura->cliente->codigo_postal}})">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Telefono</label>
+                                                <input type="text" class="form-control" disabled  value="{{$factura->cliente->telefono1}} / / {{$factura->cliente->telefono2}}">
+                                            </div>
+                                        </div>
+                                        
+                        <h6>DATOS DEL PEDIDO</h6>
                                         <br>
                                          <div class="row">
                                             <div class="col-md-6">
