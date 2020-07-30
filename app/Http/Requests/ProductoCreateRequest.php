@@ -19,7 +19,7 @@ class ProductoCreateRequest extends FormRequest
             'nombreComercial'       =>'required',//|unique:Producto,nombre_comercial',
             //'urlFoto'               =>'requiere',
             'descripcion'           =>'nullable',
-            'pesoUnitario'          =>'required',
+            'pesoUnitario'          =>'nullable',
         ];
     }
 }

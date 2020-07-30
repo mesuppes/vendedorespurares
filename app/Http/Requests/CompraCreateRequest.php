@@ -22,7 +22,7 @@ class CompraCreateRequest extends FormRequest
                 #formato fecha
             'loteCompra'=>'required',
             'comentarios'=>'nullable',
-            'id_producto'=>'required',
+            'idProducto'=>'required',
             'unidades'=>'required',
             'peso_kg'=>'required',
         ];

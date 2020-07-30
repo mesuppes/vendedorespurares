@@ -33,7 +33,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>N° Lote de compra</label>
-                                                    <input type="text" class="form-control" name="loteCompra" value=" {{$loteCompra}} " disabled placeholder="lote de compra" >
+                                                    <input type="text" class="form-control" name="loteCompra" value=" {{$loteCompra}} " readonly placeholder="lote de compra" >
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

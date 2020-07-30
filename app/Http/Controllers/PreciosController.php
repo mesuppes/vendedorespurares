@@ -8,6 +8,7 @@ use App\Precio;
 use App\PrecioV;
 use App\Producto;
 use App\Http\Requests\PrecioCreateRequest;
+use Auth;
 
 class PreciosController extends Controller
 {
@@ -35,6 +36,7 @@ class PreciosController extends Controller
                 'id_producto'   =>$request['idProducto'][0],
                 'precio_kg'     =>$request['precioKg'][0],
                 'precio_unidad' =>$request['precioUnidad'][0],
+                'id_usuario_reg'=>Auth::user()->id,
                 'fecha_desde'   =>today()->format('Y-m-d'),
             ]);
             return PreciosController::CargaMasivaCreate();
@@ -66,6 +68,7 @@ class PreciosController extends Controller
                     'precio_kg'     =>$request['precioKg'][$i],
                     'precio_unidad' =>$request['precioUnidad'][$i],
                     'fecha_desde'   =>today()->format('Y-m-d'),
+                    'id_usuario_reg'=>Auth::user()->id,
                     'id_modificacion'=>$idModificacion,
                 ]);
             }

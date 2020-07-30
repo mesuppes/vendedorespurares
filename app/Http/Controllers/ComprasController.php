@@ -8,6 +8,7 @@ use App\Http\Requests\CompraCreateRequest;
 use App\Compra;
 use App\Producto;
 use App\ProductoMov;
+use Auth;
 
 class ComprasController extends Controller
 {
@@ -32,6 +33,8 @@ class ComprasController extends Controller
 
     public function store(CompraCreateRequest $request){
 
+      //return $request;
+
             //1-ENCABEZADO
         $compra=Compra::create([
             'id_proveedor'  =>$request['idProveedor'],
@@ -46,13 +49,13 @@ class ComprasController extends Controller
         //2-PRODUCTOS
         $longitud=count($request['idProducto']);
         for ($i=0; $i < $longitud ; $i++) {
-            if ($request['unidades']>0) {
+            if ($request['unidades'][$i]>0) {
                 $producto¨=ProductoMov::create([
-                   'id_producto'=>$request['idProducto'],
+                   'id_producto'=>$request['idProducto'][$i],
                    'id_compra'  =>$compra->id_compra,
                    'lote_compra'=>$request['loteCompra'],
-                   'unidades'   =>$request['unidades'],
-                   'peso_kg'    =>$request['peso_kg'],
+                   'unidades'   =>$request['unidades'][$i],
+                   'peso_kg'    =>$request['peso_kg'][$i],
                    'id_cuenta'     =>2,//Coressponde a la cuenta Compra
                    'id_usuario_reg'=>Auth::user()->id,
                 ]);
