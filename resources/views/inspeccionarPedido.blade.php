@@ -43,8 +43,10 @@
                                             class="btn btn-sm btn-danger ml-auto">Ver factura
                                         </a>
                                     @else
+                                        @if($wf->status!=6)
                                         <a  class="btn btn-sm btn-danger ml-auto" data-toggle="modal" data-target="#modalRechazarPedido">Rechazar pedido
                                         </a>
+                                        @endif
                                     @endif
                                 </div>
                                 <div class="card-body">
@@ -77,7 +79,7 @@
                                                 <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Comentarios</label>
-                                                    <textarea class="form-control" readonly placeholder="comentarios">{{$pedidoDescUltimo->comentarios}}</textarea>
+                                                    <textarea class="form-control" readonly placeholder="No hay comentario">{{$pedidoDescUltimo->comentarios}}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,7 +152,10 @@
       <div class="modal-body">
         <form method="POST" name="formRechazarPedido" action="{{route('pedido.rechazar', $pedidoDescUltimo->id_pedido)}}">
         @csrf
-        <textarea name="motivoBaja">Ingrese el motivo por el que rechazará el pedido...</textarea>
+         <div class="form-group">
+            <label>Motivo</label>
+            <textarea class="form-control" name="motivoBaja" placeholder="Ingrese el motivo por el que rechazará el pedido..."></textarea>
+         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -180,8 +185,12 @@
 
 </script>
                 @endif
+
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
 
 
 
