@@ -80,5 +80,11 @@ class ProductosController extends Controller
         return view('tablaMovProducto',compact('movimientos'));
     }
 
+    public function stockLote(){
+
+        $productos=Producto::all();
+        return view('productoStock')->with(compact('producto'));
+
+    }
 
 }
