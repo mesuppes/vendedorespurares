@@ -216,7 +216,7 @@
                             <p>TOTAL: <a class="monto_total"></a></p>
                         </div>
                         <div class="d-flex pr-2">
-                            <button type="submit" id="" class="btn btn-success">Armar pedido
+                            <button type="submit" id="botonArmarPedido" class="btn btn-success">Armar pedido
 </button>
                         </div>
                     </form>
@@ -336,12 +336,34 @@ $('.monto_total').text('$ '+montoTotal)
 
     }
 
+    $("#botonArmarPedido").click(function(event){
+        event.preventDefault()
+        let form = event.target;
+
+        swal.fire({
+            title: 'Generar factura',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Generar factura'
+        }).then((result) => {
+        if (result.value) {
+            $('#formArmarPedido').submit();
+        }
+    });
+});
+
+
 </script>
 
 
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
+</div>
+@endsection
 
-</div>
-</div>
 
 
 
