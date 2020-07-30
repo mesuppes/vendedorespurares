@@ -105,8 +105,11 @@ Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
     Route::get('/listaProductos/{id}', 'ProductosController@show')->name('productos.show');
     Route::get('/agregarProducto', 'ProductosController@create')->name('productos.create');
     Route::post('/agregarProducto', 'ProductosController@store')->name('productos.store');
+    
+    Route::get('/stockProductos', 'ProductosController@stockLote')->name('productos.stock');
     #workaround para ver mov Productos
     Route::get('/movimientoProductos', 'ProductosController@movProductos')->name('productos.movimiento');
+
 });
 //PRODUCTOS
 Route::group(['middleware' => ['can:Productos_Gestionar']], function (){

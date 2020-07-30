@@ -83,7 +83,7 @@ class ProductosController extends Controller
     public function stockLote(){
 
         $productos=Producto::all();
-        return view('productoStock')->with(compact('producto'));
+        return view('productoStock')->with(compact('productos'));
 
     }
 

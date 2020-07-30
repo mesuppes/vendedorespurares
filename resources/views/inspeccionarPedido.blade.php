@@ -43,8 +43,10 @@
                                             class="btn btn-sm btn-danger ml-auto">Ver factura
                                         </a>
                                     @else
-                                        <a  class="btn btn-sm btn-danger ml-auto" data-toggle="modal" data-target="#modalRechazarPedido">Rechazar pedido
-                                        </a>
+                                        @if($wf->status!=6)
+                                            <a  class="btn btn-sm btn-danger ml-auto" data-toggle="modal" data-target="#modalRechazarPedido">Rechazar pedido
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                                 <div class="card-body">

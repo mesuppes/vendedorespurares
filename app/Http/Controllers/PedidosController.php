@@ -100,7 +100,7 @@ class PedidosController extends Controller
 
 	public function store(CrearPedidoRequest $request){
 		
-		return $request;
+		//return $request;
 
 		//VALIDAR STOCK
 		$validarStock=PedidosController::validarStockPedido($request['idProducto'],$request['tipoMedida'],$request['cantidad']);
@@ -284,7 +284,7 @@ class PedidosController extends Controller
 			$pedido=Pedido::find($wf->id_task)->update([
 						'motivo_baja'=>request('motivoBaja'),
 						]);
-		return show($pedido->pedido_padre);
+		return back();
 	}
 
 
