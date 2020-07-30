@@ -11,6 +11,11 @@
                     <div class="row">
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
+                                @if(session('respuesta'))
+                                <div class="alert alert-success">
+                                {{session('respuesta')}}
+                                 </div>
+                                @endif
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Cliente {{$cliente->nombre}} {{$cliente->apellidos}}</h5>
                                 <a href="{{route('vendedor.edit',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm ml-auto">Editar datos</a>
@@ -147,13 +152,13 @@
                                          </div>
                                         </div>
                         </div>
-                        
+
                         <!-- USUARIO -->
 
                         <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Usuario del Sistema</h5>
-                                
+
                                 @if(isset($cliente->usuario))
                                 </div>
                                      <div class="card-body">
@@ -177,18 +182,17 @@
                                 <a href="{{route('vendedor.generarUser',$cliente->id_vendedor)}}" class="btn btn-info btn-sm  ml-auto">Generar Usuario</a>
                                 </div>
                                 @endif
-                                
-               
-                        </div>
-
-
-
 
 
                         </div>
-                             </div>
+
+
+
+
+
+                        </div>
                          </form>
-                    </div>
+
                     @if($errors->any())
     <ul>
         @foreach($errors->all() as $error)
@@ -196,25 +200,19 @@
         @endforeach
     </ul>
 @endif
-                            </div>
-                        </div>
-
+ <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-                            </div>
+@endsection
+
+
 
     <script src="{{asset('dashboard/assets/js/core/jquery.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-
-    <script type="text/javascript">
-
-
-</script>
-</div>
-</div>
-
 
 
 

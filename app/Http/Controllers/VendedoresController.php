@@ -200,8 +200,9 @@ class VendedoresController extends Controller
             $respuesta='Usuario generado. Contraseña provisoria: Purares123';
         }else{
             $respuesta='El mail ya se encuentra registrado';
+            return back()->with('respuesta',$respuesta);
         }
-        return $respuesta;
+        return back()->with('respuesta',$respuesta);
     }
 
     public function restaurarPassword($id){
