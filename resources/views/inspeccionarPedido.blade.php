@@ -74,6 +74,12 @@
                                                     <input type="text" class="form-control" disabled placeholder="Ingrese los datos del flete" value="{{$pedidoDescUltimo->datos_flete}}">
                                                 </div>
                                             </div>
+                                                <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Comentarios</label>
+                                                    <textarea class="form-control" readonly placeholder="comentarios">{{$pedidoDescUltimo->comentarios}}</textarea>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row">
                                         </div>

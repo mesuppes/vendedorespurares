@@ -23,6 +23,7 @@
                         <form method="POST" id="formHacerPedido" action="{{route('pedido.store')}}">
 							@csrf
 							    <input type="hidden" name="idVendedor" value="{{$vendedor->id_vendedor}}">
+                                <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 										 <label for="condicionPago">Condición del pago</label>
@@ -47,6 +48,8 @@
                                             </select>
                                     </div>
                                 </div>
+                                </div>
+                                <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
 										<label for="datosFlete">Datos del flete</label>
@@ -57,8 +60,19 @@
                                             </select>
                                     </div>
                                 </div>
+                                    <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Comentario</label>
+                                                    <textarea class="form-control" name="comentarios"  placeholder="Ingrese algún comentario"></textarea>
+                                                </div>
+                                            </div>
+                                </div>
                             </div>
-                <div class="bg-white card">
+                             </div>
+                            </div>
+                            </div>
+
+                <div class="bg-white card card-user">
                     <div class="card-header">
                         <h5 class>Productos</h5>
                     </div>
@@ -68,7 +82,7 @@
                    @php $i=0
                      @endphp
                 @foreach($productos as $producto)
-                <div class="card d-inline-flex flex-row flex-wrap pl-2l-6 pl-3 pr-1">
+                <div class="card bg-white d-inline-flex col-12 flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
                         <img src= "{{$producto->url_foto}}" width="100" alt="Imagen de {{$producto->nombre_comercial}}">
                     </div>
@@ -112,7 +126,7 @@
                       @php $i=0
                      @endphp
                 @foreach($productos as $producto)
-                <div class="card d-inline-flex flex-row flex-wrap pl-2l-6 pl-3 pr-1">
+                <div class="card d-inline-flex flex-row col-12 flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
                         <img src= "{{$producto->url_foto}}" width="100" alt="Imagen de {{$producto->nombre_comercial}}">
                     </div>
