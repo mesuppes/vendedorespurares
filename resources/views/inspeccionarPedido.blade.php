@@ -44,13 +44,8 @@
                                         </a>
                                     @else
                                         @if($wf->status!=6)
-<<<<<<< HEAD
                                             <a  class="btn btn-sm btn-danger ml-auto" data-toggle="modal" data-target="#modalRechazarPedido">Rechazar pedido
                                             </a>
-=======
-                                        <a  class="btn btn-sm btn-danger ml-auto" data-toggle="modal" data-target="#modalRechazarPedido">Rechazar pedido
-                                        </a>
->>>>>>> d98cf22c6bda2ada71ec0a190c7ec099245f9cf4
                                         @endif
                                     @endif
                                 </div>
