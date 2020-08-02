@@ -35,10 +35,10 @@ class WorkflowController extends Controller{
                 $actionToDo=4;//aprobar pedido
                 $status=1;
             }else{  //Si no requiere aprobación->
-                $toRole=null;
+                $toRole=Role::findByName('Administracion')->id;
                 $toUser=null;//Vendedor
                 $actionToDo=4;//aprobar pedido
-                $status=4;//aprobado automáticamente
+                $status=1;//aprobado automáticamente
             }
         }else{
             return 'Error:Se ah registrado un error al asignar el flujo de aprobación';

@@ -16,6 +16,10 @@ class Producto extends Model
         return $this->belongsTo(Stockproducto::class,'id_producto','id_producto');
     }
 
+    public function precioActual(){
+        return $this->belongsTo(PrecioV::class,'id_producto','id_producto');
+    }
+
     public function stockLote(){
         return $this->hasMany(ProductoStocklote::class,'id_producto','id_producto');
     }

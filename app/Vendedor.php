@@ -22,7 +22,7 @@ class Vendedor extends Model
     }
 
 	public function descuentoGeneral(){
-        return $this->belongsTo(VendedorDescuentoGeneral::class,'id_vendedor','id_vendedor');
+        return $this->hasMany(VendedorDescuentoGeneral::class,'id_vendedor','id_vendedor');
     }
 
     public function descuentoProductos(){

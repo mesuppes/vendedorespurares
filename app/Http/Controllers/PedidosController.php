@@ -87,12 +87,12 @@ class PedidosController extends Controller
 	{
 		if (Auth::user()->hasAnyRole('Administracion','Gestor_Cliente')) {
 			$vendedor=Vendedor::find(request('idVendedor'));
-			$productos= PedidosController::tablaProductoDescuento(request('idVendedor'));
+			$productos= producto::all();
 			return view('agregarPedido')->with(compact('productos','vendedor'));
 		
 		}elseif (Auth::user()->hasRole('Cliente')) {
 			$vendedor=User::find(Auth::user()->id)->vendedor;
-			$productos= PedidosController::tablaProductoDescuento($vendedor->id_vendedor);
+			$productos=producto::all();
 			return view('agregarPedido')->with(compact('productos','vendedor'));
 		}else{
 			return "ERROR - Su rol no permite realizar la operación";
@@ -405,11 +405,14 @@ class PedidosController extends Controller
 				$idUserFrom=$wfs->pluck('from_user')->toArray();
 				$idUserTo=$wfs->pluck('to_user')->toArray();
 		//3-Usuario del vendedor		
-				$idVendedor=Pedido::find($idPedido)->pluck('id_vendedor')->toArray();
+				$vendedor=Pedido::find($idPedido)->vendedor;
+				$usuarioVendedor=$vendedor->usuario->pluck('id')->toArray();
 
 		//4-Verificar si el rol del usario esta dentro de estos array
-				$usersCan=array_merge($idUserFrom,$idUserTo,$idVendedor);
+				$usersCan=array_merge($idUserFrom,$idUserTo,$usuarioVendedor);
 
+		#busca si el usuario logueado esta detro del array armado
+		#return in_array(7,$usersCan);
 		return in_array(Auth::user()->id,$usersCan);
 
 	}		
