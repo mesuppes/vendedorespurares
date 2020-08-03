@@ -35,7 +35,8 @@
                                         <label>Cliente</label>
                                         <input type="text" class="form-control" placeholder="Vendedor" value="{{$vendedor->nombre}} {{$vendedor->apellidos}}" disabled>
                                     </div>
-                        <!--DESCUENTO GENEREAL -->    
+                                </div>
+                        <!--DESCUENTO GENEREAL -->
                                 @php
                                     $cliente=$vendedor;
                                     $descuentoG=$cliente->descuentoGeneral()->orderBy('id','desc')->first();
@@ -52,15 +53,19 @@
                                                     <label>Tipo de descuento</label>
                                                     <div class="input-group">
                                                     <div class="input-group-append">
-                                                          <select class="selectpicker form-control" data-style="btn btn-danger btn-block" required name="tipoDocumento" >
-                                                            <option selected>{{$nombreDescuentoG}}</option>                                                           
+                                                          <select class="selectpicker form-control" id="selectDescuentoGeneral" data-style="btn btn-danger btn-block" required name="" >
+                                                            <option selected>{{$nombreDescuentoG ?? 'Seleccione tipo'}}</option>
                                                                @foreach($descuentos as $descuento)
                                                                     <option value="{{$descuento->id}}">{{$descuento->nombre}}</option>
                                                                 @endforeach
                                                             </select>
                                                     </div>
-
-                                                    <input type="text" name="cuit" class="form-control" readonly value="{{$porcentDescuentoG ?? "sin descuento"}} %" >
+                                                    <input type="number" id="inputDescuentoGeneral" name="" class="form-control" value="{{$porcentDescuentoG}}" placeholder="No hay descuento">
+                                                      <div class="input-group-append pr-0">
+                                                        <span class="input-group-text text-center">&nbsp;
+                                                        %
+                                                        </span>
+                                                    </div>
                                                     </div>
                                                 </div>
                                 </div>
@@ -122,10 +127,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            </div>
-                            <div class="row">
+                        </div>
                                 <button class="btn btn-info" id="botonAgregarDescuentoProducto">Agregar producto</button>
-                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-success" type="submmit">Asignar descuento</button>
@@ -172,6 +175,17 @@
         $( "#trDescuentoProducto" ).clone().appendTo( "#tablaDescuentosProductos" ).find(".inputDescuento").val("").end();
 
     })
+
+$('#selectDescuentoGeneral').change(function() {
+
+    if($(this).val()==1){
+        $('#inputDescuentoGeneral').val('30')
+    }else{
+        $('#inputDescuentoGeneral').val('20')
+    }
+
+})
+
 </script>
 
 
