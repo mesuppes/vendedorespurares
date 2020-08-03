@@ -144,8 +144,8 @@
                         	<a/> / <a class="unidad">Unidad</a></div>
                         <input type="hidden" class="otro_precio" value="{{$producto->precio_kg}}">
                         <input type="hidden" class="otro_stock" value="{{$producto->stock_kg}}">
-                        @if($producto->dcto_usar>0)
-                        <span class="badge badge-danger badge-pill pl-1 pr-1">{{$producto->dcto_usar*100}} %</span>
+                        @if($descuento>0)
+                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$descuento*100}}</a> %</span>
                         @endif
                         <br>
                         <div class="mb-2 mr-0 pr-1 text-right d-inline">Stock Actual <a class="stock">
@@ -253,8 +253,8 @@
                         	<a/> / <a class="unidad">Unidad</a></div>
                         <input type="hidden" class="otro_precio" value="{{$producto->precio_kg}}">
                         <input type="hidden" class="otro_stock" value="{{$producto->stock_kg}}">
-                        @if($producto->dcto_usar>0)
-                        <span class="badge badge-danger badge-pill pl-1 pr-1">{{$producto->dcto_usar*100}} %</span>
+                        @if($descuento>0)
+                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$descuento*100}}</a> %</span>
                         @endif
                         <br>
                         <div class="mb-2 mr-0 pr-1 text-right d-inline">Stock Actual <a class="stock">
@@ -486,7 +486,8 @@ actualizarMontoTotal()
 $(".cantidad").bind("keyup change", function(e) {
 
     var precio=parseFloat($(this).closest('div').parent().parent().find('.precio').text())
-    var monto=($(this).val()*precio).toFixed(2)
+    var precioDescuento=precio*(1-(parseFloat($(this).closest('div').parent().parent().find('.descuento').text()/100)))
+    var monto=($(this).val()*precioDescuento).toFixed(2)
 	$(this).closest('div').parent().parent().parent().find('.monto_producto').text(monto)
 	actualizarMontoTotal()
 
