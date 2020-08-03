@@ -92,16 +92,34 @@
                                     <h5 class="card-title">Descuentos</h5>
                                 <a href="{{route('vendedor.createDescuento',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm ml-auto">Editar descuentos</a>
                                 </div>
+                                <!--DESCUENTO GENEREAL -->    
+                                @php
+                                    $descuentoG=$cliente->descuentoGeneral()->orderBy('id','desc')->first();
+                                    if (isset($descuentoG)) {
+                                        $nombreDescuentoG=$descuentoG->descuento->nombre;
+                                        $porcentDescuentoG=$descuentoG->descuento->descuento*100;
+                                    }else{
+                                        $nombreDescuentoG=null;
+                                        $porcentDescuentoG=null;
+                                    }
+                                @endphp
+
                                 <div class="card-body">
-                                        <div class="form-group col-3">
-                                            <label for="descuentoGeneral">Descuento general</label>
-                                              <div class="input-group">
-                                            <input type="number" min="0" step=0.1 class="input-group-text form-control" name="descuentoGeneral" placeholder="Ingrese porcentaje de descuento general" readonly value="{{$cliente->descuentoGeneral->descuento*100 ?? 'No hay datos'}}">
-                                        <div class="input-group-append">
-                                            <span class="form-control text-center" disabled>&nbsp;%</span>
-                                        </div>
-                                         </div>
-                                        </div>
+                                    <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Tipo de descuento</label>
+                                                    <div class="input-group">
+                                                    <div class="input-group-append">
+                                                          <select class="selectpicker form-control" data-style="btn btn-danger btn-block" required name="tipoDocumento" readonly>
+                                                            <option selected>{{$nombreDescuentoG}}</option>                                                           
+                                                            </select>
+                                                    </div>
+
+                                                    <input type="text" name="cuit" class="form-control" readonly value="{{$porcentDescuentoG ?? "sin descuento"}} %" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                            <!--DESCUENTO POR PRODUCTO -->    
                                         <br>
                              <div class="row col-6">
                                 <div class="table-responsive">

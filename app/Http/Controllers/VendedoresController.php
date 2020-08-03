@@ -9,6 +9,7 @@ use App\VendedorCredito;
 use App\VendedorDescuentoGeneral;
 use App\VendedorDescuentoProducto;
 use App\User;
+use App\Descuento;
 use App\Http\Requests\VendedorCreateRequest;
 use App\Http\Requests\VendedorDescuentoCreateRequest;
 use App\Http\Requests\VendedorUpdateRequest;
@@ -113,34 +114,21 @@ class VendedoresController extends Controller
     public function createDescuentos($idVendedor){
 
         $vendedor=Vendedor::find($idVendedor);
+        $descuentos=Descuento::all();
         $productos=Producto::all();
 
-        return view('asignarDescuentos')->with(compact('vendedor','productos'));
+        return view('asignarDescuentos')->with(compact('vendedor','productos','descuentos'));
     }
 
 
     public function storeDescuento(VendedorDescuentoCreateRequest $request){
 
         //1-DESCUETO GENETAL
-
-        #Buscar descuento
-        $DescuentoGeneral=VendedorDescuentoGeneral::where('id_vendedor','=',$request['idVendedor']);
-
-         if (count($DescuentoGeneral->get()) == null) {
-        //NO EXISTE->Guardar el descuento General
-            $dg=VendedorDescuentoGeneral::create([
+        $dg=VendedorDescuentoGeneral::create([
                         'id_vendedor'   =>$request['idVendedor'],
-                        'descuento'     =>$request['descuentoGeneral']/100,
+                        'id_descuento'  =>$request['idDescuentoGeneral'],
                         'id_usuario_reg'=>Auth::user()->id,
-            ]);
-         }else{
-        //EXISTE->actualizar el descuento General
-            $dg=$DescuentoGeneral->update([
-                        'id_vendedor'   =>$request['idVendedor'],
-                        'descuento'     =>$request['descuentoGeneral']/100,
-                        'id_usuario_act'=>Auth::user()->id,
-            ]);
-        }
+        ]);
 
         //2-DESCUENTO POR PRODUCTO
             #Eliminar descuentos por productos viejos

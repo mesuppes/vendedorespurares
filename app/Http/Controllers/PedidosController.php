@@ -28,7 +28,9 @@ use App\FacturaProformaItem;
 use App\ProductoMov;
 use App\ProductoStock;
 use App\ProductoStockLote;
-
+use App\VendedorDescuentoGeneral;
+use App\Descuento;
+use App\PrecioV;
 
 
 class PedidosController extends Controller
@@ -129,17 +131,33 @@ class PedidosController extends Controller
 	//AGREGAR PRODUCTOS AL PEDIDO
 		//Cantidad producto
 		$longitud=count($request['idProducto']);
-		$tablaProducto= PedidosController::tablaProductoDescuento($request['idVendedor']);
+		$vendedor=Vendedor::find($request['idVendedor']);
+		
+		$descuentoGeneral=$vendedor->descuentoGeneral()->orderBy('id','desc')->first();
+		if (isset($descuentoGeneral)) {
+			$descGeneral=$descuentoGeneral->descuento->descuento;
+		}else{
+			$descGeneral=0;
+		}
+
 
 		for ($i=0; $i <$longitud ; $i++) {
 			if ($request['cantidad'][$i]>0) {
-				$producto=$tablaProducto->where('id_producto','=',$request['idProducto'][$i])->first();
+				
 				//Determianr Precio (unitario/KG)
-				if ($request['tipoMedida'][$i]=='kg') {
-					$precio=$producto->precio_kg;
-				}else{
-					$precio=$producto->precio_unidad;
-				}
+					if ($request['tipoMedida'][$i]=='kg') {
+						$precio=PrecioV::find($request['idProducto'][$i])->precio_kg;
+					}else{
+						$precio=PrecioV::find($request['idProducto'][$i])->precio_unidad;
+					}
+				//Determinar Descuento
+					$productoDescuento=$vendedor->descuentoProductos()->where('id_producto','=',$request['idProducto'][$i])->first();
+			        if (isset($productoDescuento)) {
+			        	$descuento=$productoDescuento->descuento;
+			        }else{
+			            $descuento=$decGeneral;    
+			        }
+
 				//Cargar en la DB
 				PedidoProducto::create([
 					'id_pedido'		=>$idPedido,
@@ -147,8 +165,8 @@ class PedidosController extends Controller
 					'tipo_medida'	=>$request['tipoMedida'][$i],
 					'cantidad'		=>$request['cantidad'][$i],
 					'precio_unitario'=>$precio,
-					'descuento'		=>$producto->dcto_usar,
-					'precio_final'	=>$precio*$request['cantidad'][$i]*(1- $producto->dcto_usar),
+					'descuento'		=>$descuento,
+					'precio_final'	=>$precio*$request['cantidad'][$i]*(1- $descuento),
 				]);
 			}
 		}
@@ -347,14 +365,15 @@ class PedidosController extends Controller
 
 				#DETERMINAR QUE PRECIO UTILIAR(UNIDAD/KG)
 				if ($request['tipoMedida'][$i]=='Unidades') {
+					
 					$cantidad=$request['cantidadUnidades'][$i];
-						$precio=$request['precio'][$i];
-						$descuento=$request['descuento'][$i];
 				}elseif ($request['tipoMedida'][$i]=='kg') {
+					
 					$cantidad=$request['cantidadKg'][$i];
-						$precio=$request['precio'][$i];
-						$descuento=$request['descuento'][$i];
 				}
+						
+				$precio=$request['precio'][$i];
+				$descuento=$request['descuento'][$i];
 				
 
 				#INSERT DB ITEM DE FACTURA PROFORMA 
