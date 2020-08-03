@@ -75,13 +75,16 @@
                 <div class="bg-white card card-user">
                     <div class="card-header">
                         <h5 class>Productos</h5>
+                      {{$vendedor->inscripcion_afip}}
+
                     </div>
                 </div>
                     @if(old('cantidad'))
                     @for( $i =0; $i < count(old('cantidad')); $i++)
-                   @php $i=0
+                   @php $i=0;
                        $decGeneral=$vendedor->descuentoGeneral()->orderBy('id','desc')->first()->descuento->descuento;
                      @endphp
+
 
                 @foreach($productos as $producto)
                 <div class="card bg-white d-inline-flex col-12 flex-row flex-wrap pl-2l-6 pl-3 pr-1">

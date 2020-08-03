@@ -16,7 +16,7 @@ class VendedorDescuentoCreateRequest extends FormRequest
     {
         return [
             'idVendedor'        =>'required',
-            'descuentoGeneral'  =>'nullable | between:0,100',
+            'idDescuentoGeneral'=>'required',
             'idProducto'        =>'nullable',
             'descuentoProducto' =>'nullable | between:0,100',
         ];
