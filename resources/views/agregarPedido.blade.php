@@ -13,15 +13,15 @@
                 <div class="bg-white card card-user">
                     <div class="card-header">
                         @isset($vendedor)
-                            <h5 class="card-title">Datos del pedido para {{$vendedor->nombre}} {{$vendedor->apellidos}}</h5>
+                            <h5 class="card-title">Datos del pedido de {{$vendedor->nombre}} {{$vendedor->apellidos}}</h5>
                         @endisset
                         @empty($vendedor)
                             <h5 class="card-title">Datos del pedido</h5>
                         @endempty
                     </div>
                     <div class="card-body">
-                        <form method="POST" id="formHacerPedido" action="{{route('pedido.store')}}">
-							@csrf
+                        <form method="POST" id="formHacerPedido" action="{{route('pedido.store')}}" class="needs-validation">
+							     @csrf
 							    <input type="hidden" name="idVendedor" value="{{$vendedor->id_vendedor}}">
                                 <div class="row">
                                 <div class="col-md-6">
@@ -80,7 +80,9 @@
                     @if(old('cantidad'))
                     @for( $i =0; $i < count(old('cantidad')); $i++)
                    @php $i=0
+                       $decGeneral=$vendedor->descuentoGeneral()->orderBy('id','desc')->first()->descuento->descuento;
                      @endphp
+
                 @foreach($productos as $producto)
                 <div class="card bg-white d-inline-flex col-12 flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
@@ -183,12 +185,70 @@
                             </div>
                             @endrole
                         <div class="d-flex pr-2">
-                            <button type="submit" id="botonHacerPedido" class="btn btn-success">Hacer pedido
-</button>
+   <button type="submit" class="btn btn-success" id="botonHacerPedido" >Hacer pedido</button>
                         </div>
-						     </div>
+
+		     </div>
                          </form>
                     </div>
+      <script>
+      	(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }else{
+         event.preventDefault();
+        form.classList.add('was-validated');
+
+        var productosPedidos=[];
+        var cantidadPedida=[];
+        var montos=[];
+
+		$('.cantidad').each(function(){
+       		 if($(this).val()!=0){
+			 productosPedidos.push($(this).closest('div').parent().parent().parent().find('.card-title').text())
+       		 cantidadPedida.push($(this).val()+' '+$(this).closest('div').find('.spanUnidad').text())
+       		 montos.push('$ '+parseFloat($(this).closest('div').parent().parent().parent().find('.monto_producto').text()))
+
+                                  }})
+		if(productosPedidos.length>0){
+				var tablaProductosPedidos = $('<table class="table"><thead><th class="text-left">Productos</th><th>Cantidad</th><th>Monto</th></thead><tbody></tbody></table>')
+				for (var i = 0; i < productosPedidos.length; i++) {
+					tablaProductosPedidos.find('tbody').append('<tr><td class="text-left">'+productosPedidos[i]+'</td><td>'+cantidadPedida[i]+'</td><td>'+montos[i]+'</td></tr>')
+				}
+			}
+
+          swal.fire({
+            title: 'Confirmar pedido',
+            html: 'Pedido de {{$vendedor->nombre}} {{$vendedor->apellidos}}'+
+                   '<br>La condición de pago es '+$('select[name=condicionPago] option:selected').text()+
+                   '<br>La forma de entrega es '+$('select[name=formaEntrega] option:selected').text()+
+                   '<br>Datos de flete: '+$('select[name=datosFlete] option:selected').text()+
+                   '<br>'+$('textarea[name=comentarios]').val()+
+                   '<br>'+$('<div></div>').html(tablaProductosPedidos).html(),
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Cargar pedido'
+        }).then((result) => {
+        if (result.value) {
+            $('#formHacerPedido').submit();
+        }
+    });
+    }
+      }, false);
+    });
+  }, false);
+})();
+
+      </script>
                 </div>
             </div>
 
@@ -216,6 +276,7 @@
   <script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
 
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4@3.2.0/bootstrap-4.css"></link>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript">
@@ -299,23 +360,6 @@ $(".cantidad").bind("keyup change", function(e) {
 
 })
 
-$("#botonHacerPedido").click(function(event){
-		event.preventDefault()
-        let form = event.target;
-
-        swal.fire({
-            title: 'Confirmar pedido',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Cargar pedido'
-        }).then((result) => {
-        if (result.value) {
-            $('#formHacerPedido').submit();
-        }
-    });
-});
 
 
 </script>

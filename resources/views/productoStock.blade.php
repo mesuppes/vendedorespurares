@@ -13,10 +13,10 @@
                             <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
                             <div>
-                            
+
                                 <h5 class="card-title">Stock de productos</h5>
                                 </div>
-                
+
                                 <span class="float-right">
                                     <a  href="{{route('productos.movimiento')}}"
                                         class="btn btn-sm btn-danger ml-auto">Ver movimientos
@@ -70,7 +70,7 @@
                                                         <td>
                                                             {{$lote->stock_kg}} kg
                                                         </td>
-                                        
+
                                                     </tr>
                                                         @php
                                                         $r=$r+1
@@ -105,12 +105,11 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
 
 
 

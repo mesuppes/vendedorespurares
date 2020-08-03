@@ -5,7 +5,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo-mini">
           <div class="logo-image-small">
-          <img src="{{url('storage/profile-pic')}}/{{Auth::user()->avatar}}" alt="{{Auth::user()->name}}"/>
+          <img src="" alt="{{Auth::user()->name}}"/>
           </div>
         </a>
         <a href="#" class="simple-text logo-normal">
@@ -68,7 +68,7 @@
 
         <li {{Route::is('pedido.create')? 'class=active':''}}>
             <a href="{{route('pedido.create')}}">
-              <i class="nc-icon nc-notes"></i>
+              <i class="nc-icon nc-single-copy-04"></i>
               <p>Agregar pedido</p>
             </a>
         </li>

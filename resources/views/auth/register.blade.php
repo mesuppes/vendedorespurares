@@ -7,7 +7,7 @@
         <div class="col-md-8">
             <div class="card">
 
-            <a href="{{ route('welcome') }}"> <h4>Purares Vendedores</h4></a>
+            <a href="{{ route('welcome') }}"> <h4>Purares Clientes</h4></a>
                     <hr>
                 <div class="card-header">
                     <h4 class="" style="text-align:center;">{{ __('Register') }}</h4>

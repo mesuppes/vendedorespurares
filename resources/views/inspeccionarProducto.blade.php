@@ -35,6 +35,16 @@
                                                 </div>
                                             </div>
                                               </div>
+                                              <div class="row">
+                                                      <div class="col-md-6">
+                                            <div class="form-group">
+                                            <label for="selectVendedor">Producto de fabrica</label>
+                                            <select class="selectpicker form-control" data-style="btn btn-danger btn-block" disabled name="idProductoProduccion">
+                                             <option selected>{{$producto->id_producto_produccion}}</option>
+                                            </select>
+                                            </div>
+                                            </div>
+                                              </div>
                                             <div class="row">
                                                 <div class="form-group col-12">
                                                     <label>Descripción</label>
@@ -63,8 +73,12 @@
 
 
 </script>
+
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
 
 
 

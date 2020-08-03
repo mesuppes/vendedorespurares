@@ -15,7 +15,7 @@
                                     <h5 class="card-title">Datos del pedido</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" id="formArmarPedido" action="{{route('armarPedido.store')}}">
+                                    <form method="POST" id="formArmarPedido" class="needs-validation" action="{{route('armarPedido.store')}}">
                                         @csrf
                                          <input type="hidden"  name="idPedido"  class="form-control" value="{{$pedido->id_pedido}}">
                                         <div class="row">
@@ -222,6 +222,41 @@
                     </form>
                              </div>
                     </div>
+                         <script>
+      	(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }else{
+         event.preventDefault();
+        form.classList.add('was-validated');
+
+          swal.fire({
+            title: 'Generar factura pro forma',
+            html: '<p>Se generará una factura proforma.</p>',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Generar factura pro forma'
+        }).then((result) => {
+        if (result.value) {
+            $('#formArmarPedido').submit();
+        }
+    });
+    }
+      }, false);
+    });
+  }, false);
+})();
+
+      </script>
 </div>
                             </div>
 
@@ -229,8 +264,9 @@
   <script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4@3.2.0/bootstrap-4.css"></link>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script type="text/javascript">
 
 $(".unidades_a_enviar").bind("keyup change", function(e) {
@@ -336,23 +372,6 @@ $('.monto_total').text('$ '+montoTotal)
 
     }
 
-    $("#botonArmarPedido").click(function(event){
-        event.preventDefault()
-        let form = event.target;
-
-        swal.fire({
-            title: 'Generar factura',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Generar factura'
-        }).then((result) => {
-        if (result.value) {
-            $('#formArmarPedido').submit();
-        }
-    });
-});
 
 
 </script>

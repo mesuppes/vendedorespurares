@@ -84,8 +84,12 @@
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
+
 
 
 

@@ -21,19 +21,19 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Nombre del producto</label>
-                                                    <input type="text" name="nombreComercial" class="form-control" placeholder="Ingrese el nombre del producto">
+                                                    <input type="text" name="nombreComercial" class="form-control" placeholder="Ingrese el nombre del producto" value="{{old('nombreComercial')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Peso Unitario</label>
-                                                    <input type="number" name="pesoUnitario" min=0 class="form-control" placeholder="Ingrese el peso unitario">
+                                                    <input type="number" name="pesoUnitario" min=0 class="form-control" placeholder="Ingrese el peso unitario" value="{{old('pesoUnitario')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                 <label>Descripcion</label>
-                                                <textarea rows="5" name="descripcion" class="form-control border-input" placeholder="Describa el producto"></textarea>
+                                                <textarea rows="5" name="descripcion" class="form-control border-input" placeholder="Describa el producto" value="{{old('descripcion')}}"></textarea>
                                             </div>
                                             </div>
                                             <div class="col-md-6">
@@ -83,8 +83,12 @@
 
 
 </script>
+
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
 
 
 

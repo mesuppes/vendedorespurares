@@ -27,7 +27,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>N° Remito</label>
-                                                    <input type="text" class="form-control" name="nroRemito" placeholder="n° remito" >
+                                                    <input type="text" class="form-control" name="nroRemito" placeholder="n° remito" value="{{old('nroRemito')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -39,13 +39,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Fecha de compra</label>
-                                                    <input type="date" class="form-control" name="fechaCompra"  placeholder="fecha">
+                                                    <input type="date" class="form-control" name="fechaCompra"  placeholder="fecha" value="{{old('fechaCompra')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Comentario</label>
-                                                    <textarea class="form-control" name="comentarios"  placeholder="Ingrese algún comentario"></textarea>
+                                                    <textarea class="form-control" name="comentarios"  placeholder="Ingrese algún comentario" value="{{old('comentarios')}}"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,8 +124,12 @@
   <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
+
 
 
 

@@ -10,7 +10,7 @@
 <meta name="author" content="" />
 
 <!-- Page Title -->
-<title>User Manage</title>
+<title>Purares Clientes</title>
 
 <!-- Favicon and Touch Icons -->
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
@@ -29,7 +29,7 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#" target="_blank">Purares Vendedores</a>
+  <a class="navbar-brand" href="#" target="_blank">Purares Clientes</a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -41,7 +41,7 @@
       @if (Route::has('login'))
           @auth
           <li class="nav-item">
-              <a class="nav-link" href="{{ url('/home') }}">Home</a>\
+              <a class="nav-link" href="{{ url('/home') }}">Menu</a>\
             </li>
           @else
           <li class="nav-item">
@@ -68,8 +68,8 @@
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="jumbotron">
-        <h4>Sitio de Vendedores Purares</h4>
-        <p class="lead">Este es el sitio de vendedores de <b>Purares</b>. Su uso está pensado sólo para vendedores y personal de la empresa.</p>
+        <h4>Sitio de Clientes Purares</h4>
+        <p class="lead">Este es el sitio de clientes de <b>Purares</b>. Su uso está pensado sólo para clientes y personal de la empresa.</p>
         <p>Si te interesa contactarte puedas enviar un mail <a href="#" target="_blank">aqui</a>, o volver a la tienda <a href="https://purares.com.ar" target="_blank">purares.com.ar</a></p>
       </div>
     </div>

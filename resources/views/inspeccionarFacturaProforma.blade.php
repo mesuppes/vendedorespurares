@@ -190,7 +190,7 @@
         factura.setTextColor('#436784').setFont('Monserrat').setFontStyle('normal').setFontSize(9).text(0.53,5.05,'Provincia de Buenos Aires - ARGENTINA');
 
         factura.setTextColor('#00000').setFont('Monserrat').setFontStyle('bold').setFontSize(12).text(8.85,3.85,'Plataforma de pedidos');
-        factura.setTextColor('#00a3d6').setFont('Century Gothic').setFontStyle('normal').setFontSize(14).text(8.2,4.50,'pedidos.purares.com');
+        factura.setTextColor('#00a3d6').setFont('Century Gothic').setFontStyle('normal').setFontSize(14).text(8.8,4.50,'pedidos.purares.com');
 
         factura.setTextColor('#436784').setFont('Monserrat').setFontStyle('bold').setFontSize(10).text(15.5,3.80,'Fecha Pedido:');
         factura.setTextColor('#436784').setFont('Monserrat').setFontStyle('bold').setFontSize(10).text(14.71,4.25,'N.º del Documento:');

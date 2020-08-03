@@ -47,8 +47,13 @@
 	        </div>
 	    </div>
 	</div>
+
+        <!-- include footer -->
+        @include('layouts.partials.footer')
+    </div>
 </div>
-</div>
+@endsection
+
 
 
 
