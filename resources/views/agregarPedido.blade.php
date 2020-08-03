@@ -87,6 +87,7 @@
 
 
                 @foreach($productos as $producto)
+    @if(isset($producto->precioActual))
                    @php
         			$productoDescuento=$vendedor->descuentoProductos()->where('id_producto','=',$producto->id_producto)->first();
         			if (isset($productoDescuento)) {
@@ -187,6 +188,7 @@
                 </div>
                      @php $i++
                      @endphp
+    @endif
                     @endforeach
                     @endfor
                     @else
@@ -194,6 +196,7 @@
                          $decGeneral=$vendedor->descuentoGeneral()->orderBy('id','desc')->first()->descuento->descuento;
                      @endphp
                 @foreach($productos as $producto)
+  @if(isset($producto->precioActual))
                  @php
         			$productoDescuento=$vendedor->descuentoProductos()->where('id_producto','=',$producto->id_producto)->first();
         			if (isset($productoDescuento)) {
@@ -294,6 +297,7 @@
                 </div>
                      @php $i++
                      @endphp
+@endif
                     @endforeach
                     @endif
                 <div class="bg-white card">
