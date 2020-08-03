@@ -28,7 +28,7 @@
                                     <div class="form-group">
 										 <label for="condicionPago">Condición del pago</label>
                                             <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="condicionPago">
-                                              <option selected>Seleccione condición de pago</option>
+                                              <option value="Null" selected>Seleccione condición de pago</option>
                                               <option value="Contado">Contado</option>
                                               <option value="Valores">Valores</option>
      										  <option value="Deposito">Deposito</option>
@@ -40,7 +40,7 @@
                                     <div class="form-group">
  										<label for="formaEntrega">Forma de entrega</label>
                                             <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="formaEntrega">
-                                              <option selected>Seleccione forma de entrega</option>
+                                              <option value="Null" selected>Seleccione forma de entrega</option>
                                               <option value="Purares">Purares</option>
                                               <option value="Retira en fábrica">Retira en fábrica</option>
      										  <option value="Transporte de terceros">Transporte de terceros</option>
@@ -54,7 +54,7 @@
                                     <div class="form-group">
 										<label for="datosFlete">Datos del flete</label>
                                             <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"   name="datosFlete" >
-                                              <option selected>Seleccione datos del flete</option>
+                                              <option selected value="Null">Seleccione datos del flete</option>
                                               <option value="Frio">Con frío</option>
                                               <option value="Sin Frio">Sin frio</option>
                                             </select>
