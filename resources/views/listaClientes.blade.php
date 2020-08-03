@@ -39,8 +39,9 @@
 									@endforelse
                                 </tbody>
                                 <tfoot>
-</tfoot>
+                                </tfoot>
                             </table>
+                        {{$vendedores->links()}}
                         </div>
                     </div>
                 </div>

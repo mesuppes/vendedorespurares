@@ -27,4 +27,8 @@ class Producto extends Model
     public function precio(){
     	return $this->hasMany(Precio::class,'id_producto','id_producto');
     }
+
+    public function productoFabrica(){
+        return $this->belongsTo(productoFabrica::class,'id_producto_produccion','id_producto');
+    }
 }
