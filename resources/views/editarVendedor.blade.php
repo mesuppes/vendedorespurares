@@ -60,7 +60,7 @@
                                                     <div class="input-group">
                                                     <div class="input-group-append">
                                                           <select class="selectpicker form-control" data-style="btn btn-danger btn-block" required name="tipoDocumento">
-                                                            <option selected>Seleccione</option>
+                                                            <option value="{{$cliente->tipo_documento}}" selected>{{$cliente->tipo_documento}}</option>
                                                             <option value="CUIT">CUIT</option>
                                                             <option value="CUIL">CUIL</option>
                                                             </select>
@@ -74,7 +74,15 @@
                                                     <label>Inscripción social</label>
                                                     <div class="input-group">
                                                           <select class="selectpicker form-control" data-style="btn btn-danger btn-block" required name="inscripcionAfip">
-                                                            <option selected>Seleccione</option>
+                                                            <option value="{{$cliente->inscripcion_afip="M"}}" selected>
+                                                                 @if($cliente->inscripcion_afip=="M")
+                                                            Monotributista
+                                                            @elseif($cliente->inscripcion_afip=="RI")
+                                                            Responsable inscripto
+                                                            @elseif($cliente->inscripcion_afip=="CF")
+                                                            Consumidor Final
+                                                            @endif
+                                                            </option>
                                                                <option value="M">Monotributo</option>
                                                             <option value="RI">Responsable inscripto</option>
                                                             <option value="CF">Consumidor final</option>

@@ -76,7 +76,13 @@
                                                     <label>Inscripción social</label>
                                                     <div class="input-group">
                                                           <select class="selectpicker form-control" data-style="btn btn-danger btn-block" disabled name="inscripcionAfip">
-                                                            <option selected>{{$cliente->inscripcion_afip}}</option>
+                                                            <option selected>  @if($cliente->inscripcion_afip=="M")
+                                                            Monotributista
+                                                            @elseif($cliente->inscripcion_afip=="RI")
+                                                            Responsable inscripto
+                                                            @elseif($cliente->inscripcion_afip=="CF")
+                                                            Consumidor Final
+                                                            @endif</option>
 
                                                             </select>
                                                     </div>
