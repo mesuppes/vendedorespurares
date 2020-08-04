@@ -335,11 +335,8 @@ class PedidosController extends Controller
 		if ($validarStock!='ok') {
 			return $validarStock;
 		}
-
-
+		
 	$idVendedor=Pedido::find($request['idPedido'])->id_vendedor;
-
-	$productosTabla=PedidosController::tablaDatosProductosOP($request['idPedido']);
 
 	//GENERAR FACTURA PROFORMA
 		
@@ -357,7 +354,7 @@ class PedidosController extends Controller
 
 		$longitud=count($request['idProducto']);
 		for ($i=0; $i < $longitud; $i++) { 
-			$producto=$productosTabla->where('id_producto','=',$request['idProducto'][$i])->first();
+		
 			#DETERMINAR QUE LA CANTIDAD SEA MAYOR A CERO
 			if ($request['cantidadUnidades'][$i]>0 || $request['cantidadKg'][$i]>0) {
 				
