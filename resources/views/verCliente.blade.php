@@ -56,10 +56,30 @@
                                                     <input type="mail" name="email" class="form-control" placeholder="Ingrese un mail" value="{{$cliente->email}}" readonly>
                                                 </div>
                                             </div>
+                                            </div>
+                                            <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>CUIT</label>
-                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el CUIT" value="{{$cliente->cuit}}" readonly>
+                                                    <label>CUIT/CUIL</label>
+                                                    <div class="input-group">
+                                                    <div class="input-group-append">
+                                                          <select class="selectpicker form-control" data-style="btn btn-danger btn-block" disabled name="tipoDocumento">
+                                                            <option selected>{{$cliente->tipoDocumento}}</option>
+                                                            </select>
+                                                    </div>
+                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el nro" value="{{$cliente->tipoDocumento}}" disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Inscripción social</label>
+                                                    <div class="input-group">
+                                                          <select class="selectpicker form-control" data-style="btn btn-danger btn-block" disabled name="inscripcionAfip">
+                                                            <option selected>{{$cliente->tipoDocumento}}</option>
+
+                                                            </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                             </div>
@@ -78,6 +98,12 @@
                                             </div>
                                             </div>
                                             <div class="row">
+                                                   <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Codigo postal</label>
+                                                    <input type="number" name="codigoPostal" class="form-control" placeholder="Ingrese el CP" value="{{$cliente->codigoPostal}}" disabled>
+                                                </div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Provincia</label>
@@ -92,7 +118,7 @@
                                     <h5 class="card-title">Descuentos</h5>
                                 <a href="{{route('vendedor.createDescuento',$cliente->id_vendedor)}}" class="btn btn-warning btn-sm ml-auto">Editar descuentos</a>
                                 </div>
-                                <!--DESCUENTO GENEREAL -->    
+                                <!--DESCUENTO GENEREAL -->
                                 @php
                                     $descuentoG=$cliente->descuentoGeneral()->orderBy('id','desc')->first();
                                     if (isset($descuentoG)) {
@@ -111,7 +137,7 @@
                                                     <div class="input-group">
                                                     <div class="input-group-append">
                                                           <select class="selectpicker form-control" data-style="btn btn-danger btn-block" required name="tipoDocumento" readonly>
-                                                            <option selected>{{$nombreDescuentoG}}</option>                                                           
+                                                            <option selected>{{$nombreDescuentoG}}</option>
                                                             </select>
                                                     </div>
 
@@ -119,7 +145,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                            <!--DESCUENTO POR PRODUCTO -->    
+                            <!--DESCUENTO POR PRODUCTO -->
                                         <br>
                              <div class="row col-6">
                                 <div class="table-responsive">
