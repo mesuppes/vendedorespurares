@@ -13,7 +13,7 @@ class VendedorDescuentoGeneral extends Model
 	const UPDATED_AT = 'fecha_act';
 
 	public function descuento(){
-        return $this->belongsTo(descuento::class,'id','id');
+        return $this->belongsTo(descuento::class,'id_descuento','id');
     }
 
 
