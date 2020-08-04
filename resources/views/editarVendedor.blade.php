@@ -52,10 +52,34 @@
                                                     <input type="mail" name="email" class="form-control" placeholder="Ingrese un mail" value="{{$cliente->email}}">
                                                 </div>
                                             </div>
+                                        </div>
+                                            <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>CUIT</label>
-                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el CUIT" value="{{$cliente->cuit}}">
+                                                    <label>CUIT/CUIL</label>
+                                                    <div class="input-group">
+                                                    <div class="input-group-append">
+                                                          <select class="selectpicker form-control" data-style="btn btn-danger btn-block" required name="tipoDocumento">
+                                                            <option selected>Seleccione</option>
+                                                            <option value="CUIT">CUIT</option>
+                                                            <option value="CUIL">CUIL</option>
+                                                            </select>
+                                                    </div>
+                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el nro" value="{{$cliente->tipoDocumento}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Inscripción social</label>
+                                                    <div class="input-group">
+                                                          <select class="selectpicker form-control" data-style="btn btn-danger btn-block" required name="inscripcionAfip">
+                                                            <option selected>Seleccione</option>
+                                                               <option value="M">Monotributo</option>
+                                                            <option value="RI">Responsable inscripto</option>
+                                                            <option value="CF">Consumidor final</option>
+                                                            </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                             </div>
@@ -74,6 +98,12 @@
                                             </div>
                                             </div>
                                             <div class="row">
+                                                 <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Codigo postal</label>
+                                                    <input type="number" name="codigoPostal" class="form-control" placeholder="Ingrese el CP" value="{{$cliente->codigoPostal}}">
+                                                </div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Provincia</label>
