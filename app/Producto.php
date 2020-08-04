@@ -13,7 +13,7 @@ class Producto extends Model
 	const UPDATED_AT = 'fecha_act';
 
     public function stock(){
-        return $this->belongsTo(Stockproducto::class,'id_producto','id_producto');
+        return $this->belongsTo(ProductoStock::class,'id_producto','id_producto');
     }
 
     public function precioActual(){
@@ -21,7 +21,7 @@ class Producto extends Model
     }
 
     public function stockLote(){
-        return $this->hasMany(ProductoStocklote::class,'id_producto','id_producto');
+        return $this->hasMany(ProductoStockLote::class,'id_producto','id_producto');
     }
 
     public function precio(){
@@ -29,6 +29,6 @@ class Producto extends Model
     }
 
     public function productoFabrica(){
-        return $this->belongsTo(productoFabrica::class,'id_producto_produccion','id_producto');
+        return $this->belongsTo(ProductoFabrica::class,'id_producto_produccion','id_producto');
     }
 }

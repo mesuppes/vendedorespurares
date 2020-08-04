@@ -9,18 +9,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-use App\Tracker;
 
-Route::get('/', function () {
 
-    //number of user connected or viewed
-    Tracker::firstOrCreate([
-        'ip'   => $_SERVER['REMOTE_ADDR']],
-        ['ip'   => $_SERVER['REMOTE_ADDR'],
-        'current_date' => date('Y-m-d')])->save();
-
-    return view('welcome');
-})->name('welcome');
+Route::get('/', 'TrackerController@save')->name('welcome');
 
 Route::group(['middleware' => ['role:admin']], function () {
 	Route::resource('permissions', 'Admin\PermissionsController');
