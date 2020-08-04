@@ -164,13 +164,13 @@
                         	</a></div>
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                <input type="number"  name="cantidad[]" value="{{ old('cantidad.'.$i)}}" min=0 max="
+                                <input type="number"  name="cantidad[]" value="{{ old('cantidad.'.$i)}}" min=0 max=
                                @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
 								{{$producto->stock->stock_kg}}
 							  @else
 								{{$producto->stock->stock_unidades}}
 							  @endif
-                                " class="form-control cantidad" placeholder="Cantidad">
+                                 class="form-control cantidad" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp;
 									@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
@@ -275,13 +275,13 @@
                         	</a></div>
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                <input type="number"  name="cantidad[]" min=0 max="
+                                <input type="number"  name="cantidad[]" min=0 max=
 								   @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
 										{{$producto->stock->stock_kg}}
 							  		@else
 								{{$producto->stock->stock_unidades}}
 							  		@endif
-                                " class="form-control cantidad" placeholder="Cantidad">
+                                 class="form-control cantidad" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp;
 								@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
