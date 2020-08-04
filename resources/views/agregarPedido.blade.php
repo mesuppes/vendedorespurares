@@ -88,6 +88,7 @@
 
                 @foreach($productos as $producto)
     @if(isset($producto->precioActual))
+    @if(isset($producto->stock->stock_kg) || isset($producto->stock->stock_unidades))
                    @php
         			$productoDescuento=$vendedor->descuentoProductos()->where('id_producto','=',$producto->id_producto)->first();
         			if (isset($productoDescuento)) {
@@ -189,6 +190,7 @@
                      @php $i++
                      @endphp
     @endif
+    @endif
                     @endforeach
                     @endfor
                     @else
@@ -197,6 +199,7 @@
                      @endphp
                 @foreach($productos as $producto)
   @if(isset($producto->precioActual))
+  @if(isset($producto->stock->stock_kg) || isset($producto->stock->stock_unidades))
                  @php
         			$productoDescuento=$vendedor->descuentoProductos()->where('id_producto','=',$producto->id_producto)->first();
         			if (isset($productoDescuento)) {
@@ -297,6 +300,7 @@
                 </div>
                      @php $i++
                      @endphp
+@endif
 @endif
                     @endforeach
                     @endif

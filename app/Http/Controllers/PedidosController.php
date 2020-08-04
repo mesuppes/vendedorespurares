@@ -155,7 +155,7 @@ class PedidosController extends Controller
 			        if (isset($productoDescuento)) {
 			        	$descuento=$productoDescuento->descuento;
 			        }else{
-			            $descuento=$decGeneral;    
+			            $descuento=$descGeneral;    
 			        }
 
 				//Cargar en la DB
