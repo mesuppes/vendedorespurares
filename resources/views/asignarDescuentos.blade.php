@@ -48,27 +48,23 @@
                                         $porcentDescuentoG=null;
                                     }
                                 @endphp
-
+<div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Tipo de descuento</label>
                                                     <div class="input-group">
-                                                    <div class="input-group-append">
-                                                          <select class="selectpicker form-control" id="selectDescuentoGeneral" data-style="btn btn-danger btn-block" required name="" >
-                                                            <option selected>{{$nombreDescuentoG ?? 'Seleccione tipo'}}</option>
+
+                                                          <select class="selectpicker form-control" id="selectDescuentoGeneral" data-style="btn btn-danger btn-block" required name="idDescuentoGeneral" >
+                                                            <option selected>Seleccione tipo</option>
+                                                              <option value=Null>Ninguno</option>
                                                                @foreach($descuentos as $descuento)
-                                                                    <option value="{{$descuento->id}}">{{$descuento->nombre}}</option>
+                                                                    <option value="{{$descuento->id}}">{{$descuento->nombre }} ({{$descuento->descuento*100}} %)</option>
                                                                 @endforeach
                                                             </select>
                                                     </div>
-                                                    <input type="number" id="inputDescuentoGeneral" name="" class="form-control" value="{{$porcentDescuentoG}}" placeholder="No hay descuento">
-                                                      <div class="input-group-append pr-0">
-                                                        <span class="input-group-text text-center">&nbsp;
-                                                        %
-                                                        </span>
-                                                    </div>
-                                                    </div>
+
                                                 </div>
                                 </div>
+                                   </div>
                             <div class="row">
                                 <div class="table-responsive col-6">
                                 <table id="tablaDescuentosProductos" class="table">
@@ -176,15 +172,6 @@
 
     })
 
-$('#selectDescuentoGeneral').change(function() {
-
-    if($(this).val()==1){
-        $('#inputDescuentoGeneral').val('30')
-    }else{
-        $('#inputDescuentoGeneral').val('20')
-    }
-
-})
 
 </script>
 
