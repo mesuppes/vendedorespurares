@@ -41,7 +41,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Telefono 2</label>
-                                                    <input type="tel" name="telfono2" class="form-control" placeholder="Ingrese otro telefono" value="{{$cliente->telfono2}}">
+                                                    <input type="tel" name="telfono2" class="form-control" placeholder="Ingrese otro telefono" value="{{$cliente->telefono2}}">
                                                 </div>
                                             </div>
                                             </div>
@@ -65,7 +65,7 @@
                                                             <option value="CUIL">CUIL</option>
                                                             </select>
                                                     </div>
-                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el nro" value="{{$cliente->tipoDocumento}}">
+                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el nro" value="{{$cliente->cuit}}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,7 +101,7 @@
                                                  <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Codigo postal</label>
-                                                    <input type="number" name="codigoPostal" class="form-control" placeholder="Ingrese el CP" value="{{$cliente->codigoPostal}}">
+                                                    <input type="number" name="codigoPostal" class="form-control" placeholder="Ingrese el CP" value="{{$cliente->codigo_postal}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

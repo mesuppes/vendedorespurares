@@ -64,10 +64,10 @@
                                                     <div class="input-group">
                                                     <div class="input-group-append">
                                                           <select class="selectpicker form-control" data-style="btn btn-danger btn-block" disabled name="tipoDocumento">
-                                                            <option selected>{{$cliente->tipoDocumento}}</option>
+                                                            <option selected>{{$cliente->tipo_documento}}</option>
                                                             </select>
                                                     </div>
-                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el nro" value="{{$cliente->tipoDocumento}}" disabled>
+                                                    <input type="text" name="cuit" class="form-control" placeholder="Ingrese el nro" value="{{$cliente->cuit}}" disabled>
                                                     </div>
                                                 </div>
                                             </div>
@@ -76,7 +76,7 @@
                                                     <label>Inscripción social</label>
                                                     <div class="input-group">
                                                           <select class="selectpicker form-control" data-style="btn btn-danger btn-block" disabled name="inscripcionAfip">
-                                                            <option selected>{{$cliente->tipoDocumento}}</option>
+                                                            <option selected>{{$cliente->inscripcion_afip}}</option>
 
                                                             </select>
                                                     </div>
@@ -101,7 +101,7 @@
                                                    <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Codigo postal</label>
-                                                    <input type="number" name="codigoPostal" class="form-control" placeholder="Ingrese el CP" value="{{$cliente->codigoPostal}}" disabled>
+                                                    <input type="number" name="codigoPostal" class="form-control" placeholder="Ingrese el CP" value="{{$cliente->codigo_postal}}" disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
