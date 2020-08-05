@@ -422,8 +422,11 @@ class PedidosController extends Controller
 				$idUserTo=$wfs->pluck('to_user')->toArray();
 		//3-Usuario del vendedor		
 				$vendedor=Pedido::find($idPedido)->vendedor;
-				$usuarioVendedor=$vendedor->usuario->pluck('id')->toArray();
-
+				if(isset($vendedor->usuario)){
+					$usuarioVendedor=$vendedor->usuario->pluck('id')->toArray();
+				}else{
+					$usuarioVendedor=[0];
+				}	
 		//4-Verificar si el rol del usario esta dentro de estos array
 				$usersCan=array_merge($idUserFrom,$idUserTo,$usuarioVendedor);
 
