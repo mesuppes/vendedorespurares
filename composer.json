@@ -16,6 +16,7 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "maatwebsite/excel": "^3.1",
         "nesbot/carbon": "^2.36",
         "spatie/laravel-permission": "^3.11",
         "zerodahero/laravel-workflow": "^3.1"

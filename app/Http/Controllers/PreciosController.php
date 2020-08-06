@@ -9,6 +9,10 @@ use App\PrecioV;
 use App\Producto;
 use App\Http\Requests\PrecioCreateRequest;
 use Auth;
+//Export Excels
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PreciosExport;
+use App\Imports\PreciosImport;
 
 class PreciosController extends Controller
 {
@@ -74,6 +78,21 @@ class PreciosController extends Controller
             }
         } 
         return PreciosController::CargaMasivaCreate();
+    }
+
+   // EXCELS
+
+    static public function descargaExcelPrecios(){
+        //
+        return Excel::download(new PreciosExport, 'PreciosLista.xlsx');
+        
+    }
+
+    static public function cargaExcelPrecios(Request $request){
+        //
+        $file=$request->file('file');
+        Excel::import(new PreciosImport,$file);
+        return back()->with('message','Importación de precios completada');
     }
 
 }

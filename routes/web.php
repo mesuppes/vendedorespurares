@@ -110,6 +110,9 @@ Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
 Route::group(['middleware' => ['can:Precios_Gestionar']], function (){
     Route::post('/cargaMasivaPrecios', 'PreciosController@cargaMasivaStore')->name('precios.cargaMasiva');
     Route::post('/cargaPrecio', 'PreciosController@productoIndividualStore')->name('precios.cargaProdIndividual');
+
+    Route::get('/descargaExcelPrecios', 'PreciosController@descargaExcelPrecios')->name('precios.descargaExcelPrecios');
+    Route::post('/cargaExcelPrecios', 'PreciosController@cargaExcelPrecios')->name('precios.cargaExcelPrecios');
 });
 
 //COMPRAS

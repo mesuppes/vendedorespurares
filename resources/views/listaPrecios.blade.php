@@ -17,6 +17,9 @@
                         <h5 class="card-title">Lista de precios</h5>
                         <div id="botonesCarga" class="ml-auto">
                         <a id="botonCargaMasiva" class="btn btn-sm btn-info">Editar todo</a>
+                        <a  href="{{route('precios.descargaExcelPrecios')}}"
+                            class="btn btn-sm btn-danger ml-auto">Descargar Precios
+                        </a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -120,8 +123,24 @@
                         </div>
                     </div>
                 </form>
+
                 </div>
-	        </div>
+                    <div class="content">
+                            <div class="row">
+                                <div class="col-md-12 pl-1 pr-1">
+                                    <div class="bg-white card card-user">
+                                        <form action="{{route('precios.cargaExcelPrecios')}}" method="post" enctype="multipart/form-data">
+                                                @csrf                
+                                            <input type="file" name="file">
+                                            <button>Importar Precios</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+	        
+
+            </div>
 	    </div>
 	</div>
 
