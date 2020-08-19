@@ -89,22 +89,22 @@ class PedidosController extends Controller
 	{
 		if (Auth::user()->hasAnyRole('Administracion','Gestor_Cliente')) {
 			$vendedor=Vendedor::find(request('idVendedor'));
-			$productos= producto::all();
+			$productos=createListaProductos($vendedor->id_vendedor);
 			return view('agregarPedido')->with(compact('productos','vendedor'));
 		
 		}elseif (Auth::user()->hasRole('Cliente')) {
 			$vendedor=User::find(Auth::user()->id)->vendedor;
-			$productos=producto::all();
+			$productos=createListaProductos($vendedor->id_vendedor);
 			return view('agregarPedido')->with(compact('productos','vendedor'));
 		}else{
 			return "ERROR - Su rol no permite realizar la operación";
 		}}
 
 
-	static public function createListaProductos(){
+	static public function createListaProductos($idCliente){
 
 		$datos=[];
-		$cliente=Vendedor::find(1);
+		$cliente=Vendedor::find($idCliente);
 		$productos=Producto::all();
 			foreach ($productos as $producto) {
 				#Nombre del Producto
