@@ -172,20 +172,25 @@ class VendedoresController extends Controller
         //Validar que el mail sea unico
         $Validacion=User::where('email','=',$cliente->email)->count();
         if ($Validacion==0) {
-            //Crear Usuario
-            $user=User::create([
-                'name' => $cliente->nombre." ".$cliente->apellidos,
-                'email' => $cliente->email,
-                'password' => Hash::make('Purares123'),
-            ]);
-            //AsignarRol
-            $user->assignRole('Cliente');
-            //Asignar usuario al cliente
-            $cliente->update([
-                'id_usuario_vendedor'=>$user->id,
-            ]);
+            if (isset($cliente->email)||$cliente->email =="") {
+                //Crear Usuario
+                $user=User::create([
+                    'name' => $cliente->nombre." ".$cliente->apellidos,
+                    'email' => $cliente->email,
+                    'password' => Hash::make('Purares123'),
+                ]);
+                //AsignarRol
+                $user->assignRole('Cliente');
+                //Asignar usuario al cliente
+                $cliente->update([
+                    'id_usuario_vendedor'=>$user->id,
+                ]);
 
-            $respuesta='Usuario generado. Contraseña provisoria: Purares123';
+                $respuesta='Usuario generado. Contraseña provisoria: Purares123';
+            }else{
+                $respuesta='Primero le debe generar un mail al usuario';
+                return back()->with('respuesta',$respuesta);                
+            }
         }else{
             $respuesta='El mail ya se encuentra registrado';
             return back()->with('respuesta',$respuesta);

@@ -100,6 +100,94 @@ class PedidosController extends Controller
 			return "ERROR - Su rol no permite realizar la operación";
 		}}
 
+
+	static public function createListaProductos(){
+
+		$datos=[];
+		$cliente=Vendedor::find(1);
+		$productos=Producto::all();
+			foreach ($productos as $producto) {
+				#Nombre del Producto
+				$nombre=$producto->nombre_comercial;
+				#Foto del producto
+				$foto=$producto->url_foto;
+				#precio del Producto
+				$productoPrecios=$producto->precioActual;
+					if (isset($productoPrecios)) {
+						$precioKg=$productoPrecios->precio_kg;
+						$precioUnidad=$productoPrecios->precio_unidad;
+					}else{
+						$precioKg=0;
+						$precioUnidad=0;
+					}
+				#Stock del Producto
+				$ProductoStock=$producto->stock;
+				if(isset($ProductoStock)){
+					$stockKg=$ProductoStock->stock_kg;
+					$stockUnidades=$ProductoStock->stock_unidades;
+				}else{
+					$stockKg=0;
+					$stockUnidades=0;
+				}
+
+				#Descuento del producto
+					#Desceuento General
+					if (isset($cliente->descuentoGeneral)) {	
+						$descGeneral=$cliente->descuentoGeneral->last()->descuento->descuento;
+					}else{
+						$descGeneral=0;
+					}
+					#Descuento producto
+					$descProducto1=$cliente->descuentoProductos->where('id_producto','=',$producto->id_producto)->last();
+					if (isset($descProducto1)) {
+						$descProducto=$descProducto1->descuento;
+					}else{
+						$descProducto=0;
+					}
+			/*           --------REGLAS-----            */
+
+				#DETERMINAR QUE DESCUENTO USAR
+					#Si el producto es de Purares
+					if (isset($producto->id_producto_produccion)) {
+						#Si tiene descuento por producto
+						if ($descProducto!=0) {
+							$descuento=$descProducto;			
+						#usar el descuento General
+						}else{
+							$descuento=$descGeneral;
+						}
+					#Si el producto es externo
+					}else{ 
+						$descuento=$descProducto;
+					}
+
+				#TIPO UNIDAD
+					if ($cliente->inscripcion_afip=="RI") {
+						$tipoUnidadV="kg";
+						$precioV=$precioKg;
+						$stockV=$stockKg;
+					}else{
+						$tipoUnidadV="unidades";
+						$precioV=$precioUnidad;
+						$stockV=$stockUnidades;
+					}
+
+				#FLITROS (para no enviar los que no tienen $ ni stock) 
+					if ($precioV>0 && $stockV>0 ) {
+						array_push($datos, 
+									["producto"=>$nombre,
+									"foto"=>$foto,
+									"tipoUnidad"=>$tipoUnidadV,
+									"precio"=>$precioV,
+									"stoack"=>$stockV,
+									"descuento"=>$descuento]);
+					}		
+			}
+	
+	return $datos;
+
+	}
+
 	public function store(CrearPedidoRequest $request){
 		
 		//return $request;
@@ -318,6 +406,7 @@ class PedidosController extends Controller
 
 	public function armarPedidoStore(ArmarPedidoRequest $request){
 
+		//return $request;
 
 	//VALIDAR QUE SIGA PENDIENTE
 		$wf=WorkflowN::where('task_type','=',1)->where('id_task','=',$request['idPedido'])->orderBy('id_workflow','desc')->first();
@@ -392,8 +481,8 @@ class PedidosController extends Controller
 					'id_factura_proforma'=>$nuevoItem->id_factura_proforma,
 					'id_compra'			=>null,
 					'id_ordenprod'		=>null,
-					'lote_produccion'	=>$nuevoItem->lote_compra,
-					'lote_compra'		=>$nuevoItem->lote_produccion,
+					'lote_produccion'	=>$nuevoItem->lote_produccion,
+					'lote_compra'		=>$nuevoItem->lote_compra,
 					'unidades'			=>($nuevoItem->cantidad_unidades)*-1,
 					'peso_kg'			=>($nuevoItem->cantidad_kg)*-1,
 					'id_cuenta'			=>1,

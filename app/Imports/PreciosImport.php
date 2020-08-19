@@ -3,17 +3,16 @@
 namespace App\Imports;
 
 use App\Precio;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Auth;
 
-class PreciosImport implements ToModel, WithHeadingRow
+class PreciosImport implements ToModel, WithHeadingRow,WithValidation
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+
+
     public function model(array $row)
     {
         return new Precio([
@@ -25,4 +24,21 @@ class PreciosImport implements ToModel, WithHeadingRow
             'id_usuario_reg'=>Auth::user()->id,
         ]);
     }
+
+    public function rules(): array
+    {
+        return [
+             '*.precio_kg'      => 'required',
+             '*.precio_kg'      => 'required',
+             '*.precio_unidad'  => 'required',
+        ];
+    }
+
+    public function customValidationMessages()
+    {
+        return [
+            '0.2' => 'Valor alterado',
+        ];
+    }
+
 }

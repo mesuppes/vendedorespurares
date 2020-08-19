@@ -17,9 +17,6 @@
                         <h5 class="card-title">Lista de precios</h5>
                         <div id="botonesCarga" class="ml-auto">
                         <a id="botonCargaMasiva" class="btn btn-sm btn-info">Editar todo</a>
-                        <a  href="{{route('precios.descargaExcelPrecios')}}"
-                            class="btn btn-sm btn-danger ml-auto">Descargar Precios
-                        </a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -129,9 +126,18 @@
                             <div class="row">
                                 <div class="col-md-12 pl-1 pr-1">
                                     <div class="bg-white card card-user">
+                                        <h5 class="card-title">Importar lista de precios .xslx</h5>
+                                        No debe modificar los encabezados de la tabla, ni modificar ningúno de los valores de la plantilla.
+                                        Elimine las filas de todo productos que no desee actualizar el precio.
                                         <form action="{{route('precios.cargaExcelPrecios')}}" method="post" enctype="multipart/form-data">
-                                                @csrf                
+                                                @csrf       
+                                            
+                                            <a  href="{{route('precios.descargaExcelPrecios')}}"
+                                                class="btn btn-sm btn-danger ml-auto">Descargar plantilla
+                                            </a>         
+                                            <br><br>
                                             <input type="file" name="file">
+                                            <br>
                                             <button>Importar Precios</button>
                                 </form>
                             </div>
