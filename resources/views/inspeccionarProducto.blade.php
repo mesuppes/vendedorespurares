@@ -40,7 +40,7 @@
                                             <div class="form-group">
                                             <label for="selectVendedor">Producto de fabrica</label>
                                             <select class="selectpicker form-control" data-style="btn btn-danger btn-block" disabled name="idProductoProduccion">
-                                             <option selected>{{$producto->productoFabrica->nombre}}</option>
+                                             <option selected>{{$producto->productoFabrica->nombre ?? "Sin asignar"}}</option>
                                             </select>
                                             </div>
                                             </div>

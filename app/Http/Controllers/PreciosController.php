@@ -91,7 +91,10 @@ class PreciosController extends Controller
     static public function cargaExcelPrecios(Request $request){
         //
         $file=$request->file('file');
-        Excel::import(new PreciosImport,$file);
+        
+        $import=new PreciosImport; 
+        $import->import($file);
+
         return back()->with('message','Importación de precios completada');
     }
 

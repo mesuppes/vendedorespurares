@@ -89,12 +89,12 @@ class PedidosController extends Controller
 	{
 		if (Auth::user()->hasAnyRole('Administracion','Gestor_Cliente')) {
 			$vendedor=Vendedor::find(request('idVendedor'));
-			$productos=createListaProductos($vendedor->id_vendedor);
+			$productos=PedidosController::createListaProductos($vendedor->id_vendedor);
 			return view('agregarPedido')->with(compact('productos','vendedor'));
 		
 		}elseif (Auth::user()->hasRole('Cliente')) {
 			$vendedor=User::find(Auth::user()->id)->vendedor;
-			$productos=createListaProductos($vendedor->id_vendedor);
+			$productos=PedidosController::createListaProductos($vendedor->id_vendedor);
 			return view('agregarPedido')->with(compact('productos','vendedor'));
 		}else{
 			return "ERROR - Su rol no permite realizar la operación";
@@ -108,6 +108,7 @@ class PedidosController extends Controller
 		$productos=Producto::all();
 			foreach ($productos as $producto) {
 				#Nombre del Producto
+				$id=$producto->id_producto;
 				$nombre=$producto->nombre_comercial;
 				#Foto del producto
 				$foto=$producto->url_foto;
@@ -175,7 +176,8 @@ class PedidosController extends Controller
 				#FLITROS (para no enviar los que no tienen $ ni stock) 
 					if ($precioV>0 && $stockV>0 ) {
 						array_push($datos, 
-									["producto"=>$nombre,
+									["idProducto"=>$id
+									"producto"=>$nombre,
 									"foto"=>$foto,
 									"tipoUnidad"=>$tipoUnidadV,
 									"precio"=>$precioV,
