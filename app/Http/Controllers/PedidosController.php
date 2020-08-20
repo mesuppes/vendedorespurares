@@ -176,7 +176,7 @@ class PedidosController extends Controller
 				#FLITROS (para no enviar los que no tienen $ ni stock) 
 					if ($precioV>0 && $stockV>0 ) {
 						array_push($datos, 
-									["idProducto"=>$id
+									["idProducto"=>$id,
 									"producto"=>$nombre,
 									"foto"=>$foto,
 									"tipoUnidad"=>$tipoUnidadV,
