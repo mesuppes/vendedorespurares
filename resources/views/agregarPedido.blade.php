@@ -75,114 +75,36 @@
                 <div class="bg-white card card-user">
                     <div class="card-header">
                         <h5 class>Productos</h5>
-                      {{$vendedor->inscripcion_afip}}
-
                     </div>
                 </div>
                     @if(old('cantidad'))
-                    @for( $i =0; $i < count(old('cantidad')); $i++)
-                   @php $i=0;
-                       $decGeneralObj=$vendedor->descuentoGeneral()->orderBy('id','desc')->first();
-                      if (isset($decGeneralObj)) {
-                        $decGeneral=$decGeneralObj->descuento->descuento;
-                      }else{
-                        $decGeneral=0;
-                      }
-                      @endphp
-
-
-                @foreach($productos as $producto)
-    @if(isset($producto->precioActual))
-    @if(isset($producto->stock->stock_kg) || isset($producto->stock->stock_unidades))
-                   @php
-        			$productoDescuento=$vendedor->descuentoProductos()->where('id_producto','=',$producto->id_producto)->first();
-        			if (isset($productoDescuento)) {
-       				 $descuento=$productoDescuento->descuento;
-        			}else{
-            			$descuento=$decGeneral;
-       					 }
-   				 @endphp
+                    @for( $j =0; $j < count(old('cantidad')); $j++)
+                @foreach( $productos as $producto)
                 <div class="card bg-white d-inline-flex col-12 flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src= "{{$producto->url_foto}}" width="100" alt="Imagen de {{$producto->nombre_comercial}}">
+                        <img src= "{{$producto[i]['foto']}}" width="100" alt="Imagen de {{$producto['producto']}}">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
-                        <h6 class="card-title mb-3">{{$producto->nombre_comercial}}</h6>
-                        <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
-							<div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" id="selectorUnidades" data-toggle="buttons">
-							  <label class="
-							  @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-							  	btn btn-primary active
-							  @else
-								btn btn-secondary
-							  @endif
-							  ">
-							    <input type="radio" class="radio_kilos" name="tipoMedida[{{$i}}]"  autocomplete="off" value="kg"
-							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								checked
-							  @else
-								disabled
-							  @endif
-							    > Kilos
-							  </label>
-							 <label class="
-							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								btn btn-secondary
-							  @else
-								btn btn-primary active
-							  @endif
-							 ">
-							    <input type="radio" class="radio_unidades" name="tipoMedida[{{$i}}]"  autocomplete="off" value="Unidades"
-									@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								disabled
-							  @else
-								checked
-							  @endif
-							    > Unidades
-							  </label>
-							</div>
+                        <h6 class="card-title mb-3">{{$producto[$i]['producto']}}</h6>
+                        <input type="hidden" name="idProducto[]" value="{{$producto['idProducto']}}">
                         <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ <a class="precio">
- 							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								{{$producto->precioActual->precio_kg}}
-							  @else
-								{{$producto->precioActual->precio_unidad}}
-							  @endif
-                        	<a/> / <a class="unidad">Unidad</a></div>
-                        <input type="hidden" class="otro_precio" value="{{$producto->precio_kg}}">
-                        <input type="hidden" class="otro_stock" value="{{$producto->stock_kg}}">
-                        @if($descuento>0)
-                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$descuento*100}}</a> %</span>
+								{{$producto['precio']}}
+                        	<a/> / <a class="unidad">{{$producto['tipoUnidad']}}</a></div>
+                        @if($producto['descuento']>0)
+                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$$producto['descuento']*100}}</a> %</span>
                         @endif
                         <br>
                         <div class="mb-2 mr-0 pr-1 text-right d-inline">Stock Actual <a class="stock">
-							 @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								{{$producto->stock->stock_kg}}
-							  @else
-								{{$producto->stock->stock_unidades}}
-							  @endif
+              {{$producto['stoack']}}
                         	<a/> <a class="unidadstock">
-							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								Kilos
-							  @else
-								Unidades
-							  @endif
+							{{$producto['tipoUnidad']}}
                         	</a></div>
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                <input type="number"  name="cantidad[]" value="{{ old('cantidad.'.$i)}}" min=0 max=
-                               @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								{{$producto->stock->stock_kg}}
-							  @else
-								{{$producto->stock->stock_unidades}}
-							  @endif
-                                 class="form-control cantidad" placeholder="Cantidad">
+                                <input type="number"  name="cantidad[]" value="{{ old('cantidad.'.$j)}}" min=0 max="{{$producto['stoack']}}" class="form-control cantidad" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp;
-									@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-									kg.
-							  		@else
-									uds.
-							  		@endif
+                                        {{$producto['tipoUnidad']}}
                                     </span>
                                 </div>
                             </div>
@@ -192,113 +114,36 @@
                         <p class="mb-2 mr-0 pr-10 text-center">TOTAL: $ <a class="monto_producto"></a></p>
                     </div>
                 </div>
-                     @php $i++
-                     @endphp
-    @endif
-    @endif
                     @endforeach
                     @endfor
-                    @else
-                      @php $i=0;
-                          $decGeneralObj=$vendedor->descuentoGeneral()->orderBy('id','desc')->first();
-                      if (isset($decGeneralObj)) {
-                        $decGeneral=$decGeneralObj->descuento->descuento;
-                      }else{
-                        $decGeneral=0;
-                      }
-                     @endphp
-                @foreach($productos as $producto)
-  @if(isset($producto->precioActual))
-  @if(isset($producto->stock->stock_kg) || isset($producto->stock->stock_unidades))
-                 @php
-        			$productoDescuento=$vendedor->descuentoProductos()->where('id_producto','=',$producto->id_producto)->first();
-        			if (isset($productoDescuento)) {
-       				 $descuento=$productoDescuento->descuento;
-        			}else{
-            			$descuento=$decGeneral;
-       					 }
-   				 @endphp
+              @else
+              @foreach( $productos as $producto)
                 <div class="card d-inline-flex flex-row col-12 flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src= "{{$producto->url_foto}}" width="100" alt="Imagen de {{$producto->nombre_comercial}}">
+                        <img src= "{{$producto['foto']}}" width="100" alt="Imagen de {{$producto['producto']}}">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
-                        <h6 class="card-title mb-3">{{$producto->nombre_comercial}}</h6>
-                        <input type="hidden" name="idProducto[]" value="{{$producto->id_producto}}">
-                            <div class="btn-group btn-group-toggle btn-group-sm d-inline input-group pl-0 pr-0" id="selectorUnidades" data-toggle="buttons">
-                              <label class="
-                              @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-							  	btn btn-primary active
-							  @else
-								btn btn-secondary
-							  @endif
-                              ">
-                                <input type="radio" class="radio_kilos" name="tipoMedida[{{$i}}]"  autocomplete="off" value="kg"
- 							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								checked
-							  @else
-								disabled
-							  @endif
-                                > Kilos
-                              </label>
-                             <label class="
-							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								btn btn-secondary
-							  @else
-								btn btn-primary active
-							  @endif
-                             ">
-                                <input type="radio" class="radio_unidades" name="tipoMedida[{{$i}}]"  autocomplete="off" value="Unidades"
-							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								disabled
-							  @else
-								checked
-							  @endif
-                                > Unidades
-                              </label>
-                            </div>
+                        <h6 class="card-title mb-3">{{$producto['producto']}}</h6>
+                        <input type="hidden" name="idProducto[]" value="{{$producto['idProducto']}}">
                         <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ <a class="precio">
-							@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								{{$producto->precioActual->precio_kg}}
-							  @else
-								{{$producto->precioActual->precio_unidad}}
-							  @endif
-                        	<a/> / <a class="unidad">Unidad</a></div>
-                        <input type="hidden" class="otro_precio" value="{{$producto->precio_kg}}">
-                        <input type="hidden" class="otro_stock" value="{{$producto->stock_kg}}">
-                        @if($descuento>0)
-                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$descuento*100}}</a> %</span>
+								{{$producto['precio']}}
+                        	<a/> / <a class="unidad">{{$producto['tipoUnidad']}}</a></div>
+                        @if($producto['descuento']>0)
+                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$producto['descuento']*100}}</a> %</span>
                         @endif
                         <br>
                         <div class="mb-2 mr-0 pr-1 text-right d-inline">Stock Actual <a class="stock">
-							 @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								{{$producto->stock->stock_kg}}
-							  @else
-								{{$producto->stock->stock_unidades}}
-							  @endif
-                        	<a/> <a class="unidadstock">
-                        		@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-								Kilos
-							  @else
-								Unidades
-							  @endif
+						    {{$producto['stoack']}}
+                          <a/> <a class="unidadstock">
+              {{$producto['tipoUnidad']}}
                         	</a></div>
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                <input type="number"  name="cantidad[]" min=0 max=
-								   @if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-										{{$producto->stock->stock_kg}}
-							  		@else
-								{{$producto->stock->stock_unidades}}
-							  		@endif
+                                <input type="number"  name="cantidad[]" min=0 max="{{$producto['stoack']}}"
                                  class="form-control cantidad" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp;
-								@if($vendedor->inscripcion_afip=="M"||$vendedor->inscripcion_afip=="RI")
-									kg.
-							  		@else
-									uds.
-							  		@endif
+						                         {{$producto['tipoUnidad']}}
                                     </span>
                                 </div>
                             </div>
@@ -308,10 +153,6 @@
                         <p class="mb-2 mr-0 pr-10 text-center">TOTAL: $ <a class="monto_producto"></a></p>
                     </div>
                 </div>
-                     @php $i++
-                     @endphp
-@endif
-@endif
                     @endforeach
                     @endif
                 <div class="bg-white card">
