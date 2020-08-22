@@ -82,22 +82,23 @@
                 @foreach( $productos as $producto)
                 <div class="card bg-white d-inline-flex col-12 flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src= "{{$producto[i]['foto']}}" width="100" alt="Imagen de {{$producto['producto']}}">
+                        <img src= "{{$producto['foto']}}" width="100" alt="Imagen de {{$producto['producto']}}">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
-                        <h6 class="card-title mb-3">{{$producto[$i]['producto']}}</h6>
+                        <h6 class="card-title mb-3">{{$producto['producto']}}</h6>
                         <input type="hidden" name="idProducto[]" value="{{$producto['idProducto']}}">
                         <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ <a class="precio">
 								{{$producto['precio']}}
                         	<a/> / <a class="unidad">{{$producto['tipoUnidad']}}</a></div>
                         @if($producto['descuento']>0)
-                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$$producto['descuento']*100}}</a> %</span>
+                        <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$producto['descuento']*100}}</a> %</span>
                         @endif
                         <br>
                         <div class="mb-2 mr-0 pr-1 text-right d-inline">Stock Actual <a class="stock">
               {{$producto['stoack']}}
                         	<a/> <a class="unidadstock">
 							{{$producto['tipoUnidad']}}
+                    <input type="hidden" name="tipoMedida[]" value="{{$producto['tipoUnidad']}}">
                         	</a></div>
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
@@ -105,6 +106,7 @@
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp;
                                         {{$producto['tipoUnidad']}}
+                                        <input type="hidden" name="tipoMedida[]" value="{{$producto['tipoUnidad']}}">
                                     </span>
                                 </div>
                             </div>
@@ -177,6 +179,13 @@
 
 		     </div>
                          </form>
+                         @if($errors->any())
+    <ul>
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
                     </div>
       <script>
       	(function() {
@@ -239,13 +248,7 @@
                 </div>
             </div>
 
-@if($errors->any())
-    <ul>
-        @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-@endif
+
 
 
         <!-- include dashboard -->
