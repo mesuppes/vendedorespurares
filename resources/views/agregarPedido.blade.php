@@ -98,7 +98,6 @@
               {{$producto['stoack']}}
                         	<a/> <a class="unidadstock">
 							{{$producto['tipoUnidad']}}
-                    <input type="hidden" name="tipoMedida[]" value="{{$producto['tipoUnidad']}}">
                         	</a></div>
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
@@ -130,6 +129,7 @@
                         <div class="mb-2 mr-0 pr-1 text-danger text-right d-inline">$ <a class="precio">
 								{{$producto['precio']}}
                         	<a/> / <a class="unidad">{{$producto['tipoUnidad']}}</a></div>
+                              <input type="hidden" name="tipoMedida[]" value="{{$producto['tipoUnidad']}}">
                         @if($producto['descuento']>0)
                         <span class="badge badge-danger badge-pill pl-1 pr-1"><a class="descuento">{{$producto['descuento']*100}}</a> %</span>
                         @endif

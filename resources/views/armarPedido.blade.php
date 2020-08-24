@@ -63,10 +63,11 @@
                                                     <th>Precio</th>
                                                     <th>Cantidad pedida</th>
                                                     <th>Lote</th>
+                                                    <th>Stock kilos</th>
+                                                    <th>Stock unidades</th>
                                                     <th>Unidades a entregar</th>
-                                                    <th>Stock</th>
                                                     <th>Kg a entregar</th>
-                                                    <th>Stock</th>
+
                                                     <th>Descuento</th>
                                                     <th>MONTO TOTAL</th>
                                                 </tr>
@@ -141,6 +142,16 @@
                                                                 <input type="hidden"  name="loteCompra[]"  class="form-control" value="{{$loteProducto->lote_compra}}">
                                                             </td>
 
+                                                                  <!--STOCK KG-->
+                                                            <td>
+                                                                {{$loteProducto->stock_kg}} Kg
+                                                            </td>
+
+                                                                        <!--STOCK UNIDADES-->
+                                                            <td>
+                                                                {{$loteProducto->stock_unidades}} U.
+                                                            </td>
+
                                                             <!--UNIDADES A ENTREGAR-->
                                                             <td>
                                                                 <div class="input-group">
@@ -152,10 +163,6 @@
                                                                 </div>
                                                             </td>
 
-                                                            <!--STOCK UNIDADES-->
-                                                            <td>
-                                                                {{$loteProducto->stock_unidades}} Unidades
-                                                            </td>
 
                                                             <!--KG A ENTREGAR-->
                                                             <td>
@@ -168,10 +175,7 @@
                                                                 </div>
                                                             </td>
 
-                                                            <!--STOCK KG-->
-                                                            <td>
-                                                                {{$loteProducto->stock_kg}} Kilos
-                                                            </td>
+
 
                                                             <!--DESCUENTO-->
                                                             <td>
@@ -192,11 +196,9 @@
                                                 @endphp
                                                 @endforeach
 									<tr class="{{$numerotrproducto}}">
-                                                <td colspan="4" class="text-right">Sub total:</td>
+                                                <td colspan="6" class="text-right">Sub total:</td>
                                                 <td class="tdSubtotalUnidades"></td>
-                                                <td></td>
                                                 <td class="tdSubtotalKilos"></td>
-                                                <td></td>
                                                 <td></td>
                                                 <td class="tdSubtotalMonto"></td>
 									</tr>
@@ -271,7 +273,9 @@
 
 $(".unidades_a_enviar").bind("keyup change", function(e) {
 
+
     if($(this).closest('td').parent().find('.unidad_pedida').val()=="Unidades"){
+
 
     	var descuento=parseFloat($(this).closest('td').parent().find('.descuento').text())/100
         var precio_unidad=(1-descuento)*parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
@@ -314,7 +318,9 @@ actualizarMontoTotal()
 })
 $(".kg_a_enviar").bind("keyup change", function(e) {
 
-    if($(this).closest('td').parent().find('.unidad_pedida').val()=="Kg."){
+    if($(this).closest('td').parent().find('.unidad_pedida').val()=="kg"){
+            alert('sda')
+
 
 		var descuento=(1-descuento)*parseFloat($(this).closest('td').parent().find('.descuento').text())/100
         var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
