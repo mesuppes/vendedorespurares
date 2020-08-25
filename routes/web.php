@@ -96,7 +96,7 @@ Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
     Route::get('/listaProductos/{id}', 'ProductosController@show')->name('productos.show');
     Route::get('/agregarProducto', 'ProductosController@create')->name('productos.create');
     Route::post('/agregarProducto', 'ProductosController@store')->name('productos.store');
-    
+
     Route::get('/stockProductos', 'ProductosController@stockLote')->name('productos.stock');
     #workaround para ver mov Productos
     Route::get('/movimientoProductos', 'ProductosController@movProductos')->name('productos.movimiento');
@@ -124,6 +124,8 @@ Route::group(['middleware' => ['can:Compras_Gestionar']], function (){
 });
 
 Route::group(['middleware' => ['role:Administracion']], function () {
+
+    Route::get('/listaAjustes', 'AjustesInventarioController@index')->name('ajustes.index');
     //Route::resource('/listaPedido', 'PedidosController@index');
     //Route::resource('roles', 'Admin\RolesController');
     //Route::resource('users', 'Admin\UsersController');
