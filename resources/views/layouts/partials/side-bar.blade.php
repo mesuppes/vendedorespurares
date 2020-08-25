@@ -81,7 +81,13 @@
               <p>Ver todos los pedidos</p>
             </a>
           </li>
-        </li>
+            <li {{Route::is('ajustes.index')? 'class=active':''}}>
+            <a href="{{route('ajustes.index')}}">
+              <i class="nc-icon nc-align-left-2"></i>
+              <p>Ver todos los ajustes</p>
+            </a>
+          </li>
+
 
         <li {{Route::is('pedido.createRouter')? 'class=active':''}}>
           <a href="{{route('pedido.createRouter')}}">

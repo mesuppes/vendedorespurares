@@ -27,7 +27,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 										 <label for="condicionPago">Condición del pago</label>
-                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="condicionPago">
+                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="condicionPago" required>
                                               <option value="" selected>Seleccione condición de pago</option>
                                               <option value="Contado">Contado</option>
                                               <option value="Valores">Valores</option>
@@ -39,7 +39,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
  										<label for="formaEntrega">Forma de entrega</label>
-                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="formaEntrega">
+                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="formaEntrega" required>
                                               <option value="" selected>Seleccione forma de entrega</option>
                                               <option value="Purares">Purares</option>
                                               <option value="Retira en fábrica">Retira en fábrica</option>
@@ -53,7 +53,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
 										<label for="datosFlete">Datos del flete</label>
-                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"   name="datosFlete" >
+                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"   name="datosFlete" required>
                                               <option selected value="">Seleccione datos del flete</option>
                                               <option value="Frio">Con frío</option>
                                               <option value="Sin Frio">Sin frio</option>
@@ -78,8 +78,8 @@
                     </div>
                 </div>
                     @if(old('cantidad'))
-                    @for( $j =0; $j < count(old('cantidad')); $j++)
                 @foreach( $productos as $producto)
+                    @for( $j =0; $j < count(old('cantidad')); $j++)
                 <div class="card bg-white d-inline-flex col-12 flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
                         <img src= "{{$producto['foto']}}" width="100" alt="Imagen de {{$producto['producto']}}">
@@ -115,8 +115,8 @@
                         <p class="mb-2 mr-0 pr-10 text-center">TOTAL: $ <a class="monto_producto"></a></p>
                     </div>
                 </div>
-                    @endforeach
                     @endfor
+                    @endforeach
               @else
               @foreach( $productos as $producto)
                 <div class="card d-inline-flex flex-row col-12 flex-wrap pl-2l-6 pl-3 pr-1">
