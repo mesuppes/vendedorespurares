@@ -81,6 +81,12 @@
               <p>Ver todos los pedidos</p>
             </a>
           </li>
+          <li {{Route::is('ajustes.create')? 'class=active':''}}>
+            <a href="{{route('ajustes.create')}}">
+              <i class="nc-icon nc-single-copy-04"></i>
+              <p>Agregar ajuste</p>
+            </a>
+        </li>
             <li {{Route::is('ajustes.index')? 'class=active':''}}>
             <a href="{{route('ajustes.index')}}">
               <i class="nc-icon nc-align-left-2"></i>

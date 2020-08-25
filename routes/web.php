@@ -126,6 +126,8 @@ Route::group(['middleware' => ['can:Compras_Gestionar']], function (){
 Route::group(['middleware' => ['role:Administracion']], function () {
 
     Route::get('/listaAjustes', 'AjustesInventarioController@index')->name('ajustes.index');
+    Route::get('/agregarAjustes', 'AjustesInventarioController@create')->name('ajustes.create');
+    Route::post('/agregarAjustes', 'ProductosController@store')->name('ajustes.store');
     //Route::resource('/listaPedido', 'PedidosController@index');
     //Route::resource('roles', 'Admin\RolesController');
     //Route::resource('users', 'Admin\UsersController');
