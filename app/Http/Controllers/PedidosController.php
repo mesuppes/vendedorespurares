@@ -49,7 +49,8 @@ class PedidosController extends Controller
 
 	        if ($usuario->hasRole('Administracion')) { 
 	        	#Todos los pedidos
-				$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)->get();
+				$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
+									->paginate(10);
 
 	        }elseif ($usuario->hasRole('Gestor_Cliente')) {
 	        	#Los pedidos que tengan su ID en alguno de los pedidos
@@ -57,15 +58,16 @@ class PedidosController extends Controller
 	        	$idPedidosPadres=Pedido::where('id_usuario_reg','=',$usuario->id)->pluck('id_pedido_padre')->toArray();
 	            $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
 	            					->whereIn('id_pedido_padre',$idPedidosPadres)
-	        						->get();
+	        						->paginate(10);
 	        	
 	        }elseif ($usuario->hasRole('Cliente')) {
 	        	#Los Pedidos que le pertencen al vendedor
 	        	$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
 	        						->where('id_vendedor','=',$usuario->vendedor->id_vendedor)
-	        						->get();
+	        						->paginate(10);
 	        }
 
+	        #$listaPedidos=$listaPedidos->paginate(10);
 		return view('listaPedidos', compact('listaPedidos'));
 
 	}
@@ -133,8 +135,9 @@ class PedidosController extends Controller
 
 				#Descuento del producto
 					#Desceuento General
-					if (isset($cliente->descuentoGeneral)) {	
-						$descGeneral=$cliente->descuentoGeneral->last()->descuento->descuento;
+					$descGenCli=$cliente->descuentoGeneral->last();
+					if (isset($descGenCli)) {	
+						$descGeneral=$descGenCli->descuento->descuento;
 					}else{
 						$descGeneral=0;
 					}
@@ -474,7 +477,7 @@ class PedidosController extends Controller
 					'cantidad_kg'		=>$request['cantidadKg'][$i],
 					'tipo_unidad'		=>$request['tipoMedida'][$i],
 					'precio_unitario'	=>$precio,
-					'descuento'			=>($precio*$cantidad)*$descuento,
+					'descuento'			=>$descuento,
 					'precio_total'		=>($precio*$cantidad)*(1-$descuento),
 				]);
 				#INSERTAR MOVIMIENTO DE PRODUCTOS

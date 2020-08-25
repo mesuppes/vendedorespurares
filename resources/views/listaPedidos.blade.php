@@ -58,6 +58,7 @@
 									@endforelse
                                 </tbody>
                             </table>
+                             {{$listaPedidos->links()}}
                         </div>
                     </div>
                 </div>
