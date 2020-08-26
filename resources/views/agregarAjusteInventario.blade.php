@@ -17,45 +17,60 @@
                                 <div class="card-body">
                                     <form method="POST" id="formAgregarAjuste" action="{{route('ajustes.store')}}">
                                         @csrf
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                  @foreach($productosLote as $producto)
-                                                          {{$producto}}
+                                     <div class="table-responsive">
+                                        <table class="table" id="tablaPedido">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Lote</th>
+                                                    <th>Stock kilos</th>
+                                                    <th>Stock unidades</th>
+                                                    <th>Nuevo Stock kilos</th>
+                                                    <th>Nuevo Stock unidades</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($productosLote as $producto)
+                                            <tr>
+                                                <td>{{$producto['id_producto']}}</td>
+                                                <td>
+                                                    @if($producto['lote_produccion']==Null)
+                                                    C {{$producto['lote_compra']}}
+                                                    @else
+                                                    P {{$producto['lote_produccion']}}
+                                                    @endif
+                                                </td>
+                                                <td>{{$producto['stock_kg']}} kg.</td>
+                                                <td>{{$producto['stock_unidades']}} unidades</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                                    <input type="number" name="" min=0 step=0.001 class="form-control" placeholder="Kilos actuales">
+                                                                <div class="input-group-append pr-0">
+                                                                    <span class="input-group-text text-center">&nbsp; kilos.
+                                                                    </span>
+                                                                </div>
+                                                                </div>
+                                                </td>
+                                                <td>
+                                                     <div class="input-group">
+                                                                    <input type="number"  name="" min=0 step=1 class="form-control" placeholder="Unidades actuales">
+                                                                <div class="input-group-append pr-0">
+                                                                    <span class="input-group-text text-center">&nbsp; unidades.
+                                                                    </span>
+                                                                </div>
+                                                                </div>
+                                                </td>
+                                            </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-                                                        @endforeach
-                                                <div class="form-group">
-                                                    <label>Nombre del producto</label>
-                                                    <input type="text" name="nombreComercial" class="form-control" placeholder="Ingrese el nombre del producto" value="{{old('nombreComercial')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Peso Unitario</label>
-                                                    <input type="number" name="pesoUnitario" min=0 class="form-control" placeholder="Ingrese el peso unitario" value="{{old('pesoUnitario')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                <label>Descripcion</label>
-                                                <textarea rows="5" name="descripcion" class="form-control border-input" placeholder="Describa el producto" value="{{old('descripcion')}}"></textarea>
-                                            </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                            <div class="form-group">
-                                            <label for="selectVendedor">Producto de fabrica</label>
-                                            <select class="selectpicker form-control" data-style="btn btn-danger btn-block" name="idProductoProduccion">
-                                             <option value= "" selected>Seleccione producto</option>
-                                             <option value= "">Ninguno</option>
-
-                                            </select>
-                                            </div>
-                                            </div>
-                                        </div>
                                 </div>
                      <div class="bg-white card">
                         <div class="d-inline-flex justify-content-between">
                             <div class="d-flex pr-2">
-                                <button type="submit" id="botonAgregarProducto" class="btn btn-success">Agregar producto
+                                <button type="submit" id="botonActualizarInventario" class="btn btn-success">Actualizar Inventario
 </button>
                         </div>
                              </div>
