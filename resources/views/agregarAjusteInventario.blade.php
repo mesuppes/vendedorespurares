@@ -19,7 +19,7 @@
                                         @csrf
                                            <div class="form-group">
                                                 <label>Motivo:</label>
-                                                <textarea rows="5" name="comentarios" class="form-control border-input" placeholder="Describa el motivo de ajuste"></textarea>
+                                                <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste"></textarea>
                                             </div>
                                      <div class="table-responsive">
                                         <table class="table" id="tablaPedido">
@@ -43,7 +43,7 @@
                                                 {{$producto['id_producto']}}</td>
                                                 <td>
                                                 	<input type="hidden"  name="loteCompra[]"  class="form-control" value="{{$producto['lote_compra']}}">
-                                                	<input type="hidden"  name="lote_produccion[]"  class="form-control" value="{{$producto['lote_produccion']}}">
+                                                	<input type="hidden"  name="loteProduccion[]"  class="form-control" value="{{$producto['lote_produccion']}}">
                                                     @if($producto['lote_produccion']==Null)
                                                     C {{$producto['lote_compra']}}
                                                     @else
@@ -54,7 +54,7 @@
 
                                                 <td>
                                                     <div class="input-group">
-                                                                    <input type="number" name="peso_kg[]" min=0 step=0.001 class="form-control inputkilos inputajuste" placeholder="Kilos actuales">
+                                                                    <input type="number" name="pesoKg[]" min=0 step=0.001 class="form-control inputkilos inputajuste" placeholder="Kilos actuales">
                                                                 <div class="input-group-append pr-0">
                                                                     <span class="input-group-text text-center ">&nbsp; kilos.
                                                                     </span>
@@ -110,6 +110,58 @@
 
     <script type="text/javascript">
 
+    	(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }else{
+         event.preventDefault();
+        form.classList.add('was-validated');
+
+        var productosAjustar=[];
+        var cantidadnuevaunidades=[];
+        var cantidadnuevakilos=[];
+
+		$('.inputunidades').each(function(){
+       		 if($(this).val()!=0){
+			 productosAjustar.push($(this).closest('td').parent().find('.tdnombreproducto').text())
+       		 cantidadnuevaunidades.push($(this).val())
+       		 cantidadnuevakilos.push($(this).closest('td').parent().find('.inputkilos').val())
+
+                                  }})
+
+		if(productosAjustar.length>0){
+				var tablaProductosAjuste = $('<table class="table"><thead><th class="text-left">Productos</th><th>Cantidad Unidades</th><th>Cantidad Kilos</th></thead><tbody></tbody></table>')
+				for (var i = 0; i < productosAjustar.length; i++) {
+					tablaProductosAjuste.find('tbody').append('<tr><td class="text-left">'+productosAjustar[i]+'</td><td>'+cantidadnuevaunidades[i]+' unidades</td><td>'+cantidadnuevakilos[i]+' kilos</td></tr>')
+				}
+			}
+
+          swal.fire({
+            title: 'Confirmar ajuste',
+            html: 'Ajuste<br>'+$('<div></div>').html(tablaProductosAjuste).html(),
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Cargar ajuste'
+        }).then((result) => {
+        if (result.value) {
+            $('#formAgregarAjuste').submit();
+        }
+    });
+    }
+      }, false);
+    });
+  }, false);
+})();
+
 $(".inputkilos").bind("keyup change", function(e) {
 
 
@@ -154,55 +206,7 @@ $(".inputunidades").bind("keyup change", function(e) {
 }
 })
 
-    	(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
 
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }else{
-         event.preventDefault();
-        form.classList.add('was-validated');
-
-        var productosAjustar=[];
-        var cantidadnuevaunidades=[];
-        var cantidadnuevakilos=[];
-
-		$('.inputunidades').each(function(){
-       		 if($(this).val()!=0){
-			 productosAjustar.push($(this).closest('td').parent().find('.tdnombreproducto').text())
-       		 cantidadnuevaunidades.push($(this).val())
-
-                                  }})
-		if(productosAjustar.length>0){
-				var tablaProductosAjuste = $('<table class="table"><thead><th class="text-left">Productos</th><th>Cantidad Unidades</th></thead><tbody></tbody></table>')
-				for (var i = 0; i < productosAjustar.length; i++) {
-					tablaProductosAjuste.find('tbody').append('<tr><td class="text-left">'+productosAjustar[i]+'</td><td>'+cantidadnuevaunidades[i]+' unidades</td></tr>')
-				}
-			}
-
-          swal.fire({
-            title: 'Confirmar ajuste',
-            html: 'Ajuste',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Cargar ajuste'
-        }).then((result) => {
-        if (result.value) {
-            $('#formAgregarAjuste').submit();
-        }
-    });
-    }
-      }, false);
-    });
-  }, false);
-})();
 </script>
 
         <!-- include footer -->
