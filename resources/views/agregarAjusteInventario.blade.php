@@ -40,7 +40,7 @@
                                             <tr>
                                                 <td class="tdnombreproducto">
  												<input type="hidden"  name="idProducto[]"  class="form-control" value="{{$producto['id_producto']}}">
-                                                {{$producto['id_producto']}}</td>
+                                                {{$producto->producto->nombre_comercial}}</td>
                                                 <td>
                                                 	<input type="hidden"  name="loteCompra[]"  class="form-control" value="{{$producto['lote_compra']}}">
                                                 	<input type="hidden"  name="loteProduccion[]"  class="form-control" value="{{$producto['lote_produccion']}}">

@@ -166,7 +166,7 @@ class PedidosController extends Controller
 					}
 
 				#TIPO UNIDAD
-					if ($cliente->inscripcion_afip=="RI") {
+					if ($cliente->inscripcion_afip=="RI"||$cliente->inscripcion_afip=="M") {
 						$tipoUnidadV="kg";
 						$precioV=$precioKg;
 						$stockV=$stockKg;
