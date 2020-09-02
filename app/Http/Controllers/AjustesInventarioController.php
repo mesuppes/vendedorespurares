@@ -9,6 +9,7 @@ use App\AjusteInventario;
 use App\Producto;
 use App\ProductoMov;
 use App\ProductoStockLote;
+use Auth;
 
 class AjustesInventarioController extends Controller
 {
@@ -24,11 +25,19 @@ class AjustesInventarioController extends Controller
 
         //Todos los productos que no se fabrican
         $productosLote=ProductoStockLote::all();
+        $lastIdMov=ProductoMov::get()->last()->id_movimiento;
 
         return view('agregarAjusteInventario', compact('productosLote'));
     }
 
     public function store(AjusteInventarioCreateRequest $request){
+
+      return $request;
+
+      $lastIdMov=ProductoMov::get()->last()->id_movimiento;
+      #Verifica que no existan movimientos
+      if ($lastIdMov==$request['lastIdMov']) {
+        # code...
 
             //1-ENCABEZADO
         $ajuste=AjusteInventario::create([
@@ -39,14 +48,14 @@ class AjustesInventarioController extends Controller
         //2-PRODUCTOS
         $longitud=count($request['idProducto']);
         for ($i=0; $i < $longitud ; $i++) {
-            if ($request['unidades']>0) {
+            if ($request['unidades'][$i]!=0 || $request['pesoKg'][$i]!=0) {
                 $producto¨=ProductoMov::create([
-                   'id_producto'    =>$request['idProducto'],
+                   'id_producto'    =>$request['idProducto'][$i],
                    'id_ajuste'      =>$ajuste->id,
-                   'lote_produccion'=>$request['lote_produccion'],
-                   'lote_compra'    =>$request['loteCompra'],
-                   'unidades'       =>$request['unidades'],
-                   'peso_kg'        =>$request['peso_kg'],
+                   'lote_produccion'=>$request['loteProduccion'][$i],
+                   'lote_compra'    =>$request['loteCompra'][$i],
+                   'unidades'       =>$request['unidades'][$i],
+                   'peso_kg'        =>$request['pesoKg'][$i],
                    'id_cuenta'      =>7,//Coressponde a la cuenta Compra
                    'id_usuario_reg' =>Auth::user()->id,
                 ]);
@@ -54,6 +63,11 @@ class AjustesInventarioController extends Controller
         }
 
         return view('verAjuste', compact('ajuste'));
+      }else{
+        return "Se han realizado movimientos de producto mientras realizaba el ajuste de stock. Debera realizarlo nuevamente"
+          #Cargar de nuevo la ventana 
+      }
+    
     }
 
 
