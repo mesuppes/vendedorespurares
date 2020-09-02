@@ -17,6 +17,8 @@
                                 <div class="card-body">
                                     <form method="POST" id="formAgregarAjuste" class="needs-validation" action="{{route('ajustes.store')}}">
                                         @csrf
+                                        <p>No deberán realizarse armados de pedidos mientras se ajusta el stock.</p>
+										<input type="hidden"  name=""  class="form-control" value="">
                                            <div class="form-group">
                                                 <label>Motivo:</label>
                                                 <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste"></textarea>
@@ -54,25 +56,29 @@
 
                                                 <td>
                                                     <div class="input-group">
-                                                                    <input type="number" name="pesoKg[]" min=0 step=0.001 class="form-control inputkilos inputajuste" placeholder="Kilos actuales">
+                                                                    <input type="number"  min=0 step=0.001 class="form-control inputkilos inputajuste" placeholder="Kilos actuales">
                                                                 <div class="input-group-append pr-0">
                                                                     <span class="input-group-text text-center ">&nbsp; kilos.
                                                                     </span>
                                                                 </div>
                                                                 </div>
                                                 </td>
-                                                <td class="diferenciakilos"></td>
+                                                <td class="diferenciakilos">
+                                                	<input type="hidden"  name="pesoKg[]"  class="form-control inputkilosaenviar">
+                                                </td>
                                                 <td class="stockunidades"><a>{{$producto['stock_unidades']}}</a> unidades</td>
                                                 <td>
                                                      <div class="input-group">
-                                                                    <input type="number"  name="unidades[]" min=0 step=1 class="form-control inputunidades inputajuste" placeholder="Unidades actuales">
+                                                                    <input type="number" min=0 step=1 class="form-control inputunidades inputajuste" placeholder="Unidades actuales">
                                                                 <div class="input-group-append pr-0">
                                                                     <span class="input-group-text text-center">&nbsp; unidades.
                                                                     </span>
                                                                 </div>
                                                                 </div>
                                                 </td>
-                                                <td class="diferenciaunidades"></td>
+                                                <td class="diferenciaunidades">
+                                                		<input type="hidden"  name="unidades[]" class="form-control inputunidadesaenviar">
+                                                </td>
                                             </tr>
                                                 @endforeach
                                             </tbody>
@@ -175,13 +181,16 @@ $(".inputkilos").bind("keyup change", function(e) {
   	$(this).closest('td').parent().find('.diferenciakilos').removeClass('text-success')
   	$(this).closest('td').parent().find('.diferenciakilos').addClass('text-danger')
   	$(this).closest('td').parent().find('.diferenciakilos').text((kilosnuevo-kilosactual).toFixed(3)+' kilos');
+  	$(this).closest('td').parent().find('.inputkilosaenviar').val((kilosnuevo-kilosactual).toFixed(3))
 }else{
 	$(this).closest('td').parent().find('.diferenciakilos').removeClass('text-danger')
 	$(this).closest('td').parent().find('.diferenciakilos').addClass('text-success')
 	$(this).closest('td').parent().find('.diferenciakilos').text('+ '+(kilosnuevo-kilosactual).toFixed(3)+' kilos');
+    $(this).closest('td').parent().find('.inputkilosaenviar').val((kilosnuevo-kilosactual).toFixed(3))
 }
 }else{
 		$(this).closest('td').parent().find('.diferenciakilos').text('');
+		$(this).closest('td').parent().find('.inputkilosaenviar').val('')
 }
 })
 
@@ -196,13 +205,16 @@ $(".inputunidades").bind("keyup change", function(e) {
  	$(this).closest('td').parent().find('.diferenciaunidades').removeClass('text-success')
   	$(this).closest('td').parent().find('.diferenciaunidades').addClass('text-danger')
   	$(this).closest('td').parent().find('.diferenciaunidades').text((unidadesnuevo-unidadesactual).toFixed(0)+' unidades');
+  	$(this).closest('td').parent().find('.inputunidadesaenviar').val((unidadesnuevo-unidadesactual).toFixed(0))
 }else{
 	$(this).closest('td').parent().find('.diferenciaunidades').removeClass('text-danger')
 	$(this).closest('td').parent().find('.diferenciaunidades').addClass('text-success')
 	$(this).closest('td').parent().find('.diferenciaunidades').text('+ '+(unidadesnuevo-unidadesactual).toFixed(0)+' unidades');
+	$(this).closest('td').parent().find('.inputunidadesaenviar').val((unidadesnuevo-unidadesactual).toFixed(0))
 }
 }else{
 	$(this).closest('td').parent().find('.diferenciaunidades').text('');
+	$(this).closest('td').parent().find('.inputunidadesaenviar').val('')
 }
 })
 
