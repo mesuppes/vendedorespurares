@@ -15,10 +15,15 @@
                                     <h5 class="card-title">Agregar ajuste</h5>
                                 </div>
                                 <div class="card-body">
+                                  @if(session('error'))
+                                  <div class="alert alert-danger" role="alert">
+                            {{$msg}}
+                            </div>
+                                  @endif
                                     <form method="POST" id="formAgregarAjuste" class="needs-validation" action="{{route('ajustes.store')}}">
                                         @csrf
                                         <p>No deberán realizarse armados de pedidos mientras se ajusta el stock.</p>
-										<input type="hidden"  name=""  class="form-control" value="">
+										<input type="hidden"  name="lastIdMov"  class="form-control" value="{{$lastIdMov}}">
                                            <div class="form-group">
                                                 <label>Motivo:</label>
                                                 <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste"></textarea>
@@ -136,10 +141,10 @@
         var cantidadnuevaunidades=[];
         var cantidadnuevakilos=[];
 
-		$('.inputunidades').each(function(){
+		$('.inputajuste').each(function(){
        		 if($(this).val()!=0){
 			 productosAjustar.push($(this).closest('td').parent().find('.tdnombreproducto').text())
-       		 cantidadnuevaunidades.push($(this).val())
+       		 cantidadnuevaunidades.push($(this).closest('td').parent().find('.inputunidades').val())
        		 cantidadnuevakilos.push($(this).closest('td').parent().find('.inputkilos').val())
 
                                   }})

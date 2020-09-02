@@ -27,7 +27,7 @@ class AjustesInventarioController extends Controller
         $productosLote=ProductoStockLote::all();
         $lastIdMov=ProductoMov::get()->last()->id_movimiento;
 
-        return view('agregarAjusteInventario', compact('productosLote'));
+        return view('agregarAjusteInventario', compact('productosLote','lastIdMov'));
     }
 
     public function store(AjusteInventarioCreateRequest $request){
@@ -64,10 +64,11 @@ class AjustesInventarioController extends Controller
 
         return view('verAjuste', compact('ajuste'));
       }else{
-        return "Se han realizado movimientos de producto mientras realizaba el ajuste de stock. Debera realizarlo nuevamente"
-          #Cargar de nuevo la ventana 
+        $msg="Se han realizado movimientos de producto mientras realizaba el ajuste de stock. Debera realizarlo nuevamente";
+        return back()->with('error',$msg);
+          #Cargar de nuevo la ventana
       }
-    
+
     }
 
 
