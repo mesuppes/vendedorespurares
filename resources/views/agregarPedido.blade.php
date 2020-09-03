@@ -141,7 +141,11 @@
                         	</a></div>
                         <div class="mt-2 pl-0 pr-1 divCantidad">
                             <div class="col-md-6 col-xl-6 d-inline-flex input-group pl-0 pr-0">
-                                <input type="number"  name="cantidad[]" min=0 max="{{$producto['stoack']}}"
+                                <input type="number"  name="cantidad[]" min=0
+                                @if($producto['tipoUnidad']=='kg')
+                                 step=0.001
+                                 @endif
+                                  max="{{$producto['stoack']}}"
                                  class="form-control cantidad" placeholder="Cantidad">
                                 <div class="input-group-append pr-0">
                                     <span class="input-group-text text-center spanUnidad">&nbsp;
