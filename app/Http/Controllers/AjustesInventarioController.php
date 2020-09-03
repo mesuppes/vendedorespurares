@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AjusteInventarioCreateRequest;
 use App\AjusteInventario;
 use App\Producto;
+use App\Compra;
 use App\ProductoMov;
 use App\ProductoStockLote;
 use Auth;
@@ -32,7 +33,7 @@ class AjustesInventarioController extends Controller
 
     public function store(AjusteInventarioCreateRequest $request){
 
-      return $request;
+
 
       $lastIdMov=ProductoMov::get()->last()->id_movimiento;
       #Verifica que no existan movimientos

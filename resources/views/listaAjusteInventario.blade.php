@@ -19,16 +19,22 @@
                             <table class="table" id="dt-mant-table">
                                 <thead>
                                     <tr>
-                                        <th>Ajustes</th>
-                                        <th></th>
+                                        <th>N°</th>
+                                        <th>Fecha</th>
+                                        <th>Motivo</th>
+                                        <th>Ver</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @forelse($listaAjusteInventario as $ajuste)
                                     <tr>
-                                        <td>{{$ajuste}}</td>
-                                        <td>
-
+                                        <td>{{$ajuste['id']}}</td>
+                                        <td>{{$ajuste['fecha_reg']}}</td>
+                                        <td>{{$ajuste['motivo']}}</td>
+                                        <td> <div class="mb-1">
+                                                <a type="button" class="btn btn-sm col-12 btn-primary"
+                                                   href="{{route('ajustes.show', $ajuste['id'])}}"> Ver ajuste</a>
+                                            </div>
                                         </td>
                                     </tr>
                                     @empty
