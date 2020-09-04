@@ -16,7 +16,9 @@
                                 </div>
                                 <div class="card-body">
                                   <label>Motivo:</label>
-                                      <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste" readonly></textarea>
+                                      <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste" readonly> 
+                                        {{$ajuste->motivo ?? "Sin descripción"}}
+                                      </textarea>
                                             </div>
                                      <div class="table-responsive">
                                         <table class="table" id="tablaPedido">
@@ -24,26 +26,28 @@
                                                 <tr>
                                                     <th>Producto</th>
                                                     <th>Lote</th>
-                                                    <th>Stock kilos</th>
-                                                    <th>Nuevo Stock kilos</th>
-                                                    <th>Ajuste</th>
-                                                    <th>Stock unidades</th>
-                                                    <th>Nuevo Stock unidades</th>
-                                                    <th>Ajuste</th>
+                                                    <th>Ajuste en unidades</th>
+                                                    <th>Ajuste en kilos</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach($ajuste->productos as $producto)
                                             <tr>
                                                 <td>
-                                                  {{$ajuste}}
- 											</td>
+                                                  {{$producto->producto->nombre_comercial}}
+ 											    </td>
                                                 <td>
-
+                                                    @if(isset($producto->lote_produccion))
+                                                        P-{{$producto->lote_produccion}}
+                                                    @else
+                                                        C-{{$producto->lote_compra}}
+                                                    @endif
                                                 </td>
-                                                <td ></td>
-
+                                                <td >
+                                                    {{$producto->unidades ?? 0}} unidades
+                                                </td>
                                                 <td>
-
+                                                    {{$producto->peso_kg ?? 0}} Kg
                                                 </td>
                                                 <td>
 
@@ -56,7 +60,7 @@
 
                                                 </td>
                                             </tr>
-
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>

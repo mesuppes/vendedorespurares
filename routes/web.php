@@ -129,6 +129,7 @@ Route::group(['middleware' => ['role:Administracion']], function () {
     Route::get('/agregarAjustes', 'AjustesInventarioController@create')->name('ajustes.create');
     Route::post('/agregarAjustes', 'AjustesInventarioController@store')->name('ajustes.store');
     Route::get('/verAjuste/{id}', 'AjustesInventarioController@show')->name('ajustes.show');
+    Route::get('/ajusteAutomatico', 'AjustesInventarioController@storeProductosSinUnidades')->name('ajustes.automatico1');
     //Route::resource('/listaPedido', 'PedidosController@index');
     //Route::resource('roles', 'Admin\RolesController');
     //Route::resource('users', 'Admin\UsersController');

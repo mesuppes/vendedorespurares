@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AjusteInventarioCreateRequest;
 use App\AjusteInventario;
 use App\Producto;
-use App\Compra;
 use App\ProductoMov;
 use App\ProductoStockLote;
 use Auth;
@@ -33,18 +32,18 @@ class AjustesInventarioController extends Controller
 
     public function store(AjusteInventarioCreateRequest $request){
 
-
+      return $request;
 
       $lastIdMov=ProductoMov::get()->last()->id_movimiento;
       #Verifica que no existan movimientos
       if ($lastIdMov==$request['lastIdMov']) {
         # code...
 
-            //1-ENCABEZADO
-        $ajuste=AjusteInventario::create([
-            'motivo'        =>$request['comentarios'],
-            'id_usuario_reg'=>Auth::user()->id,
-        ]);
+              //1-ENCABEZADO
+          $ajuste=AjusteInventario::create([
+              'motivo'        =>$request['comentarios'],
+              'id_usuario_reg'=>Auth::user()->id,
+          ]);
 
         //2-PRODUCTOS
         $longitud=count($request['idProducto']);
@@ -75,7 +74,7 @@ class AjustesInventarioController extends Controller
 
     public function show($id){
 
-        $ajuste=Compra::find($id);
+        $ajuste=AjusteInventario::find($id);
 
         return view('verAjuste', compact('ajuste'));
     }
@@ -131,6 +130,45 @@ class AjustesInventarioController extends Controller
                 'filtro'=>'Proveedores',
             ]);
     }
+
+    static public function showProductosSinUnidades(){
+
+      $productosSinUn=ProductoStockLote::where('stock_unidades','=',0)->get();
+
+      return $productosSinUn;
+    }
+
+    public function storeProductosSinUnidades(){
+
+      //1-ENCABEZADO 
+      $motivo="Ajuste automático por merma de peso";
+      $ajuste=AjusteInventario::create([
+            'motivo'        =>$motivo,
+            'id_usuario_reg'=>Auth::user()->id,
+          ]);
+
+    #Productos sin unidad
+      $productosSinUn=ProductoStockLote::where('stock_unidades','=',0)->get();
+
+      //2-PRODUCTOS
+      foreach ($productosSinUn as $producto ) {
+        
+        ProductoMov::create([
+           'id_producto'    =>$producto->id_producto,
+           'id_ajuste'      =>$ajuste->id,
+           'lote_produccion'=>$producto->lote_produccion,
+           'lote_compra'    =>$producto->lote_compra,
+           'unidades'       =>0,
+           'peso_kg'        =>$producto->stock_kg*-1,
+           'id_cuenta'      =>7,//Coressponde a la cuenta Ajuste
+           'id_usuario_reg' =>Auth::user()->id,
+        ]);
+      }
+
+      return view('verAjuste', compact('ajuste'));
+    }
+
+
 
 
 }

@@ -10,4 +10,11 @@ class AjusteInventario extends Model
     protected $guarded=[];//Desactiva la proteccion
     const CREATED_AT = 'fecha_reg';
     const UPDATED_AT = 'fecha_baja';
+
+ 	public function productos(){
+        return $this->hasMany(ProductoMov::class,'id_ajuste','id');
+    }
+
+
+
 }

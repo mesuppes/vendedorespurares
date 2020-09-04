@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use App\WorkflowN;
 use DB;
 use App\Vendedor;
+use App\Http\Controllers\FacturasController;
 
 class WorkflowController extends Controller{
         
@@ -110,7 +111,7 @@ class WorkflowController extends Controller{
         
         //1-Pending por el id_usuario
         //2-pending por los roles que tiene
-        $idUsuario=Auth::user()->id;
+        $idUsuario=1;#Auth::user()->id;
         
         //Roles que tiene el usuario
         $rolesUsuario=User::find($idUsuario)->roles->pluck('id')->toArray();
@@ -130,7 +131,30 @@ class WorkflowController extends Controller{
         //2-pending por los roles que tiene
         $listaPending=WorkflowController::ListaToDoUserQuery();
 
-        return view('home')->with(compact('listaPending'));
+        //OTRAS TAREAS
+        #Ajustar cuando el stock de unidades queda en 0
+        $detalleAjsute=AjustesInventarioController::showProductosSinUnidades();
+
+        if (count($detalleAjsute)>0) {
+           
+            $MensajeAjuste="Se debe ajustar el stock de los siguientes productos: ";
+
+            foreach ($detalleAjsute as $producto) {
+                $nombre=$producto->producto->nombre_comercial;#NOMBRE
+                if (isset($producto->lote_produccion)) { #LOTE
+                    $lote="P".$producto->lote_produccion; 
+                }else{
+                    $lote="C".$producto->lote_compra;
+                }
+                $cantidad= $producto->stock_kg;#CANTIDAD
+
+                $MensajeAjuste=$MensajeAjuste.$nombre." Lote: ".$lote.".Ajuste: ".$cantidad."kg"."||<br>";    
+            }
+        }
+        
+
+
+        return view('home')->with(compact('listaPending','MensajeAjuste'));
     }
 
 

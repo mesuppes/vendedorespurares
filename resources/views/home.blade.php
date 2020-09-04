@@ -25,6 +25,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(isset($MensajeAjuste))
+                                    <tr>
+                                        <td>
+                                            {{$MensajeAjuste}}
+                                        </td>
+                                        <td>
+                                            <h5>
+                                                <span class="badge badge-danger">
+                                                    Ajuste pendiente
+                                                </span>
+                                            </h5>
+                                        </td>
+                                        <td>
+                                            <div class="mb-1">
+                                                <a type="button" class="btn btn-sm col-12 btn-primary"
+                                                   href="{{route('ajustes.automatico1')}}"> Realiazar Ajuste</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endif
+
                                 @forelse($listaPending as $pendiente)
                                     <tr>
                                         <td>{{$pendiente->fromUserN->name}} ha
