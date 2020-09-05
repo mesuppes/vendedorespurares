@@ -26,7 +26,7 @@
 										<input type="hidden"  name="lastIdMov"  class="form-control" value="{{$lastIdMov}}">
                                            <div class="form-group">
                                                 <label>Motivo:</label>
-                                                <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste"></textarea>
+                                                <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste" required></textarea >
                                             </div>
                                      <div class="table-responsive">
                                         <table class="table" id="tablaPedido">
@@ -68,8 +68,8 @@
                                                                 </div>
                                                                 </div>
                                                 </td>
-                                                <td class="diferenciakilos">
                                                 	<input type="hidden"  name="pesoKg[]"  class="form-control inputkilosaenviar">
+                                                <td class="diferenciakilos">
                                                 </td>
                                                 <td class="stockunidades"><a>{{$producto['stock_unidades']}}</a> unidades</td>
                                                 <td>
@@ -81,8 +81,8 @@
                                                                 </div>
                                                                 </div>
                                                 </td>
-                                                <td class="diferenciaunidades">
                                                 		<input type="hidden"  name="unidades[]" class="form-control inputunidadesaenviar">
+                                                <td class="diferenciaunidades">
                                                 </td>
                                             </tr>
                                                 @endforeach
@@ -141,18 +141,32 @@
         var cantidadnuevaunidades=[];
         var cantidadnuevakilos=[];
 
-		$('.inputajuste').each(function(){
+		$('.tdnombreproducto').each(function(){
+       		 	productosAjustar.push($(this).text())
+       		})
+		$('.inputunidades').each(function(){
        		 if($(this).val()!=0){
-			 productosAjustar.push($(this).closest('td').parent().find('.tdnombreproducto').text())
-       		 cantidadnuevaunidades.push($(this).closest('td').parent().find('.inputunidades').val())
-       		 cantidadnuevakilos.push($(this).closest('td').parent().find('.inputkilos').val())
+       		 	cantidadnuevaunidades.push($(this).val())
+       		 }else{
+       		 	cantidadnuevaunidades.push('0')
+       		 }
+       		})
+      	$('.inputkilos').each(function(){
+       		 if($(this).val()!=0){
+       		 	cantidadnuevakilos.push($(this).val())
+       		 }else{
+       		 	cantidadnuevakilos.push('0')
+       		 }
+       		})
 
-                                  }})
+
 
 		if(productosAjustar.length>0){
 				var tablaProductosAjuste = $('<table class="table"><thead><th class="text-left">Productos</th><th>Cantidad Unidades</th><th>Cantidad Kilos</th></thead><tbody></tbody></table>')
 				for (var i = 0; i < productosAjustar.length; i++) {
+					if(cantidadnuevaunidades[i]!=0||cantidadnuevakilos[i]!=0){
 					tablaProductosAjuste.find('tbody').append('<tr><td class="text-left">'+productosAjustar[i]+'</td><td>'+cantidadnuevaunidades[i]+' unidades</td><td>'+cantidadnuevakilos[i]+' kilos</td></tr>')
+					}
 				}
 			}
 

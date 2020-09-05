@@ -16,10 +16,9 @@
                                 </div>
                                 <div class="card-body">
                                   <label>Motivo:</label>
-                                      <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste" readonly> 
+                                      <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste" readonly>
                                         {{$ajuste->motivo ?? "Sin descripción"}}
                                       </textarea>
-                                            </div>
                                      <div class="table-responsive">
                                         <table class="table" id="tablaPedido">
                                             <thead>
