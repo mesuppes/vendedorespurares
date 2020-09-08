@@ -324,9 +324,6 @@ actualizarMontoTotal()
 $(".kg_a_enviar").bind("keyup change", function(e) {
 
     if($(this).closest('td').parent().find('.unidad_pedida').val()=="kg"){
-            alert('sda')
-
-
 		var descuento=(1-descuento)*parseFloat($(this).closest('td').parent().find('.descuento').text())/100
         var precio_unidad=parseFloat($(this).closest('td').parent().find('.precio_unidad_pedido').val())
         var monto_producto=($(this).val()*precio_unidad).toFixed(2)
