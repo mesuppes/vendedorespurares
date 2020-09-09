@@ -220,11 +220,13 @@
 
         var contadorproductos=facturaParaImprimir.find('tr');
 
-        if(contadorproductos.length-1<22){
+        if(contadorproductos.length-1<20){
 
-        for (var i = contadorproductos.length-1; i < 22; i++) {
-               facturaParaImprimir.append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>')  }
+        for (var i = contadorproductos.length-1; i < 20; i++) {
+               facturaParaImprimir.append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>')
 
+           }
+            facturaParaImprimir.append('<tr><td colspan=6>TOTAL IMPONIBLE</td><td></td></tr><tr><td colspan=6>TOTAL</td><td></td></tr>')
            }
            else{
             return alert('Hay demasiados productos para generar la factura')
@@ -238,13 +240,23 @@
         factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('normal').setFontSize(10).text(0.53,23.57,'Los pagos con cheques serán aceptados si los mismos están extendidos a la orden');
         factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('normal').setFontSize(10).text(0.53,24.07,'de Americastime S.A. y/o si son endosados por el cliente.');
 
-        factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('bold').setFontSize(16).text(0.53,25.00,'Plataforma de pedidos: www.purares.com');
+        factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('normal').setFontSize(10).text(12.53,23.07,'Los Precios son Imponibles, el IVA (21%) debe');
+
+        factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('normal').setFontSize(10).text(12.53,23.57,'considerarse al momento de la Facturación del/los');
+        factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('normal').setFontSize(10).text(12.53,24.07,'Producto/s  - Pedido/s');
+
+
+        factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('bold').setFontSize(16).text(0.53,25.00,'Plataforma de pedidos: pedidos.purares.com');
 
         factura.setTextColor('#436784').setFont('Monserrat').setFontStyle('bold').setFontSize(12).text(2.53,26,'Fecha :   __________/__________/__________');
         factura.setTextColor('#436784').setFont('Monserrat').setFontStyle('bold').setFontSize(12).text(12,26,'Aceptación :');
 
         factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('bold').setFontSize(12).text(2.53,27.5,'Firma del Transporte: _________________');
         factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('bold').setFontSize(12).text(12,27.5,'Firma del Cliente: _________________');
+
+        factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('bold').setFontSize(8).text(1,28.3,'La suscripción del presente o el transcurso de 24 horas de recibida la mercadería, el que resultare primero, se considerará para la aceptación de conformidad');
+
+        factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('bold').setFontSize(8).text(1,28.6,'de los productos recibidos.');
 
         factura.setTextColor('#436784').setFont('Monserrat').setFontStyle('bold').setFontSize(10).text(1.77,29.20,'Pagina Web : www.purares.com.ar - Facebook/purares  - Instagram/purares.natural - Mail: admin@purares.com.ar');
 
