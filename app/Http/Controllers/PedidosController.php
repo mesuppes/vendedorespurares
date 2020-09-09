@@ -50,6 +50,7 @@ class PedidosController extends Controller
 	        if ($usuario->hasRole('Administracion')) { 
 	        	#Todos los pedidos
 				$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
+									->orderBy('id_pedido','DESC')
 									->paginate(10);
 
 	        }elseif ($usuario->hasRole('Gestor_Cliente')) {
@@ -58,12 +59,14 @@ class PedidosController extends Controller
 	        	$idPedidosPadres=Pedido::where('id_usuario_reg','=',$usuario->id)->pluck('id_pedido_padre')->toArray();
 	            $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
 	            					->whereIn('id_pedido_padre',$idPedidosPadres)
+	            					->orderBy('id_pedido','DESC')
 	        						->paginate(10);
 	        	
 	        }elseif ($usuario->hasRole('Cliente')) {
 	        	#Los Pedidos que le pertencen al vendedor
 	        	$listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
 	        						->where('id_vendedor','=',$usuario->vendedor->id_vendedor)
+	        						->orderBy('id_pedido','DESC')
 	        						->paginate(10);
 	        }
 

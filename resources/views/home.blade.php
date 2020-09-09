@@ -28,7 +28,7 @@
                                     @if(isset($MensajeAjuste))
                                     <tr>
                                         <td>
-                                            {{$MensajeAjuste}}
+                                            <?php echo ($MensajeAjuste) ?>         
                                         </td>
                                         <td>
                                             <h5>

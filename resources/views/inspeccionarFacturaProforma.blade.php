@@ -135,7 +135,7 @@
                                                     </td>
                                                     <!--PRECIO UNITARIO-->
                                                     <td>
-                                                        $ {{$productoFactura->precio_unitario}}
+                                                        $ {{number_format($productoFactura->precio_unitario, 2, ',', '.')}}
                                                     </td>
                                                     <!--DESCUENTO-->
                                                     <td>
@@ -143,12 +143,12 @@
                                                     </td>
 
                                                     <td>
-                                                        ${{$productoFactura->precio_unitario*(1-$productoFactura->descuento)}}
+                                                        $ {{number_format($productoFactura->precio_unitario*(1-$productoFactura->descuento), 2, ',', '.') }}
                                                     </td>
 
                                                     <!--MONTO TOTAL-->
                                                     <td>
-                                                        $ {{$productoFactura->precio_total}}
+                                                        $ {{number_format($productoFactura->precio_total, 2, ',', '.')}}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -160,8 +160,8 @@
                                                         </b>
                                                     </td>
                                                     <td>
-                                                        <b>$ {{$factura->productos->sum('precio_total')}}
-                                                            @php $total=$factura->productos->sum('precio_total') @endphp
+                                                        <b>$ {{number_format($factura->productos->sum('precio_total'), 2, ',', '.')}}
+                                                            @php $total= number_format($factura->productos->sum('precio_total'), 2, ',', '.') @endphp
                                                         </b>
                                                     </td>
                                                 </tr>

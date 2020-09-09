@@ -137,7 +137,7 @@ class WorkflowController extends Controller{
 
         if (count($detalleAjsute)>0) {
            
-            $MensajeAjuste="Se debe ajustar el stock de los siguientes productos: ";
+            $MensajeAjuste="Se debe ajustar el stock de los siguientes productos: <br> ";
 
             foreach ($detalleAjsute as $producto) {
                 $nombre=$producto->producto->nombre_comercial;#NOMBRE
@@ -148,10 +148,12 @@ class WorkflowController extends Controller{
                 }
                 $cantidad= $producto->stock_kg;#CANTIDAD
 
-                $MensajeAjuste=$MensajeAjuste.$nombre." Lote: ".$lote.".Ajuste: ".$cantidad."kg"."||<br>";    
+                $MensajeAjuste=$MensajeAjuste."<b>".$nombre.": </b>"." Lote: ".$lote.". Ajuste: ".$cantidad."kg"." ||<br>";    
             }
+        }else{
+            $MensajeAjuste=null;
         }
-        
+            
 
 
         return view('home')->with(compact('listaPending','MensajeAjuste'));
