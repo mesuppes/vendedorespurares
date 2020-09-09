@@ -152,6 +152,17 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
+                                                <tr>
+                                                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                                                    <td>
+                                                        <b>
+                                                        Total
+                                                        </b>
+                                                    </td>
+                                                    <td>
+                                                        <b>$ {{$factura->productos->sum('precio_total')}}</b>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

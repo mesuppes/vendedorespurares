@@ -43,6 +43,7 @@
                                             <tbody>
                                                 @foreach($productos as $producto)
                                                 @if(isset($producto->stock))
+                                                @if($producto->stock->stock_unidades > 0 || $producto->stock->stock_kg > 0)
                                                         @php
                                                         $r=0
                                                         @endphp
@@ -87,16 +88,8 @@
                                                            <b>{{$producto->stock->stock_kg}}</b> U
                                                         </td>
                                                     </tr>
-                                                @else
-                                                <tr>
-                                                    <td>
-                                                        {{$producto->nombre_comercial}}
-                                                    </td>
-                                                    <td></td>
-                                                    <td>-</td>
-                                                    <td>-</td>
-                                                </tr>
-                                                @endif
+                                                    @endif
+                                                    @endif
                                                 @endforeach
                                             </tbody>
                                         </table>
