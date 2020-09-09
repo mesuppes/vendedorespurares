@@ -107,6 +107,13 @@ class PedidosController extends Controller
 
 		$datos=[];
 		$cliente=Vendedor::find($idCliente);
+		#Si es Factura B se le agrega el IVA
+			if ($cliente->inscripcion_afip == 'RI') {
+				$iva=0;
+			}else{
+				$iva=0.21;
+			}
+
 		$productos=Producto::all();
 			foreach ($productos as $producto) {
 				#Nombre del Producto
@@ -117,8 +124,8 @@ class PedidosController extends Controller
 				#precio del Producto
 				$productoPrecios=$producto->precioActual;
 					if (isset($productoPrecios)) {
-						$precioKg=$productoPrecios->precio_kg;
-						$precioUnidad=$productoPrecios->precio_unidad;
+						$precioKg=$productoPrecios->precio_kg*(1+$iva);
+						$precioUnidad=$productoPrecios->precio_unidad*(1+$iva);
 					}else{
 						$precioKg=0;
 						$precioUnidad=0;
@@ -455,7 +462,7 @@ class PedidosController extends Controller
 				#DETERMINAR DE QUE LISTA DE PRECIO SE REFIERE
 
 				#DETERMINAR QUE PRECIO UTILIAR(UNIDAD/KG)
-				if ($request['tipoMedida'][$i]=='Unidades') {
+				if ($request['tipoMedida'][$i]=='unidades') {
 					
 					$cantidad=$request['cantidadUnidades'][$i];
 				}elseif ($request['tipoMedida'][$i]=='kg') {

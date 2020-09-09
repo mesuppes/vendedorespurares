@@ -21,7 +21,7 @@ class VendedoresController extends Controller
 
     public function index()
     {
-        $vendedores=Vendedor::paginate(10);
+        $vendedores=Vendedor::all();
 
         return view('listaClientes', compact('vendedores'));
     }
