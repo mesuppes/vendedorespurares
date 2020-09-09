@@ -104,7 +104,7 @@
                                                                 @if($productoPedido->tipo_medida=="kg")
                                                                     {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}} / kg
                                                                     </a>
-                                                                @elseif($productoPedido->tipo_medida=="Unidades")
+                                                                @elseif($productoPedido->tipo_medida=="unidades")
                                                                     {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}} / Unidad
                                                                     </a>
                                                                 @else
@@ -137,7 +137,7 @@
                                                                  <input type="hidden" class="precio_unidad_pedido" value="
                                                                  @if($productoPedido->tipo_medida=="kg")
                                                                     {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_kg}}
-                                                                @elseif($productoPedido->tipo_medida=="Unidades")
+                                                                @elseif($productoPedido->tipo_medida=="unidades")
                                                                     {{$precio=$productoPedido->producto->precio()->where('anulado','=',null)->where('fecha_desde','<=',today())->orderBy('fecha_reg','desc')->first()->precio_unidad}}
                                                                  @endif
                                                                     ">
@@ -279,7 +279,7 @@
 $(".unidades_a_enviar").bind("keyup change", function(e) {
 
 
-    if($(this).closest('td').parent().find('.unidad_pedida').val()=="Unidades"){
+    if($(this).closest('td').parent().find('.unidad_pedida').val()=="unidades"){
 
 
     	var descuento=parseFloat($(this).closest('td').parent().find('.descuento').text())/100
