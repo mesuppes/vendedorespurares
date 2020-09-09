@@ -75,15 +75,15 @@
                                                         $r=$r+1
                                                         @endphp
                                                     @endforeach
-                                                    <tr class="success">
-                                                        <td style="background-color: #3F3F3F;">
+                                                    <tr class="text-white bg-dark">
+                                                        <td>
                                                             subtotal:
                                                         </td>
-                                                        <td style="background-color: #3F3F3F;"></td>
-                                                        <td style="background-color: #3F3F3F;">
+                                                        <td></td>
+                                                        <td>
                                                            <b>{{$producto->stock->stock_unidades}}</b> U
                                                         </td>
-                                                        <td style="background-color: #3F3F3F;">
+                                                        <td>
                                                            <b>{{$producto->stock->stock_kg}}</b> U
                                                         </td>
                                                     </tr>
