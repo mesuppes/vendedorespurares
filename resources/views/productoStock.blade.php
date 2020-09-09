@@ -76,14 +76,14 @@
                                                         @endphp
                                                     @endforeach
                                                     <tr class="success">
-                                                        <td>
+                                                        <td style="background-color: #3F3F3F;">
                                                             subtotal:
                                                         </td>
-                                                        <td></td>
-                                                        <td>
+                                                        <td style="background-color: #3F3F3F;"></td>
+                                                        <td style="background-color: #3F3F3F;">
                                                            <b>{{$producto->stock->stock_unidades}}</b> U
                                                         </td>
-                                                        <td>
+                                                        <td style="background-color: #3F3F3F;">
                                                            <b>{{$producto->stock->stock_kg}}</b> U
                                                         </td>
                                                     </tr>

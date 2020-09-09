@@ -106,6 +106,7 @@
                                                     <th>Kg</th>
                                                     <th>Precio Unitario</th>
                                                     <th>Descuento</th>
+                                                    <th>Unidad con descuento</th>
                                                     <th>Monto Total</th>
                                                 </tr>
                                             </thead>
@@ -138,8 +139,13 @@
                                                     </td>
                                                     <!--DESCUENTO-->
                                                     <td>
-                                                        $ {{$productoFactura->descuento}}
+                                                        {{$productoFactura->descuento *100}} % 
                                                     </td>
+                                                    
+                                                    <td>
+                                                        ${{$productoFactura->precio_unitario*(1-$productoFactura->descuento)}}
+                                                    </td>
+
                                                     <!--MONTO TOTAL-->
                                                     <td>
                                                         $ {{$productoFactura->precio_total}}
