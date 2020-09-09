@@ -71,6 +71,7 @@
         <h4>Sitio de Clientes Purares</h4>
         <p class="lead">Este es el sitio de clientes de <b>Purares</b>. Su uso está pensado sólo para clientes y personal de la empresa.</p>
         <p>Si te interesa contactarte puedas enviar un mail <a href="#" target="_blank">aqui</a>, o volver a la tienda <a href="https://purares.com.ar" target="_blank">purares.com.ar</a></p>
+        <p class="lead">Ud. está ingresando a una plataforma informática que es propiedad de Americastime S.A. y que contiene información de la empresa  protegida, confidencial y/o de secreto industrial,  cuyo uso o manipulación indebidos puede generar al usuario responsabilidad jurídica. Los datos ingresados por los usuarios generan movimientos productivos, contables y comerciales y, de acuerdo a ello, los usuarios deben ser diligentes en la incorporación de los mismos.</p>
       </div>
     </div>
   </div>

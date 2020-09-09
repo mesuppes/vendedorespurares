@@ -139,9 +139,9 @@
                                                     </td>
                                                     <!--DESCUENTO-->
                                                     <td>
-                                                        {{$productoFactura->descuento *100}} % 
+                                                        {{$productoFactura->descuento *100}} %
                                                     </td>
-                                                    
+
                                                     <td>
                                                         ${{$productoFactura->precio_unitario*(1-$productoFactura->descuento)}}
                                                     </td>
@@ -160,7 +160,9 @@
                                                         </b>
                                                     </td>
                                                     <td>
-                                                        <b>$ {{$factura->productos->sum('precio_total')}}</b>
+                                                        <b>$ {{$factura->productos->sum('precio_total')}}
+                                                            @php $total=$factura->productos->sum('precio_total') @endphp
+                                                        </b>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -237,13 +239,14 @@
 
         var contadorproductos=facturaParaImprimir.find('tr');
 
-        if(contadorproductos.length-1<20){
+        if(contadorproductos.length-1<25){
 
-        for (var i = contadorproductos.length-1; i < 20; i++) {
+            facturaParaImprimir.find('tr').last().remove()
+        for (var i = contadorproductos.length-1; i < 25; i++) {
                facturaParaImprimir.append('<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>')
 
            }
-            facturaParaImprimir.append('<tr><td colspan=6>TOTAL IMPONIBLE</td><td></td></tr><tr><td colspan=6>TOTAL</td><td></td></tr>')
+            facturaParaImprimir.append('<tr><td colspan=6>TOTAL IMPONIBLE</td><td colspan=2>$ {{$total}}</td></tr>')
            }
            else{
             return alert('Hay demasiados productos para generar la factura')
@@ -251,7 +254,7 @@
 
         var facturaJson=factura.autoTableHtmlToJson(facturaParaImprimir.get(0))
 
-        factura.autoTable(facturaJson.columns, facturaJson.data,{startY:8.5, margin: {top: 1, right: 0.8, bottom: 6, left: 1},headStyles :{fontSize:10,cellPadding:0.1,halign:'center',valign:'middle',fillColor:[26,40,52]},bodyStyles:{fontSize:10,cellPadding:0.1,halign:'center',valign:'middle',lineWidth:0.01,lineColor:0}});
+        factura.autoTable(facturaJson.columns, facturaJson.data,{startY:8.5, margin: {top: 1, right: 0.8, bottom: 6, left: 1},headStyles :{fontSize:8,cellPadding:0.1,halign:'center',valign:'middle',fillColor:[26,40,52]},bodyStyles:{fontSize:8,cellPadding:0.1,halign:'center',valign:'middle',lineWidth:0.01,lineColor:0}});
 
         factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('normal').setFontSize(10).text(0.53,23.07,'Documento válido para el tránsito de la mercadería declarada en el documento.');
         factura.setTextColor('#000000').setFont('Monserrat').setFontStyle('normal').setFontSize(10).text(0.53,23.57,'Los pagos con cheques serán aceptados si los mismos están extendidos a la orden');

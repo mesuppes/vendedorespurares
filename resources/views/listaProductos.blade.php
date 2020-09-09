@@ -41,7 +41,7 @@
                                 <tfoot>
 </tfoot>
                             </table>
-                            {{$productos->links()}}
+
                         </div>
                     </div>
                 </div>

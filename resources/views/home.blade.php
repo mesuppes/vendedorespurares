@@ -92,6 +92,23 @@
 
         @yield('index')
 
+    <script src="{{asset('dashboard/assets/js/core/jquery.min.js')}}"></script>
+  <script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>
+  <script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
+  <script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+    <script type="text/javascript">
+ swal.fire({
+            title: 'Bienvenido!',
+            showCancelButton: false,
+            html: 'Ud. ha ingresado a la plataforma informática "APP de Pedidos" / "Sistema de Producción", de propiedad de Americastime S.A, la misma contiene información protegida, confidencial y/o de secreto industrial,  cuyo uso o manipulación indebidos puede generar al usuario responsabilidad jurídica. Los datos que el Ud. ingrese, generan movimientos productivos, contables y comerciales, de acuerdo a ello, los usuarios tienen la responsabilidad de ser diligentes en la incorporación de los mismos.',
+            confirmButtonColor: 'green',
+            confirmButtonText: 'Entendido'
+        })
+
+</script>
 
         <!-- include footer -->
         @include('layouts.partials.footer')

@@ -16,6 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            <div class="fresh-datatables">
                             <table class="table"  id="dt-mant-table">
                                 <thead>
                                     <tr>
@@ -41,7 +42,6 @@
                                 <tfoot>
                                 </tfoot>
                             </table>
-                        {{$vendedores->links()}}
                         </div>
                     </div>
                 </div>
