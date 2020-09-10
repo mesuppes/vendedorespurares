@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table"  id="dt-mant-table">
+                            <table class="table"  id="tablalistapedidos">
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
@@ -66,7 +66,41 @@
 	    </div>
 	</div>
 
+<script src="{{asset('dashboard/assets/js/core/jquery.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
 
+<script src="{{asset('dashboard/assets/js/plugins/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/responsive.bootstrap.min.js')}}"></script>
+<script>
+
+
+var tablaPedidos=$('#tablalistapedidos').DataTable({
+        "scrollCollapse": true,
+        "paging": true,
+        "info": true,
+        "responsive": {
+            details: true
+        },
+        "aaSorting": [
+        [0, "desc"]
+        ],
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ pedidos por pagina",
+            "zeroRecords": "Ningún pedido cumple el criterio de búsqueda",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay pedidos en la base de datos",
+            "infoFiltered": "(filtrado de _MAX_ pedidos en total)",
+            "search": "_INPUT_",
+            "searchPlaceholder": "Buscar"},
+        "order": [[0, 'desc']],
+
+        })
+
+</script>
 
         <!-- include footer -->
         @include('layouts.partials.footer')

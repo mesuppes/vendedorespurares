@@ -115,7 +115,23 @@
 
         var tablaJson=pdf.autoTableHtmlToJson(tablaParaImprimir.get(0))
 
-        pdf.autoTable(tablaJson.columns, tablaJson.data,{startY:3.5, margin: {top: 3.5, right: 0.8, bottom: 3, left: 1},headStyles :{fontSize:10,cellPadding:0.1,halign:'center',valign:'middle',fillColor:[26,40,52]},bodyStyles:{fontSize:10,cellPadding:0.1,halign:'center',valign:'middle',lineWidth:0.01,lineColor:0}});
+        pdf.autoTable(tablaJson.columns, tablaJson.data,{startY:3.5, margin: {top: 3.5, right: 0.8, bottom: 3, left: 1},headStyles :{fontSize:10,cellPadding:0.1,halign:'center',valign:'middle',fillColor:[26,40,52]},bodyStyles:{fontSize:10,cellPadding:0.1,halign:'center',valign:'middle',lineWidth:0.01,lineColor:0},didParseCell: function (data) {
+    if(data.cell.section=='body' && data.cell.text=='subtotal:'){
+
+		data.row.cells[0].styles.textColor=255
+		data.row.cells[0].styles.fillColor=150
+		data.row.cells[1].styles.textColor=255
+		data.row.cells[1].styles.fillColor=150
+		data.row.cells[2].styles.textColor=255
+		data.row.cells[2].styles.fillColor=150
+		data.row.cells[3].styles.textColor=255
+		data.row.cells[3].styles.fillColor=150
+		//alert(JSON.stringify(data.row.cells[0]))
+    	//data.row.styles.fillColor=150
+    	//data.row.styles.textColor=255
+        //alert(JSON.stringify(data.cell.styles))
+    }
+}});
 
         var nombre="Stock de productos al "+fecha+" PURARES Clientes";
 
