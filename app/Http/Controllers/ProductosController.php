@@ -8,6 +8,8 @@ use App\ProductoFabrica;
 use App\ProductoMov;
 use App\Http\Requests\ProductoCreateRequest;
 use Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductosController extends Controller
 {
@@ -43,11 +45,16 @@ class ProductosController extends Controller
     public function store(ProductoCreateRequest $request)
     {
 
-
+            
+        $imagen=$request->file('imagen');
+        $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
+        $destino=public_path('uploads/imagenProducto');
+        $direccion=$request->imagen->move($destino,$nombreImagen);
+        
         $nuevoProducto=Producto::Create([
             'id_producto_produccion'=>$request['idProductoProduccion'],
             'nombre_comercial'      =>$request['nombreComercial'],
-            'url_foto'              =>$request['urlFoto'],
+            'url_foto'              =>$nombreImagen,
             'descripcion'           =>$request['descripcion'],
             'peso_unitario'         =>$request['pesoUnitario'],
             'id_usuario_reg'        =>Auth::user()->id,
@@ -60,10 +67,15 @@ class ProductosController extends Controller
     public function Update(ProductoCreateRequest $request,$id_producto)
     {
 
+        $imagen=$request->file('imagen');
+        $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
+        $destino=public_path('uploads/imagenProducto');
+        $direccion=$request->imagen->move($destino,$nombreImagen);
+
         $nuevoProducto=Producto::find($id_producto)->update([
             'id_producto_produccion'=>$request['idProductoProduccion'],
             'nombre_comercial'      =>$request['nombreComercial'],
-            'url_foto'              =>$request['urlFoto'],
+            'url_foto'              =>$nombreImagen,
             'descripcion'           =>$request['descripcion'],
             'peso_unitario'         =>$request['pesoUnitario'],
             'id_usuario_reg'        =>Auth::user()->id,

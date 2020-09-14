@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="col-4 d-inline">
-                                        <img src= "{{$producto->url_foto}}" class="d-inline" width="100" alt="Imagen del producto">
+                                        <img src= "{{asset("uploads/imagenProducto/213.jpg")}}" class="d-inline" width="100" alt="Imagen del producto">
                                     </div>
                                     <div class="col-8 d-inline">
                                     <form>

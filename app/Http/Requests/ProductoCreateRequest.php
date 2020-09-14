@@ -17,7 +17,7 @@ class ProductoCreateRequest extends FormRequest
         return [
             'idProductoProduccion'  =>'nullable',
             'nombreComercial'       =>'required',//|unique:Producto,nombre_comercial',
-            //'urlFoto'               =>'requiere',
+            'imagen'                =>'required',#|image|mimes:.jpg,.JPG,.jpej|max:2048',
             'descripcion'           =>'nullable',
             'pesoUnitario'          =>'nullable',
         ];

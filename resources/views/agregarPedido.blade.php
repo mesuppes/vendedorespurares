@@ -82,7 +82,7 @@
                     @for( $j =0; $j < count(old('cantidad')); $j++)
                 <div class="card bg-white d-inline-flex col-12 flex-row flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src= "{{$producto['foto']}}" width="100" alt="Imagen de {{$producto['producto']}}">
+                        <img src= "{{asset("uploads/imagenProducto/".$producto['foto'])}}" width="100" alt="Imagen de {{$producto['producto']}}">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
                         <h6 class="card-title mb-3">{{$producto['producto']}}</h6>
@@ -121,7 +121,7 @@
               @foreach( $productos as $producto)
                 <div class="card d-inline-flex flex-row col-12 flex-wrap pl-2l-6 pl-3 pr-1">
                     <div class="align-self-center col-4 col-xl-4 mb-0 mr-0 pl-0 pr-2">
-                        <img src= "{{$producto['foto']}}" width="100" alt="Imagen de {{$producto['producto']}}">
+                        <img src= "{{asset("uploads/imagenProducto/".$producto['foto'])}}" width="100" alt="Imagen de {{$producto['producto']}}">
                     </div>
                     <div class="card-block col-8 pl-0 pr-1">
                         <h6 class="card-title mb-3">{{$producto['producto']}}</h6>

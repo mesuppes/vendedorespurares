@@ -15,7 +15,7 @@
                                     <h5 class="card-title">Agregar producto</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" id="formAgregarProducto" action="{{route('productos.store')}}">
+                                    <form method="POST" id="formAgregarProducto" action="{{route('productos.store')}}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
@@ -49,6 +49,13 @@
                                             </select>
                                             </div>
                                             </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                     <input accept="image/*" type="file" name="imagen" placeholder="Imagen" >
+                                                </div>
+                                            </div>
+
                                         </div>
                                 </div>
                      <div class="bg-white card">
