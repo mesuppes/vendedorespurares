@@ -78,6 +78,8 @@ class ProductosController extends Controller
 
     public function Update(ProductoCreateRequest $request)
     {
+        #return $request;
+
         $id_producto=$request['idProducto'];
         $imagen=$request->file('imagen');
         $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
@@ -90,10 +92,10 @@ class ProductosController extends Controller
             'url_foto'              =>$nombreImagen,
             'descripcion'           =>$request['descripcion'],
             'peso_unitario'         =>$request['pesoUnitario'],
-            'id_usuario_reg'        =>Auth::user()->id,
+            'id_usuario_act'        =>Auth::user()->id,
         ]);
 
-        $producto=Producto::find($nuevoProducto->id_producto);
+        $producto=Producto::find($request['idProducto']);
         return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
 
