@@ -12,7 +12,7 @@
                         <div class="col-md-12 pr-1 pl-1">
                             <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
-                                    <h5 class="card-title">Agregar producto</h5>
+                                    <h5 class="card-title">Editar producto</h5>
                                 </div>
                                 <div class="card-body">
                                     <form method="POST" id="formEditarProducto" action="{{route('producto.update')}}" enctype="multipart/form-data">
@@ -50,10 +50,10 @@
                                             </select>
                                             </div>
                                             </div>
-
                                             <div class="col-md-6">
+                                                <img src= "{{asset("uploads/imagenProducto/".$producto->url_foto)}}" class="d-inline" width="100" alt="Imagen del producto">
                                                 <div class="form-group">
-                                                     <input accept="image/*" type="file" name="imagen" placeholder="Imagen" required>
+                                                     <input accept="image/*" type="file" name="imagen" placeholder="Imagen">
                                                 </div>
                                             </div>
 
@@ -64,7 +64,7 @@
                      <div class="bg-white card">
                         <div class="d-inline-flex justify-content-between">
                             <div class="d-flex pr-2">
-                                <button type="submit" id="botonAgregarProducto" class="btn btn-success">Agregar producto
+                                <button type="submit" id="botonAgregarProducto" class="btn btn-success">Editar producto
 </button>
                         </div>
                              </div>
