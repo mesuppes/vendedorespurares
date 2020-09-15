@@ -28,7 +28,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Peso Unitario</label>
-                                                    <input type="number" name="pesoUnitario" min=0 class="form-control" placeholder="Ingrese el peso unitario" value="{{$producto->peso_unitario}}" required>
+                                                    <input type="number" name="pesoUnitario" min=0 class="form-control" placeholder="Ingrese el peso unitario" value="{{$producto->peso_unitario}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -41,10 +41,10 @@
                                             <div class="form-group">
                                             <label for="selectVendedor">Producto de fabrica</label>
                                             <select class="selectpicker form-control" data-style="btn btn-danger btn-block" name="idProductoProduccion" required>
-                                             <option value= "" selected>Seleccione producto</option>
+                                             <option value= "{{$producto->productoFabrica->nombre ?? ""}}" selected>{{$producto->productoFabrica->nombre ?? "Sin asignar"}}</option>
                                              <option value="">Ninguno</option>
-                                                        @foreach($ProductoFabrica as $producto)
-                                                            <option value="{{$producto->id_producto}}">{{$producto->nombre}}
+                                                        @foreach($ProductoFabrica as $producto_fabrica)
+                                                            <option value="{{$producto_fabrica->id_producto}}">{{$producto_fabrica->nombre}}
                                                             </option>
                                                         @endforeach
                                             </select>
