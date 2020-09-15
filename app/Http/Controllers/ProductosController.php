@@ -27,6 +27,18 @@ class ProductosController extends Controller
         return view('inspeccionarProducto')->with(compact('producto'));
     }
 
+        public function edit($idproducto)
+    {
+        $producto=Producto::find($idproducto);
+            //Productos que se fabrican que no estan asignados
+        $productosAsignados=Producto::get()
+                        ->where('id_producto_produccion','!=',NULL)
+                        ->pluck('id_producto_produccion')
+                        ->toArray();
+        $ProductoFabrica=ProductoFabrica::whereNotIn('id_producto',$productosAsignados)->get();
+        return view('editarProducto')->with(compact('producto','ProductoFabrica'));
+    }
+
 
     public function create()
     {
@@ -45,12 +57,12 @@ class ProductosController extends Controller
     public function store(ProductoCreateRequest $request)
     {
 
-            
+
         $imagen=$request->file('imagen');
         $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
         $destino=public_path('uploads/imagenProducto');
         $direccion=$request->imagen->move($destino,$nombreImagen);
-        
+
         $nuevoProducto=Producto::Create([
             'id_producto_produccion'=>$request['idProductoProduccion'],
             'nombre_comercial'      =>$request['nombreComercial'],
@@ -64,9 +76,9 @@ class ProductosController extends Controller
         return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
 
-    public function Update(ProductoCreateRequest $request,$id_producto)
+    public function Update(ProductoCreateRequest $request)
     {
-
+        $id_producto=$request['idProducto'];
         $imagen=$request->file('imagen');
         $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
         $destino=public_path('uploads/imagenProducto');

@@ -13,7 +13,7 @@
                             <div class="bg-white card card-user">
                                 <div class="card-header d-flex">
                                     <h5 class="card-title">Datos del producto</h5>
-                                    <a href="{{route('pedido.edit', $producto->id_producto)}}" class="btn btn-sm btn-primary ml-auto" disabled>Editar producto</a>
+                                    <a href="{{route('producto.edit', $producto->id_producto)}}" class="btn btn-sm btn-primary ml-auto">Editar producto</a>
                                 </div>
                                 <div class="card-body">
                                     <div class="col-4 d-inline">

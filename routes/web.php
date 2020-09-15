@@ -94,8 +94,10 @@ Route::group(['middleware' => ['can:Clientes_Descuento']], function (){
 Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
     Route::get('/listaProductos', 'ProductosController@index')->name('productos.index');
     Route::get('/listaProductos/{id}', 'ProductosController@show')->name('productos.show');
+    Route::get('/editarProducto/{id}', 'ProductosController@edit')->name('producto.edit');
     Route::get('/agregarProducto', 'ProductosController@create')->name('productos.create');
     Route::post('/agregarProducto', 'ProductosController@store')->name('productos.store');
+     Route::post('/editarProducto', 'ProductosController@update')->name('producto.update');
 
     Route::get('/stockProductos', 'ProductosController@stockLote')->name('productos.stock');
     #workaround para ver mov Productos
