@@ -41,7 +41,7 @@ class AjustesInventarioController extends Controller
 
               //1-ENCABEZADO
           $ajuste=AjusteInventario::create([
-              'motivo'        =>$request['comentarios'],
+              'motivo'        =>$request['motivo'],
               'id_usuario_reg'=>Auth::user()->id,
           ]);
 

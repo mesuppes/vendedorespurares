@@ -79,12 +79,17 @@ class ProductosController extends Controller
     public function Update(ProductoCreateRequest $request)
     {
         #return $request;
+            $id_producto=$request['idProducto'];
 
-        $id_producto=$request['idProducto'];
-        $imagen=$request->file('imagen');
-        $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
-        $destino=public_path('uploads/imagenProducto');
-        $direccion=$request->imagen->move($destino,$nombreImagen);
+        if (isset($request['imagen'])) {
+            $imagen=$request->file('imagen');
+            $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
+            $destino=public_path('uploads/imagenProducto');
+            $direccion=$request->imagen->move($destino,$nombreImagen);
+        }else{
+            $nombreImagen=Producto::find($id_producto)->url_foto;
+        }
+
 
         $nuevoProducto=Producto::find($id_producto)->update([
             'id_producto_produccion'=>$request['idProductoProduccion'],
@@ -95,7 +100,7 @@ class ProductosController extends Controller
             'id_usuario_act'        =>Auth::user()->id,
         ]);
 
-        $producto=Producto::find($request['idProducto']);
+        $producto=Producto::find($id_producto);
         return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
 
