@@ -16,7 +16,7 @@ class ReportesController extends Controller
 {
     //
     static public function ventas(){
-    	
+
     	#$clientes,$fechaDesde,$fechaHasta
     	$cliente=[1,59,21];
     	$fechaDesde='2020-08-01';
@@ -42,7 +42,7 @@ class ReportesController extends Controller
 			#Recorro la lista de todos los periodos
 			foreach ($periodos as $periodo) {
 				$cantidad=RptConsumo::where('periodo','=',$periodo)->whereIn('id_cliente',$cliente)->where('id_producto','=',$id)->groupBy('id_producto')->sum('cantidad_kg');
-			
+
 			array_push($valores,$cantidad);
 
 			}
@@ -52,6 +52,15 @@ class ReportesController extends Controller
 
     	}
    	return view('rptVentanasMensuales', compact('datos','periodos'));
-    
+
     }
+
+static public function createReporte(){
+
+    $periodos=false;
+    $datos=false;
+    return view('rptVentanasMensuales',compact('datos','periodos'));
+
+}
+
 }

@@ -26,10 +26,18 @@
           </a>
         </li>
 
+      <!-- REPORTE -->
 
-    
+  <li>
+          <a href="{{route('reporte.create')}}">
+            <i class="nc-icon nc-bullet-list-67"></i>
+            <p>Ver Reporte</p>
+          </a>
+        </li>
+
+
     <!-- PEDIDOS -->
-    
+
       @can('Pedidos_Propios')
         <li {{Route::is('pedido.index')? 'class=active':''}}>
             <a href="{{route('pedido.index')}}">
@@ -103,7 +111,7 @@
                   </a>
                 </li>
               @endcan
-   
+
    <!-- AJUSTE DE INVENTARIOS -->
 
       <li {{Route::is('ajustes.create') || Route::is('ajustes.index')? 'class=active':''}}>
@@ -130,9 +138,9 @@
           </div>
 
       <!-- CLIENTES -->
-        
+
       <li {{Route::is('vendedores.create') || Route::is('vendedores.index')? 'class=active':''}}>
-    
+
       <a data-toggle="collapse" href="#clientes" aria-expanded="false" class="collapsed">
         <i class="nc-icon nc-badge"></i>
         <p>Clientes</p>
@@ -164,7 +172,7 @@
       @can('Compras_Gestionar')
 
         <li {{Route::is('compras.index') || Route::is('compras.create')? 'class=active':''}}>
-        
+
           <a data-toggle="collapse" href="#compras" aria-expanded="false" class="collapsed">
             <i class="nc-icon nc-cart-simple"></i>
             <p>Compras</p>
@@ -235,4 +243,3 @@
       </div>
 </div>
 
-      

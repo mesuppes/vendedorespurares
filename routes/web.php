@@ -141,6 +141,8 @@ Route::group(['middleware' => ['role:Administracion']], function () {
     //]);
 });
 
+//Reporte
 
-
+Route::get('/verReporte', 'ReportesController@createReporte')->name('reporte.create');
+Route::post('/verReporte', 'ReportesController@ventas')->name('reporte.ventas');
 
