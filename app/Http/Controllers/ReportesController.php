@@ -15,19 +15,37 @@ use App\RptConsumo;
 class ReportesController extends Controller
 {
     //
-    static public function ventas(){
+	static public function createReporte(){
+
+	    $periodos=false;
+	    $datos=false;
+	    $clientes=Vendedor::all();
+
+	    return view('rptVentanasMensuales',compact('datos','periodos','clientes'));
+
+	}
+
+
+    static public function ventas(request $request){
+
+    	#$fechaDesde=$request['fechaDesde'].'-01';
+    	#$fechaHasta=$request['fechaHasta'].'-01';
+    	#return $fechaDesde;
+    	#return $request;
 
     	#$clientes,$fechaDesde,$fechaHasta
-    	$cliente=[1,59,21];
-    	$fechaDesde='2020-08-01';
-    	$fechaHasta='2020-09-31';
+    	#$cliente=[1,59,21];
+    	#$fechaDesde='2020-08-01';
+    	#$fechaHasta='2020-09-31';
 
-    	$periodos=RptConsumo::where('fecha_reg','>=',$fechaDesde)
-    						->where('fecha_reg','<=',$fechaHasta)
+    	$periodos=RptConsumo::where('periodo','>=',$request['fechaDesde'])
+    						->where('periodo','<=',$request['fechaHasta'])
     						#->whereIn('id_cliente',$clientes)
     						->distinct('periodo')
     						->pluck('periodo')
 							->toArray();
+
+    	return $periodos;
 
     	$productos=Producto::all();
 
@@ -55,12 +73,5 @@ class ReportesController extends Controller
 
     }
 
-static public function createReporte(){
-
-    $periodos=false;
-    $datos=false;
-    return view('rptVentanasMensuales',compact('datos','periodos'));
-
-}
 
 }
