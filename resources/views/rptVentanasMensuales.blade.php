@@ -18,11 +18,19 @@
                         <div id="botonesCarga" class="ml-auto">
                               <div class="form-group">
                                                     <label>Fecha desde</label>
-                                                    <input type="month" class="form-control" name="fechaDesde">
+                                                    <input type="month" class="form-control" value="@php
+                                                     $fecha_actual = date("d-m-Y");
+												     //resto 1 mes
+                                                     echo date("Y-m",strtotime($fecha_actual."- 5 month"));
+                                                     @endphp" name="fechaDesde" id="fechaDesde">
                              </div>
                               <div class="form-group">
                                                     <label>hasta</label>
-                                                    <input type="month" class="form-control" name="fechaHasta">
+                                                    <input type="month" value="@php echo date('Y-m'); @endphp" max="@php echo date('Y-m'); @endphp" min="@php
+                                                     $fecha_actual = date("d-m-Y");
+												     //resto 1 mes
+                                                     echo date("Y-m",strtotime($fecha_actual."- 4 month"));
+                                                     @endphp" class="form-control" name="fechaHasta" id="fechaHasta">
                              </div>
                         <button id="botonCargaReporte" type="submit" class="btn btn-sm btn-info">Cargar reporte</button>
                         </div>
@@ -76,6 +84,17 @@
 
     <script type="text/javascript">
 
+		$("#fechaDesde" ).on('change', function() {
+
+			var fecha= document.getElementById('fechaDesde').cloneNode(true)
+			fecha.stepUp(5)
+			var fecha_maxima=fecha.value
+			$('#fechaHasta').attr('max',fecha_maxima)
+			fecha.stepDown(4)
+			var fecha_minima=fecha.value
+			$('#fechaHasta').attr('min',fecha_minima)
+
+		})
 
     </script>
 
