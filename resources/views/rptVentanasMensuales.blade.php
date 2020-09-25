@@ -15,7 +15,22 @@
                             @csrf
                     <div class="card-header d-flex">
                         <h5 class="card-title">Reporte</h5>
-                        <div id="botonesCarga" class="ml-auto">
+                    </div>
+                        <div class="card-body">
+                          <div class="row">
+                          <div class="col-6">
+                           <div class="form-group"  id="selectcliente" >
+                     <label for="clientes[]" class="label">Cliente</label>
+                                            <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="clientes[]"required>
+                                              <option value="" selected>Seleccione cliente</option>
+                                              @foreach ($clientes as $cliente)
+                                              <option value="{{$cliente['id_vendedor']}}">{{$cliente['nombre']}} {{$cliente['apellidos']}}</option>
+                                              @endforeach
+                                            </select>
+                                    </div>
+                                           <button id="botonAgregarCliente" class="btn btn-sm btn-success">Agregar cliente</button>
+                                  </div>
+                              <div class="col-6">
                               <div class="form-group">
                                                     <label>Fecha desde</label>
                                                     <input type="month" class="form-control" value="@php
@@ -33,10 +48,10 @@
                                                      @endphp" class="form-control" name="fechaHasta" id="fechaHasta">
                              </div>
                         <button id="botonCargaReporte" type="submit" class="btn btn-sm btn-info">Cargar reporte</button>
-                        </div>
+                      </div>
                     </div>
                 </form>
-                    <div class="card-body">
+
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -48,7 +63,7 @@
                                         <th>{{$periodo}}</th>
            								@endforeach
                                         @else
-                                        Seleccione un período para cargar datos
+                                        Seleccione los clientes y un período para cargar datos
                                         @endif
                                     </tr>
                                 </thead>
@@ -95,6 +110,15 @@
 			$('#fechaHasta').attr('min',fecha_minima)
 
 		})
+
+
+
+    $("#botonAgregarCliente").click(function(event){
+
+        event.preventDefault()
+        $( "#selectcliente" ).clone().insertBefore(this).end();
+
+    })
 
     </script>
 
