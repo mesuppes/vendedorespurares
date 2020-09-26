@@ -19,14 +19,17 @@
                         <div class="card-body">
                           <div class="row">
                           <div class="col-6">
-                           <div class="form-group"  id="selectcliente" >
+                          	<div class="row selectcliente" id="selectcliente">
+                           <div class="form-group col-9" >
                      <label for="clientes[]" class="label">Cliente</label>
                                             <select class="selectpicker form-control"  data-style="btn btn-danger btn-block"  name="clientes[]"required>
                                               <option value="" selected>Seleccione cliente</option>
+                                              <option value="0" selected>Todos los clientes</option>
                                               @foreach ($clientes as $cliente)
                                               <option value="{{$cliente['id_vendedor']}}">{{$cliente['nombre']}} {{$cliente['apellidos']}}</option>
                                               @endforeach
                                             </select>
+                                    </div>
                                     </div>
                                            <button id="botonAgregarCliente" class="btn btn-sm btn-success">Agregar cliente</button>
                                   </div>
@@ -116,9 +119,21 @@
     $("#botonAgregarCliente").click(function(event){
 
         event.preventDefault()
-        $( "#selectcliente" ).clone().insertBefore(this).end();
+        $( "#selectcliente" ).clone().insertBefore(this).append('<button type="button" class="btn btn-danger btn-sm botonCancelar">Quitar</button>').end();
+
+   $(function () {
+                 $(document).on('click', '.botonCancelar', function (event) {
+                       event.preventDefault();
+                       //alert('anda')
+                        $(this).closest('.selectcliente').remove();
+    });
+});
 
     })
+
+
+
+
 
     </script>
 
