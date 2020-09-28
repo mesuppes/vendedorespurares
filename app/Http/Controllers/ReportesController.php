@@ -83,7 +83,7 @@ class ReportesController extends Controller
 			}
 
     	}
-return $datos;
+#return $datos;
    	return view('rptVentanasMensuales', compact('datos','periodos'));
 
     }
