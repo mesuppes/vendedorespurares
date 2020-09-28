@@ -28,7 +28,8 @@ class ReportesController extends Controller
 
     static public function ventas(request $request){
 
-    	#$fechaDesde=$request['fechaDesde'].'-01';
+ 	   	#return $request;
+ 	   	#$fechaDesde=$request['fechaDesde'].'-01';
     	#$fechaHasta=$request['fechaHasta'].'-01';
     	#return $fechaDesde;
     	#return $request;
@@ -37,7 +38,9 @@ class ReportesController extends Controller
     	#$cliente=[1,59,21];
     	#$fechaDesde='2020-08-01';
     	#$fechaHasta='2020-09-31';
-
+    	$clientes=$request['clientes'];
+    	
+    	#Buscar todos los periodos
     	$periodos=RptConsumo::where('periodo','>=',$request['fechaDesde'])
     						->where('periodo','<=',$request['fechaHasta'])
     						#->whereIn('id_cliente',$clientes)
@@ -45,8 +48,19 @@ class ReportesController extends Controller
     						->pluck('periodo')
 							->toArray();
 
-    	return $periodos;
+		$a=0;
+    	#Ver si es para todos los clientes o si es solo para algunos
+		foreach ($clientes as $cliente) {
+			$a=$a+1;
+			if ($cliente==0) {
+				$clientes=Vendedor::all()->pluck('periodo')->toArray();
+				break;
+			}
+		}
 
+		#return $a;
+
+		#Buscar todos los productos para armar la tabla
     	$productos=Producto::all();
 
     	$datos=[];
@@ -59,7 +73,7 @@ class ReportesController extends Controller
 
 			#Recorro la lista de todos los periodos
 			foreach ($periodos as $periodo) {
-				$cantidad=RptConsumo::where('periodo','=',$periodo)->whereIn('id_cliente',$cliente)->where('id_producto','=',$id)->groupBy('id_producto')->sum('cantidad_kg');
+				$cantidad=RptConsumo::where('periodo','=',$periodo)->whereIn('id_cliente',$clientes)->where('id_producto','=',$id)->groupBy('id_producto')->sum('cantidad_kg');
 
 			array_push($valores,$cantidad);
 
