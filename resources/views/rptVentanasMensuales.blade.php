@@ -72,18 +72,17 @@
                                 </thead>
                                 <tbody>
                                     @if($datos)
-									@foreach($datos as $dato)
+
+                                    @for ($i = 0; $i < count($datos); $i++)
                                     <tr>
-                                        <td>{{$dato}}</td>
-                                        <td>{{$dato}}</td>
-                                        <td>{{$dato}}</td>
-                                        <td>{{$dato}}</td>
-                                        <td>{{$dato}}</td>
-                                        <td>{{$dato}}</td>
-                                        <td>{{$dato}}</td>
-                                        <td>{{$dato}}</td>
+                                    	<td>{{$datos[$i][0]}}</td>
+    									<td>{{$datos[$i][1]}}</td>
+    									@for ($j = 0; $j < count($datos[$i][2]); $j++)
+    									<td>{{$datos[$i][2][$j]}}</td>
+    									@endfor
+									@endfor
                                     </tr>
-                                @endforeach
+
                                 @endif
                                 </tbody>
                             </table>
