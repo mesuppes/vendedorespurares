@@ -29,16 +29,8 @@ class ReportesController extends Controller
     static public function ventas(request $request){
 
  	   	#return $request;
- 	   	#$fechaDesde=$request['fechaDesde'].'-01';
-    	#$fechaHasta=$request['fechaHasta'].'-01';
-    	#return $fechaDesde;
-    	#return $request;
-
-    	#$clientes,$fechaDesde,$fechaHasta
-    	#$cliente=[1,59,21];
-    	#$fechaDesde='2020-08-01';
-    	#$fechaHasta='2020-09-31';
-    	$clientes=$request['clientes'];
+ 	   	
+ 	   	$clientes=$request['clientes'];
     	
     	#Buscar todos los periodos
     	$periodos=RptConsumo::where('periodo','>=',$request['fechaDesde'])
@@ -48,24 +40,19 @@ class ReportesController extends Controller
     						->pluck('periodo')
 							->toArray();
 
-		$a=0;
-    	#Ver si es para todos los clientes o si es solo para algunos
+		#Ver si es para todos los clientes o si es solo para algunos
 		foreach ($clientes as $cliente) {
-			$a=$a+1;
 			if ($cliente==0) {
-				$clientes=Vendedor::all()->pluck('periodo')->toArray();
+				$clientes=Vendedor::all()->pluck('id_vendedor')->toArray();
 				break;
 			}
 		}
 
-		#return $a;
-
 		#Buscar todos los productos para armar la tabla
     	$productos=Producto::all();
 
-    	$datos=[];
-
     	#Recorro la lista de productos
+    	$datos=[];
     	foreach ($productos as $producto) {
     		$valores =[];
 			$id=$producto->id_producto;
@@ -83,8 +70,11 @@ class ReportesController extends Controller
 			}
 
     	}
-#return $datos;
-   	return view('rptVentanasMensuales', compact('datos','periodos'));
+	#return $datos;
+
+    $clientes=Vendedor::all();
+
+   	return view('rptVentanasMensuales', compact('datos','periodos','clientes'));
 
     }
 
