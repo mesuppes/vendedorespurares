@@ -19,6 +19,7 @@
                             <table class="table"  id="tablalistapedidos">
                                 <thead>
                                     <tr>
+                                        <th>N° Pedido</th>
                                         <th>Fecha</th>
                                         <th>Vendedor</th>
                                         <th>Estado</th>
@@ -29,16 +30,17 @@
                                 <tbody>
                                 @forelse($listaPedidos as $pedido)
                                     <tr>
+                                        <th>{{$pedido->id_pedido}}</th>
                                         <th>{{$pedido->fecha_reg->formatLocalized('%d/%m/%Y - %H:%M')}}</th>
                                         <th>{{$pedido->vendedor['nombre']}}</th>
                                         <td><h5><span class="badge
-                                                @if(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) && ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Pendiente de aprobación' or $pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Modificado'))
+                                                @if(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Pendiente de aprobación') or isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Modificado'))
                                                 badge-warning
-                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) && ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado'))
+                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado'))
                                                 badge-success
-                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) && ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Abortado'or'Rechazado'))
+                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Abortado'or'Rechazado'))
                                                 badge-danger
-                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) && ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado automática'))
+                                                @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado automática'))
                                                 badge-secondary
                                                 @elseif(!isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre))
                                                 badge-danger
@@ -58,7 +60,7 @@
 									@endforelse
                                 </tbody>
                             </table>
-                             {{$listaPedidos->links()}}
+
                         </div>
                     </div>
                 </div>
