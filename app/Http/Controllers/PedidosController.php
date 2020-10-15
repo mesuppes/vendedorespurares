@@ -36,6 +36,7 @@ use App\PrecioV;
 class PedidosController extends Controller
 {
 
+
 	public function index()
 	{
 
