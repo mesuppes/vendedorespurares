@@ -26,14 +26,6 @@
           </a>
         </li>
 
-      <!-- REPORTE -->
-
-  <li>
-          <a href="{{route('reporte.create')}}">
-            <i class="nc-icon nc-bullet-list-67"></i>
-            <p>Ver Reporte</p>
-          </a>
-        </li>
 
 
     <!-- PEDIDOS -->
@@ -71,7 +63,7 @@
 
       <!-- PRODUCTOS -->
 
-      <li {{Route::is('productos.index') || Route::is('productos.create') || Route::is('productos.stock') || Route::is('precios.create') ? 'class=active':''}}>
+      <li {{Route::is('productos.index') || Route::is('productos.create') || Route::is('productos.stock') ? 'class=active':''}}>
         <a data-toggle="collapse" href="#productos" aria-expanded="false" class="collapsed">
           <i class="nc-icon nc-app"></i>
           <p>Productos</p>
@@ -113,7 +105,7 @@
               @endcan
 
    <!-- AJUSTE DE INVENTARIOS -->
-
+    @can('Ajustestock_G')
       <li {{Route::is('ajustes.create') || Route::is('ajustes.index')? 'class=active':''}}>
       <a data-toggle="collapse" href="#ajusteInventario" aria-expanded="false" class="collapsed">
         <i class="nc-icon nc-badge"></i>
@@ -136,7 +128,7 @@
               </li>
             </ul>
           </div>
-
+    @endcan
       <!-- CLIENTES -->
 
       <li {{Route::is('vendedores.create') || Route::is('vendedores.index')? 'class=active':''}}>
@@ -196,6 +188,29 @@
           </ul>
         </div>
 
+      @endcan
+ 
+      <!-- REPORTE -->
+      @can('Reportes_Ver')
+
+        <li {{Route::is('reporte.create')? 'class=active':''}}>
+
+          <a data-toggle="collapse" href="#reportes" aria-expanded="false" class="collapsed">
+            <i class="nc-icon nc-chart-bar-32"></i>
+            <p>Reportes</p>
+            <b class="caret"></b>
+          </a>
+
+        <div class="collapse" id="reportes" aria-expanded="false" style="height: 0px;">
+          <ul class="nav">
+            <li {{Route::is('compras.index')? 'class=active':''}}>
+              <a href="{{route('reporte.create')}}">
+                <i class="nc-icon nc-delivery-fast"></i>
+                <p>Ventas</p>
+              </a>
+            </li>
+          </ul>
+        </div>
       @endcan
 
       <!-- GESTIONAR PERMISOS Y USUARIOS-->
