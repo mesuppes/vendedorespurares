@@ -125,24 +125,24 @@ Route::group(['middleware' => ['can:Compras_Gestionar']], function (){
     Route::post('/agregarCompra', 'ComprasController@store')->name('compras.store');
 });
 
+//AJUSTE STOCK
 Route::group(['middleware' => ['role:Administracion']], function () {
-
     Route::get('/listaAjustes', 'AjustesInventarioController@index')->name('ajustes.index');
-    Route::get('/agregarAjustes', 'AjustesInventarioController@create')->name('ajustes.create');
-    Route::post('/agregarAjustes', 'AjustesInventarioController@store')->name('ajustes.store');
     Route::get('/verAjuste/{id}', 'AjustesInventarioController@show')->name('ajustes.show');
     Route::get('/ajusteAutomatico', 'AjustesInventarioController@storeProductosSinUnidades')->name('ajustes.automatico1');
-    //Route::resource('/listaPedido', 'PedidosController@index');
-    //Route::resource('roles', 'Admin\RolesController');
-    //Route::resource('users', 'Admin\UsersController');
-    //Route::get('login-activities',[
-    //    'as' => 'login-activities',
-    //    'uses' => 'Admin\UsersController@indexLoginLogs'
-    //]);
 });
 
-//Reporte
+Route::group(['middleware' => ['can:Ajustestock_G']], function (){
+    Route::get('/agregarAjustes', 'AjustesInventarioController@create')->name('ajustes.create');
+    Route::post('/agregarAjustes', 'AjustesInventarioController@store')->name('ajustes.store');
+});
 
-Route::get('/verReporte', 'ReportesController@createReporte')->name('reporte.create');
-Route::post('/verReporte', 'ReportesController@ventas')->name('reporte.ventas');
+
+//Reportes
+Route::group(['middleware' => ['can:Reportes_Ver']], function () { 
+    #Reporte 1 - Ver ventas
+    Route::get('/verReporte', 'ReportesController@createReporte')->name('reporte.create');
+    Route::post('/verReporte', 'ReportesController@ventas')->name('reporte.ventas');
+});
+
 
