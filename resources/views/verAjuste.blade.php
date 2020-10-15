@@ -19,6 +19,21 @@
                                       <textarea rows="5" name="motivo" class="form-control border-input" placeholder="Describa el motivo de ajuste" readonly>
                                         {{$ajuste->motivo ?? "Sin descripción"}}
                                       </textarea>
+                                      <br>
+                                       <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Usuario</label>
+                                                    <input type="text" class="form-control" readonly  value="un usario">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Fecha</label>
+                                                    <input type="date"  class="form-control" value="22/06/96" readonly>
+                                                </div>
+                                            </div>
+                                            </div>
                                      <div class="table-responsive">
                                         <table class="table" id="tablaPedido">
                                             <thead>
