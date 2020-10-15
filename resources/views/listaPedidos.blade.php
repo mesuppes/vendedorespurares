@@ -19,6 +19,7 @@
                             <table class="table"  id="tablalistapedidos">
                                 <thead>
                                     <tr>
+                                        <th>N° Pedido</th>
                                         <th>Fecha</th>
                                         <th>Vendedor</th>
                                         <th>Estado</th>
@@ -29,9 +30,10 @@
                                 <tbody>
                                 @forelse($listaPedidos as $pedido)
                                     <tr>
+                                        <th>{{$pedido->id_pedido}}</th>
                                         <th>{{$pedido->fecha_reg->formatLocalized('%d/%m/%Y - %H:%M')}}</th>
                                         <th>{{$pedido->vendedor['nombre']}}</th>
-                                        <td><h5><span class="badge
+                                        <td><h5><span class="badge 
                                                 @if(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Pendiente de aprobación'or'Modificado'))
                                                 badge-warning
                                                 @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado'))
@@ -58,7 +60,7 @@
 									@endforelse
                                 </tbody>
                             </table>
-                             {{$listaPedidos->links()}}
+                             
                         </div>
                     </div>
                 </div>
