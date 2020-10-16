@@ -24,13 +24,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Usuario</label>
-                                                    <input type="text" class="form-control" readonly  value="un usario">
+                                                    <input type="text" class="form-control" readonly  value={{$ajuste->usuario->name}}>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Fecha</label>
-                                                    <input type="date"  class="form-control" value="22/06/96" readonly>
+                                                    <input type="date"  class="form-control" value={{$ajuste->fecha_reg->toDateTimeString()}} readonly>
                                                 </div>
                                             </div>
                                             </div>

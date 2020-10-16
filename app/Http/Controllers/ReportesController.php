@@ -29,7 +29,7 @@ class ReportesController extends Controller
     static public function ventas(request $request){
 
  	   	#return $request;
- 	   	
+ 	   	$clientesReporte=0;
  	   	$clientes=$request['clientes'];
     	
     	#Buscar todos los periodos
@@ -44,8 +44,13 @@ class ReportesController extends Controller
 		foreach ($clientes as $cliente) {
 			if ($cliente==0) {
 				$clientes=Vendedor::all()->pluck('id_vendedor')->toArray();
+				$clientesReporte= "Todos los clientes";
 				break;
 			}
+		}
+		#Array con todos los clientes que estan en el reporte(siempre que no sea un ALL)
+		if ($clientesReporte==0) {
+			$clientesReporte=Vendedor::WhereIN('id_vendedor',$clientes)->get()->pluck('nombre')->toArray();
 		}
 
 		#Buscar todos los productos para armar la tabla
@@ -74,7 +79,7 @@ class ReportesController extends Controller
 
     $clientes=Vendedor::all();
 
-   	return view('rptVentanasMensuales', compact('datos','periodos','clientes'));
+   	return view('rptVentanasMensuales', compact('datos','periodos','clientes','clientesReporte'));
 
     }
 

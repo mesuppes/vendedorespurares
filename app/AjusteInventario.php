@@ -15,6 +15,9 @@ class AjusteInventario extends Model
         return $this->hasMany(ProductoMov::class,'id_ajuste','id');
     }
 
-
+    public function usuario()
+    {
+        return $this->belongsTo(User::class,'id_usuario_reg','id');
+    }
 
 }
