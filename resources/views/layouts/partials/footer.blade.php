@@ -13,7 +13,7 @@
           ©
           <script>
             document.write(new Date().getFullYear())
-          </script>, desarrollo a medida para Purares.
+          </script> - Desarrollo a medida para Purares.
         </span>
       </div>
     </div>
