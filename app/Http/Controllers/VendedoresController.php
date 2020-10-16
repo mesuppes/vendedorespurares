@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Vendedor;
 use App\Producto;
@@ -15,6 +16,9 @@ use App\Http\Requests\VendedorDescuentoCreateRequest;
 use App\Http\Requests\VendedorUpdateRequest;
 use Auth;
 use Illuminate\Support\Facades\Hash;
+
+use DB;
+use App\Pedido;
 
 class VendedoresController extends Controller
 {
@@ -161,7 +165,20 @@ class VendedoresController extends Controller
     public function show($id){
         //Mostrar el vendedor
         $cliente=Vendedor::find($id);
-        return view('verCliente')->with(compact('cliente'));
+        
+        //Mostrar lista de pedidos 
+            $idPedidos=DB::table('pedidos_reg')
+                ->selectRaw('MAX(id_pedido) as id')
+                ->groupBy('id_pedido_padre')
+                ->pluck('id')
+                ->toArray();
+
+            $listaPedidos=Pedido::whereIn('id_pedido',$idPedidos)
+                                    ->where('id_vendedor','=',$id)
+                                    ->orderBy('id_pedido','DESC')
+                                    ->get();
+
+        return view('verCliente')->with(compact('cliente','listaPedidos'));
     //Vendedor::find(2)->usuario()->count(); mostrar si tiene usuario
     }
 

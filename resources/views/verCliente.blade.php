@@ -203,6 +203,63 @@
                                         </div>
                         </div>
 
+                        <!-- PEDIDOS -->
+                        <div class="bg-white card card-user">
+                            <div class="card-header d-flex">
+                                <h5 class="card-title">Pedidos</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table"  id="tablalistapedidos">
+                                        <thead>
+                                            <tr>
+                                                <th>N° Pedido</th>
+                                                <th>Fecha</th>
+                                                
+                                                <th>Estado</th>
+                                                <th>Monto</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @forelse($listaPedidos as $pedido)
+                                            <tr>
+                                                <th>{{$pedido->id_pedido}}</th>
+                                                <th>{{$pedido->fecha_reg->formatLocalized('%d/%m/%Y - %H:%M')}}</th>
+                                                
+                                                <td><h5><span class="badge
+                                                        @if(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Pendiente de aprobación') or isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Modificado'))
+                                                        badge-warning
+                                                        @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado'))
+                                                        badge-success
+                                                        @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Abortado'or'Rechazado'))
+                                                        badge-danger
+                                                        @elseif(isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre) and ($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre=='Aprobado automática'))
+                                                        badge-secondary
+                                                        @elseif(!isset($pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre))
+                                                        badge-danger
+                                                        @endif
+                                                        ">{{$pedido->workflow()->orderBy('id_workflow','desc')->first()->statusN->nombre ?? "error"}}
+                                                    </span></h5></td>
+                                                <th>${{$pedido->productos->sum('precio_final')}}</th>
+                                                <td>
+                                                    <div class="mb-1">
+                                                        <a type="button" class="btn btn-sm col-12 btn-primary"
+                                                           href="{{route('pedido.show', $pedido->id_pedido)}}"> Ver pedido</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @empty
+                                            No existen pedidos
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+
                         <!-- USUARIO -->
 
                         <div class="bg-white card card-user">
@@ -235,21 +292,21 @@
 
 
                         </div>
-
-
-
-
-
                         </div>
                          </form>
 
-                    @if($errors->any())
+@if($errors->any())
     <ul>
         @foreach($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
     </ul>
 @endif
+
+
+
+
+
  <!-- include footer -->
         @include('layouts.partials.footer')
     </div>
