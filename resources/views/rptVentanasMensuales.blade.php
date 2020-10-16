@@ -50,13 +50,20 @@
                                                      echo date("Y-m",strtotime($fecha_actual."- 4 month"));
                                                      @endphp" class="form-control" name="fechaHasta" id="fechaHasta">
                              </div>
-                        <button id="botonCargaReporte" type="submit" class="btn btn-sm btn-info">Cargar reporte</button>
-                      </div>
+                         </div>
+                         </div>
+                         </div>
+                     </div>
+                          <div class="bg-white card card-user">
+
+                        <button id="botonCargaReporte" type="submit" class="btn  ml-auto btn-info">Cargar reporte</button>
+
                     </div>
                 </form>
                                         @if($periodos)
+                <div class="bg-white card card-user">
 					   <a class="btn btn-warning ml-auto" onclick="imprimirReporte();">Imprimir</a>
-             <p>Reporte de ventas de {{$clientesReporte}}</p>
+             <p>{{$mensaje}}</p>
                         <div class="table-responsive">
                             <table class="table" id="tablaReporte">
                                 <thead>
@@ -67,7 +74,9 @@
                                         <th>{{$periodo}}</th>
            								@endforeach
                                         @else
+                                          <div class="bg-white card card-user">
                                         Seleccione los clientes y un período para cargar datos
+                                          </div>
                                         @endif
                                     </tr>
                                 </thead>
@@ -145,9 +154,9 @@
 
         reporte.addImage(logo,'JPEG',0.9,1.5,4.4795,0.986);
 
-		var cliente='{{$clientesReporte}}';
+		var mensaje='{{$mensaje}}';
 
-        reporte.setTextColor('#436784').setFont('Century Gothic').setFontStyle('bold').setFontSize(12).text(7,2,'Reporte Ventas '+cliente);
+        reporte.setTextColor('#436784').setFont('Century Gothic').setFontStyle('bold').setFontSize(12).text(7,2,''+mensaje);
 
         reporte.setLineWidth(0.1);
         reporte.setDrawColor(26,40,52);
@@ -160,7 +169,7 @@
 
         reporte.autoTable(reporteJson.columns, reporteJson.data,{startY:4, margin: {top: 1, right: 0.8, bottom: 6, left: 1},headStyles :{fontSize:8,cellPadding:0.1,halign:'center',valign:'middle',fillColor:[26,40,52]},bodyStyles:{fontSize:8,cellPadding:0.1,halign:'center',valign:'middle',lineWidth:0.01,lineColor:0}});
 
-        var nombrereporte='Reporte Ventas '+cliente+' PURARES Clientes';
+        var nombrereporte=mensaje+' PURARES Clientes';
 
          reporte.setProperties({
             title: nombrereporte

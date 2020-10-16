@@ -20,9 +20,9 @@ class ReportesController extends Controller
 	    $periodos=false;
 	    $datos=false;
 	    $clientes=Vendedor::all();
-	    $clientesReporte='';
+	    $mensaje='';
 
-	    return view('rptVentanasMensuales',compact('datos','periodos','clientes','clientesReporte'));
+	    return view('rptVentanasMensuales',compact('datos','periodos','clientes','mensaje'));
 
 	}
 
@@ -85,7 +85,7 @@ class ReportesController extends Controller
 
     $clientes=Vendedor::all();
 
-	#Mensaje con los clientes y le perido del reporte    
+	#Mensaje con los clientes y le perido del reporte
     $mensaje="Reporte de Ventas, desde el: ".$request['fechaDesde']." al ".$request['fechaHasta'].", correspondiente a ".$clientesReporte;
 
 
