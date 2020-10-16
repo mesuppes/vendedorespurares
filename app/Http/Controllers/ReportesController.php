@@ -58,7 +58,7 @@ class ReportesController extends Controller
 			}
 		}
 
-		return $clientesReporte;
+		//return $clientesReporte;
 
 		#Buscar todos los productos para armar la tabla
     	$productos=Producto::all();

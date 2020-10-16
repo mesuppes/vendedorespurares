@@ -56,6 +56,7 @@
                 </form>
                                         @if($periodos)
 					   <a class="btn btn-warning ml-auto" onclick="imprimirReporte();">Imprimir</a>
+             <p>Reporte de ventas de {{$clientesReporte}}</p>
                         <div class="table-responsive">
                             <table class="table" id="tablaReporte">
                                 <thead>
