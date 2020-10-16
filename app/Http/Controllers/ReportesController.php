@@ -29,7 +29,7 @@ class ReportesController extends Controller
     static public function ventas(request $request){
 
  	   	#return $request;
- 	   	$clientesReporte=0;
+ 	   	$clientesReporte="";
  	   	$clientes=$request['clientes'];
     	
     	#Buscar todos los periodos
@@ -49,8 +49,12 @@ class ReportesController extends Controller
 			}
 		}
 		#Array con todos los clientes que estan en el reporte(siempre que no sea un ALL)
-		if ($clientesReporte==0) {
-			$clientesReporte=Vendedor::WhereIN('id_vendedor',$clientes)->get()->pluck('nombre')->toArray();
+		if ($clientesReporte=="") {
+			$clientesReporteArray=Vendedor::WhereIN('id_vendedor',$clientes)->get()->pluck('nombre')->toArray();
+
+			foreach ($clientesReporteArray as $value) {
+				$clientesReporte=clientesReporte.$value.", ";
+			}
 		}
 
 		#Buscar todos los productos para armar la tabla
