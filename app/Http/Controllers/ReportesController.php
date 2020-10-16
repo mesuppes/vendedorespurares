@@ -54,9 +54,11 @@ class ReportesController extends Controller
 			$clientesReporteArray=Vendedor::WhereIN('id_vendedor',$clientes)->get()->pluck('nombre')->toArray();
 
 			foreach ($clientesReporteArray as $value) {
-				$clientesReporte=clientesReporte.$value.", ";
+				$clientesReporte=$clientesReporte.$value.", ";
 			}
 		}
+
+		return $clientesReporte;
 
 		#Buscar todos los productos para armar la tabla
     	$productos=Producto::all();

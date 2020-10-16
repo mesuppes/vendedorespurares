@@ -13,7 +13,7 @@
           ©
           <script>
             document.write(new Date().getFullYear())
-          </script>, made with <i class="fa fa-heart heart"></i>
+          </script>, desarrollo a medida para Purares.
         </span>
       </div>
     </div>
