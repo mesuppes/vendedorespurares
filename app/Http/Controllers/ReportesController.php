@@ -9,7 +9,7 @@ use App\Producto;
 use App\Vendedor;
 use App\ProductoMov;
 use App\RptConsumo;
-
+use Carbon\Carbon;
 
 
 class ReportesController extends Controller
@@ -52,13 +52,12 @@ class ReportesController extends Controller
 		#Array con todos los clientes que estan en el reporte(siempre que no sea un ALL)
 		if ($clientesReporte=="") {
 			$clientesReporteArray=Vendedor::WhereIN('id_vendedor',$clientes)->get()->pluck('nombre')->toArray();
-
+			$clientesReporte= "los clientes: ";
 			foreach ($clientesReporteArray as $value) {
 				$clientesReporte=$clientesReporte.$value.", ";
 			}
 		}
 
-		return $clientesReporte;
 
 		#Buscar todos los productos para armar la tabla
     	$productos=Producto::all();
@@ -86,7 +85,11 @@ class ReportesController extends Controller
 
     $clientes=Vendedor::all();
 
-   	return view('rptVentanasMensuales', compact('datos','periodos','clientes','clientesReporte'));
+	#Mensaje con los clientes y le perido del reporte    
+    $mensaje="Reporte de Ventas, desde el: ".$request['fechaDesde']." al ".$request['fechaHasta'].", correspondiente a ".$clientesReporte;
+
+
+   	return view('rptVentanasMensuales', compact('datos','periodos','clientes','mensaje'));
 
     }
 
