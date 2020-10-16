@@ -144,11 +144,9 @@
 
         reporte.addImage(logo,'JPEG',0.9,1.5,4.4795,0.986);
 
-		var cliente="Cliente"
+		var cliente='{{$clientesReporte}}';
 
-        var periodos="02-20202  32-2231"
-
-        reporte.setTextColor('#436784').setFont('Century Gothic').setFontStyle('bold').setFontSize(20).text(7,2,'Reporte Ventas '+cliente+' periodo '+periodos);
+        reporte.setTextColor('#436784').setFont('Century Gothic').setFontStyle('bold').setFontSize(12).text(7,2,'Reporte Ventas '+cliente);
 
         reporte.setLineWidth(0.1);
         reporte.setDrawColor(26,40,52);
@@ -161,7 +159,7 @@
 
         reporte.autoTable(reporteJson.columns, reporteJson.data,{startY:4, margin: {top: 1, right: 0.8, bottom: 6, left: 1},headStyles :{fontSize:8,cellPadding:0.1,halign:'center',valign:'middle',fillColor:[26,40,52]},bodyStyles:{fontSize:8,cellPadding:0.1,halign:'center',valign:'middle',lineWidth:0.01,lineColor:0}});
 
-        var nombrereporte='Reporte Ventas '+cliente+' periodo '+periodos+' PURARES Clientes';
+        var nombrereporte='Reporte Ventas '+cliente+' PURARES Clientes';
 
          reporte.setProperties({
             title: nombrereporte

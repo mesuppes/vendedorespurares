@@ -20,8 +20,9 @@ class ReportesController extends Controller
 	    $periodos=false;
 	    $datos=false;
 	    $clientes=Vendedor::all();
+	    $clientesReporte='';
 
-	    return view('rptVentanasMensuales',compact('datos','periodos','clientes'));
+	    return view('rptVentanasMensuales',compact('datos','periodos','clientes','clientesReporte'));
 
 	}
 
@@ -31,7 +32,7 @@ class ReportesController extends Controller
  	   	#return $request;
  	   	$clientesReporte="";
  	   	$clientes=$request['clientes'];
-    	
+
     	#Buscar todos los periodos
     	$periodos=RptConsumo::where('periodo','>=',$request['fechaDesde'])
     						->where('periodo','<=',$request['fechaHasta'])
