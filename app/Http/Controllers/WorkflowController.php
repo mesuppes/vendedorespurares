@@ -111,8 +111,9 @@ class WorkflowController extends Controller{
         
         //1-Pending por el id_usuario
         //2-pending por los roles que tiene
-        $idUsuario=1;#Auth::user()->id;
-        
+        $idUsuario=Auth::id();#->id;
+        return $idUsuario;
+
         //Roles que tiene el usuario
         $rolesUsuario=User::find($idUsuario)->roles->pluck('id')->toArray();
 
@@ -125,10 +126,13 @@ class WorkflowController extends Controller{
         return $listaPending;
     }
 
-    static public function ListaToDoUser(){
+    public function ListaToDoUser(){
 
         //1-Pending por el id_usuario
         //2-pending por los roles que tiene
+        #$idUsuario=Auth::id();#Auth::user()->id;
+        #return $idUsuario;
+
         $listaPending=WorkflowController::ListaToDoUserQuery();
 
         //OTRAS TAREAS
