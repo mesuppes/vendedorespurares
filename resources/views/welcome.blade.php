@@ -29,7 +29,14 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#" target="_blank">Purares Clientes</a>
+   <a href="#" class="simple-text logo-mini">
+            <div class="logo-image-small">
+          <img src="{{asset('dashboard/assets/img/Logo-NEGRO.png')}}" alt="{{Auth::user()->name}}"/>
+          </div>
+          </a>
+            <a class="navbar-brand"> </a>
+           </a>
+  <a class="navbar-brand" href="#" target="_blank">Clientes</a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -66,7 +73,21 @@
         <p class="lead">Este es el sitio de clientes de <b>Purares</b>. Su uso está pensado sólo para clientes y personal de la empresa.</p>
         <p>Si te interesa contactarte puedas enviar un mail <a href="#" target="_blank">aqui</a>, o volver a la tienda <a href="https://purares.com.ar" target="_blank">purares.com.ar</a></p>
         <p class="lead">Ud. está ingresando a una plataforma informática que es propiedad de Americastime S.A. y que contiene información de la empresa  protegida, confidencial y/o de secreto industrial,  cuyo uso o manipulación indebidos puede generar al usuario responsabilidad jurídica. Los datos ingresados por los usuarios generan movimientos productivos, contables y comerciales y, de acuerdo a ello, los usuarios deben ser diligentes en la incorporación de los mismos.</p>
+        <br>
+         @if (Route::has('login'))
+          @auth
+            <div class="d-flex justify-content-center">
+              <a class="btn btn-dark" href="{{ url('/home') }}">Ir a la aplicación</a>
+            </div>
+          @else
+            <div class="d-flex justify-content-center">
+              <a class="btn btn-dark" href="{{ route('login') }}">Ingresar</a>
+            </div>
+          @endauth
+      @endif
+
       </div>
+
     </div>
   </div>
 </div>

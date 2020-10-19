@@ -1,5 +1,5 @@
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-dark bg-dark">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <div class="navbar-toggle">
@@ -9,7 +9,14 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="{{ url('/') }}" target="_blank">Purares - Plataforma de Pedidos</a>
+             <a href="#" class="simple-text logo-mini">
+            <div class="logo-image-small">
+          <img src="{{asset('dashboard/assets/img/Logo-NEGRO.png')}}" alt="{{Auth::user()->name}}"/>
+          </div>
+          </a>
+            <a class="navbar-brand"> </a>
+           </a>
+            <a class="navbar-brand"> Plataforma de Pedidos</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
