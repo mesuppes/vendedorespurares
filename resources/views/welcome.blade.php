@@ -10,10 +10,10 @@
 <meta name="author" content="" />
 
 <!-- Page Title -->
-<title>Purares Clientes</title>
+<title>Purares Pedidos</title>
 
 <!-- Favicon and Touch Icons -->
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon" href="{{asset('dashboard/assets/img/IconoPurares.ico')}}" />
 
 <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -36,8 +36,8 @@
           </a>
             <a class="navbar-brand"> </a>
            </a>
-  <a class="navbar-brand" href="#" target="_blank">Clientes</a>
 
+  <a class="navbar-brand" href="#" target="_blank">Plataforma de Pedidos</a>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <!-- <li class="nav-item active">
@@ -69,8 +69,8 @@
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="jumbotron">
-        <h4>Sitio de Clientes Purares</h4>
-        <p class="lead">Este es el sitio de clientes de <b>Purares</b>. Su uso está pensado sólo para clientes y personal de la empresa.</p>
+        <h4>Plataforma de pedidos</h4>
+        <p class="lead">Esta es la plataforma de Pedidos de <b>Purares</b>. Su uso está pensado sólo para clientes y personal de la empresa.</p>
         <p>Si te interesa contactarte puedas enviar un mail <a href="#" target="_blank">aqui</a>, o volver a la tienda <a href="https://purares.com.ar" target="_blank">purares.com.ar</a></p>
         <p class="lead">Ud. está ingresando a una plataforma informática que es propiedad de Americastime S.A. y que contiene información de la empresa  protegida, confidencial y/o de secreto industrial,  cuyo uso o manipulación indebidos puede generar al usuario responsabilidad jurídica. Los datos ingresados por los usuarios generan movimientos productivos, contables y comerciales y, de acuerdo a ello, los usuarios deben ser diligentes en la incorporación de los mismos.</p>
         <br>
