@@ -253,6 +253,11 @@
       </li>
       @endrole
 
+        <li {{Route::is('password.request')? 'class=active':''}}>
+         <a href="{{ route('password.request') }}">
+            <i class="nc-icon nc-circle-10"></i>
+            <p>Cambiar contraseña</p>
+            </a>
         </ul>
       </div>
 </div>
