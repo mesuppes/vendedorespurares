@@ -39,8 +39,14 @@ class VendedoresController extends Controller
 
     public function edit($id){
 
-        $cliente=Vendedor::find($id);
-        return view('editarVendedor',compact('cliente'));
+        if  (Auth::user()->can('Clientes_Detalles') || 
+            (Auth::user()->hasrole('Cliente') && $id == Auth::user()->vendedor->id_vendedor )) {
+                $cliente=Vendedor::find($id);
+                return view('editarVendedor',compact('cliente'));
+        }else{
+            return abort('403');;
+        }
+
     }
 
     public function update($id,VendedorUpdateRequest $request){
