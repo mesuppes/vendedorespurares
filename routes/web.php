@@ -144,7 +144,8 @@ Route::group(['middleware' => ['can:Reportes_Ver']], function () {
 
 #MY PERFIL
 Route::group(['middleware' => ['role:Cliente']], function () {
-    Route::get('/MyPerfil','VendedoresController@showMyProfile')->name('vendedor.verMyPerfil');
+    Route::get('/editarCliente/{id}', 'VendedoresController@edit')->name('vendedor.edit');
+    #Route::get('/MyPerfil','VendedoresController@showMyProfile')->name('vendedor.verMyPerfil');
 });
 
 Route::resource('profile','Users\ProfileController');
