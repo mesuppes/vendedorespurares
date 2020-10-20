@@ -245,8 +245,8 @@
 
 
       @role('Cliente')
-      <li {{Route::is('vendedor.verMyPerfil')? 'class=active':''}}>
-        <a href="{{ route('vendedor.verMyPerfil') }}">
+      <li {{Route::is('vendedor.vendedor.edit')? 'class=active':''}}>
+        <a href="{{ route('vendedor.edit',Auth::user()->vendedor->id_vendedor) }}">
           <i class="nc-icon nc-circle-10"></i>
           <p>Mi perfil</p>
         </a>
