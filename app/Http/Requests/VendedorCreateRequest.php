@@ -25,7 +25,7 @@ class VendedorCreateRequest extends FormRequest
     {
         return [
             'nombre'        =>'required',
-            'apellido'      =>'required',
+            'apellido'      =>'nullable',
             'telefono1'     =>'required',
             'telfono2'      =>'nullable',
             'email'         =>'required|email',//Formato de mail 

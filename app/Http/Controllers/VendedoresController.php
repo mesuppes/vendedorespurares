@@ -48,7 +48,7 @@ class VendedoresController extends Controller
         Vendedor::find($id)->Update([
             'nombre'           =>$request['nombre'],
             'apellidos'        =>$request['apellido'],
-            'telefono1'        =>$request['telfono1'],
+            'telefono1'        =>$request['telefono1'],
             'telefono2'        =>$request['telefono2'],
             'email'            =>$request['email'],
             'tipo_documento'   =>$request['tipoDocumento'],
@@ -223,6 +223,12 @@ class VendedoresController extends Controller
         User::find($cliente->usuario->id)->Update([
             'password' => Hash::make('Purares123'),
         ]);
+    }
+
+    public function showMyProfile(){
+
+        $cliente=Vendedor::where('id_usuario_vendedor','=',Auth::user()->id)->get() ;        
+        return view('verMiPerfil')->with(compact('cliente'));  
     }
 
 }

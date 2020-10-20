@@ -61,6 +61,7 @@
 
       <!-- PRODUCTOS -->
 
+              @can('Productos_Gestionar')
       <li {{Route::is('productos.index') || Route::is('productos.create') || Route::is('productos.stock') ? 'class=active':''}}>
         <a data-toggle="collapse" href="#productos" aria-expanded="false" class="collapsed">
           <i class="nc-icon nc-app"></i>
@@ -69,7 +70,6 @@
         </a>
           <div class="collapse" id="productos" aria-expanded="false" style="height: 0px;">
             <ul class="nav">
-              @can('Productos_Gestionar')
                 <li {{Route::is('productos.index')? 'class=active':''}}>
                   <a href="{{route('productos.index')}}">
                     <i class="nc-icon nc-tag-content"></i>
@@ -88,9 +88,9 @@
                     <p>Stock productos</p>
                   </a>
                 </li>
-              @endcan
           </ul>
         </div>
+              @endcan
 
     <!-- PRECIOS -->
               @can('Precios_Ver')
@@ -244,13 +244,14 @@
       @endcan
 
 
-
-      <li {{Route::is('profile.index')? 'class=active':''}}>
-        <a href="{{ route('profile.index') }}">
+      @role('Cliente')
+      <li {{Route::is('vendedor.verMyPerfil')? 'class=active':''}}>
+        <a href="{{ route('vendedor.verMyPerfil') }}">
           <i class="nc-icon nc-circle-10"></i>
           <p>Mi perfil</p>
         </a>
       </li>
+      @endrole
 
         </ul>
       </div>

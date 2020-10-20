@@ -31,7 +31,7 @@
   </button>
    <a href="#" class="simple-text logo-mini">
             <div class="logo-image-small">
-          <img src="{{asset('dashboard/assets/img/Logo-NEGRO.png')}}" alt="{{Auth::user()->name}}"/>
+          <img src="{{asset('dashboard/assets/img/Logo-NEGRO.png')}}" alt="{{Auth::user()->name ?? ""}}"/>
           </div>
           </a>
             <a class="navbar-brand"> </a>

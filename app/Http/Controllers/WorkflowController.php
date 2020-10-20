@@ -111,8 +111,7 @@ class WorkflowController extends Controller{
         
         //1-Pending por el id_usuario
         //2-pending por los roles que tiene
-        $idUsuario=Auth::id();#->id;
-        #return $idUsuario;
+        $idUsuario=Auth::id();
 
         //Roles que tiene el usuario
         $rolesUsuario=User::find($idUsuario)->roles->pluck('id')->toArray();
@@ -130,18 +129,20 @@ class WorkflowController extends Controller{
 
         //1-Pending por el id_usuario
         //2-pending por los roles que tiene
-        #$idUsuario=Auth::id();#Auth::user()->id;
-        #return $idUsuario;
 
         $listaPending=WorkflowController::ListaToDoUserQuery();
 
         //OTRAS TAREAS
         #Ajustar cuando el stock de unidades queda en 0
-        $detalleAjsute=AjustesInventarioController::showProductosSinUnidades();
 
-        
-        
-        if (count($detalleAjsute)>0) {
+        #Tenga permisos para hacer ajustes de stock automáticos
+        if (User::find(Auth::id())->can('Ajustestock_Auto')) {
+            $detalleAjsute=AjustesInventarioController::showProductosSinUnidades();
+        }else{
+            $detalleAjsute=null;
+        }
+
+        if (isset($detalleAjsute) && count($detalleAjsute)>0) {
            
             $MensajeAjuste="Se debe ajustar el stock de los siguientes productos: <br> ";
 

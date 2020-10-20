@@ -27,9 +27,6 @@ Route::group(['middleware' => ['role:user']], function () {
 
 });
 
-Route::group(['middleware' => ['auth']], function () {
-    Route::resource('profile','Users\ProfileController');
-});
 
 Auth::routes();
 
@@ -145,4 +142,12 @@ Route::group(['middleware' => ['can:Reportes_Ver']], function () {
     Route::post('/verReporte', 'ReportesController@ventas')->name('reporte.ventas');
 });
 
+#MY PERFIL
+Route::group(['middleware' => ['role:Cliente']], function () {
+    Route::get('/MyPerfil','VendedoresController@showMyProfile')->name('vendedor.verMyPerfil');
+});
+
+Route::resource('profile','Users\ProfileController');
+
+#....
 
