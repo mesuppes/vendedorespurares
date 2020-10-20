@@ -19,7 +19,7 @@
 
         <li {{Route::is('home')? 'class=active':''}}>
           <a href="{{route('home')}}">
-            <i class="nc-icon nc-bullet-list-67"></i>
+            <i class="nc-icon nc-bell-55"></i>
             <p>Pendientes</p>
           </a>
         </li>
@@ -28,37 +28,50 @@
 
     <!-- PEDIDOS -->
 
-      @can('Pedidos_Propios')
-        <li {{Route::is('pedido.index')? 'class=active':''}}>
-            <a href="{{route('pedido.index')}}">
-              <i class="nc-icon  nc-align-left-2"></i>
-              <p>Mis pedidos</p>
-            </a>
-        </li>
+      <li {{Route::is('pedido.index') || Route::is('pedido.createRouter') || Route::is('pedido.create')? 'class=active':''}}>
+      <a data-toggle="collapse" href="#Pedidos" aria-expanded="false" class="collapsed">
+        <i class="nc-icon nc-bag-16"></i>
+        <p>Pedidos</p>
+        <b class="caret"></b>
+      </a>
+        <div class="collapse" id="Pedidos" aria-expanded="false" style="height: 0px;">
+          <ul class="nav">
+        
+            @can('Pedidos_Propios')
+              <li {{Route::is('pedido.index')? 'class=active':''}}>
+                  <a href="{{route('pedido.index')}}">
+                    <i class="nc-icon  nc-align-left-2"></i>
+                    <p>Mis pedidos</p>
+                  </a>
+              </li>
 
-        <li {{Route::is('pedido.create')? 'class=active':''}}>
-            <a href="{{route('pedido.create')}}">
-              <i class="nc-icon nc-single-copy-04"></i>
-              <p>Agregar pedido</p>
-            </a>
-        </li>
-      @endcan
-      @can('Clientes_Detalles')
-         <li {{Route::is('pedido.index')? 'class=active':''}}>
-            <a href="{{route('pedido.index')}}">
-              <i class="nc-icon nc-align-left-2"></i>
-              <p>Ver todos los pedidos</p>
-            </a>
-          </li>
+              <li {{Route::is('pedido.create')? 'class=active':''}}>
+                  <a href="{{route('pedido.create')}}">
+                    <i class="nc-icon nc-simple-add"></i>
+                    <p>Agregar pedido</p>
+                  </a>
+              </li>
+            @endcan
+            
+            @can('Clientes_Detalles')
+               <li {{Route::is('pedido.index')? 'class=active':''}}>
+                  <a href="{{route('pedido.index')}}">
+                    <i class="nc-icon nc-align-left-2"></i>
+                    <p>Ver todos los pedidos</p>
+                  </a>
+                </li>
 
-        <li {{Route::is('pedido.createRouter')? 'class=active':''}}>
-          <a href="{{route('pedido.createRouter')}}">
-            <i class="nc-icon nc-single-copy-04"></i>
-            <p>Agregar pedidos</p>
-          </a>
-        </li>
-      @endcan
+              <li {{Route::is('pedido.createRouter')? 'class=active':''}}>
+                <a href="{{route('pedido.createRouter')}}">
+                  <i class="nc-icon nc-simple-add"></i>
+                  <p>Agregar pedidos</p>
+                </a>
+              </li>
+            @endcan       
+          </ul>
+        </div>
 
+      
       <!-- PRODUCTOS -->
 
               @can('Productos_Gestionar')
@@ -70,16 +83,16 @@
         </a>
           <div class="collapse" id="productos" aria-expanded="false" style="height: 0px;">
             <ul class="nav">
-                <li {{Route::is('productos.index')? 'class=active':''}}>
-                  <a href="{{route('productos.index')}}">
-                    <i class="nc-icon nc-tag-content"></i>
-                    <p>Ver productos</p>
-                  </a>
-                </li>
                 <li {{Route::is('productos.create')? 'class=active':''}}>
                   <a href="{{route('productos.create')}}">
                     <i class="nc-icon nc-simple-add"></i>
                     <p>Agregar producto</p>
+                  </a>
+                </li>
+                <li {{Route::is('productos.index')? 'class=active':''}}>
+                  <a href="{{route('productos.index')}}">
+                    <i class="nc-icon  nc-align-left-2"></i>
+                    <p>Ver productos</p>
                   </a>
                 </li>
                 <li {{Route::is('productos.stock')? 'class=active':''}}>
@@ -97,7 +110,7 @@
                 <li {{Route::is('precios.create')? 'class=active':''}}>
                   <a href="{{route('precios.create')}}">
                     <i class="nc-icon nc-money-coins"></i>
-                    <p>Ver precios</p>
+                    <p>Precios</p>
                   </a>
                 </li>
               @endcan
@@ -106,7 +119,7 @@
     @can('Ajustestock_G')
       <li {{Route::is('ajustes.create') || Route::is('ajustes.index')? 'class=active':''}}>
       <a data-toggle="collapse" href="#ajusteInventario" aria-expanded="false" class="collapsed">
-        <i class="nc-icon nc-badge"></i>
+        <i class="nc-icon nc-layout-11"></i>
         <p>Ajustes de Inventario</p>
         <b class="caret"></b>
       </a>
@@ -149,7 +162,7 @@
             @can('Clientes_VerTodos')
               <li {{Route::is('vendedores.index')? 'class=active':''}}>
                 <a href="{{route('vendedores.index')}}">
-                  <i class="nc-icon nc-badge"></i>
+                  <i class="nc-icon  nc-align-left-2"></i>
                   <p>Ver clientes</p>
                 </a>
               </li>
@@ -171,16 +184,16 @@
 
         <div class="collapse" id="compras" aria-expanded="false" style="height: 0px;">
           <ul class="nav">
-            <li {{Route::is('compras.index')? 'class=active':''}}>
-              <a href="{{route('compras.index')}}">
-                <i class="nc-icon nc-delivery-fast"></i>
-                <p>Ver compras</p>
-              </a>
-            </li>
             <li {{Route::is('compras.create')? 'class=active':''}}>
               <a href="{{route('compras.create')}}">
                 <i class="nc-icon nc-simple-add"></i>
                 <p>Agregar compra</p>
+              </a>
+            </li>
+            <li {{Route::is('compras.index')? 'class=active':''}}>
+              <a href="{{route('compras.index')}}">
+                <i class="nc-icon  nc-align-left-2"></i>
+                <p>Ver compras</p>
               </a>
             </li>
           </ul>
@@ -255,7 +268,7 @@
 
         <li {{Route::is('password.request')? 'class=active':''}}>
          <a href="{{ route('password.request') }}">
-            <i class="nc-icon nc-circle-10"></i>
+            <i class="nc-icon nc-key-25"></i>
             <p>Cambiar contraseña</p>
             </a>
         </ul>

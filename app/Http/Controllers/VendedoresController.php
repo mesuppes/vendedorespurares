@@ -39,6 +39,7 @@ class VendedoresController extends Controller
 
     public function edit($id){
 
+    
         if  (Auth::user()->can('Clientes_Detalles') || 
             (Auth::user()->hasrole('Cliente') && $id == Auth::user()->vendedor->id_vendedor )) {
                 $cliente=Vendedor::find($id);
