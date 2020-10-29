@@ -104,9 +104,11 @@ class ProductosController extends Controller
         return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
 
-    public function movProductos(){
+    public function movProductos(request $request){
 
-        $movimientos=ProductoMov::orderby('id_movimiento','desc')->paginate(10);
+        $movimientos=ProductoMov::where('fecha_reg','>=',$request['fecha_desde'])
+                                ->where('fecha_reg','<=',$request['fecha_hasta'])
+                                ->get();
 
         return view('tablaMovProducto',compact('movimientos'));
     }
