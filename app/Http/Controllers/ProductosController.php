@@ -104,6 +104,12 @@ class ProductosController extends Controller
         return view('inspeccionarProducto',compact('producto'));//agregar succes cartel
     }
 
+    public function movProductosFecha(){
+
+        return view('filtroMovimiento');
+
+    }
+
     public function movProductos(request $request){
 
         $movimientos=ProductoMov::where('fecha_reg','>=',$request['fecha_desde'])

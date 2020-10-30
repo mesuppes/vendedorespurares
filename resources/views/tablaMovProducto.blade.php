@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table"  id="dt-mant-table">
+                            <table class="table display nowrap" style="width:100%" id="movimientos">
                                 <thead>
                                     <tr>
                                         <th>idMov</th>
@@ -59,10 +59,59 @@
                                 <tfoot>
 </tfoot>
                             </table>
-
-                            {{$movimientos->links()}}
                         </div>
                     </div>
+
+            <script src="{{asset('dashboard/assets/js/core/jquery.min.js')}}"></script>
+
+<script src="{{asset('dashboard/assets/js/core/popper.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/core/bootstrap.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/paper-dashboard.min.js')}}"></script>
+
+<script src="{{asset('dashboard/assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+ <script src="{{asset('dashboard/assets/js/plugins/jquery.dataTables.min.js')}}"></script>
+
+<script src="{{asset('dashboard/assets/js/plugins/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/responsive.bootstrap.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/jszip.min.js')}}"></script>
+<script src="{{asset('dashboard/assets/js/plugins/buttons.html5.min.js')}}"></script>
+ <link href="{{asset('dashboard/assets/js/plugins/buttons.dataTables.min.css')}}" rel="stylesheet" />
+    <script>
+$('#movimientos').DataTable({
+    "scrollCollapse": true,
+        "paging": true,
+        "info": true,
+        "responsive": {
+            details: true
+        },
+        "aaSorting": [
+        [0, "desc"]
+        ],
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ movimientos por pagina",
+            "zeroRecords": "Ningún movimiento cumple el criterio de búsqueda",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay movimientos en la base de datos",
+            "infoFiltered": "(filtrado de _MAX_ movimientos en total)",
+            "search": "_INPUT_",
+            "searchPlaceholder": "Buscar"},
+        "order": [[0, 'desc']],
+ dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ]
+    } )
+
+    </script>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
                 </div>
 	        </div>
 	    </div>

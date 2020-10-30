@@ -98,7 +98,8 @@ Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
 
     Route::get('/stockProductos', 'ProductosController@stockLote')->name('productos.stock');
     #workaround para ver mov Productos
-    Route::get('/movimientoProductos', 'ProductosController@movProductos')->name('productos.movimiento');
+    Route::get('/movimientoProductos', 'ProductosController@movProductosFecha')->name('productos.movimientofecha');
+    Route::post('/movimientoProductos', 'ProductosController@movProductos')->name('productos.movimiento');
 
 });
 //PRODUCTOS
@@ -136,7 +137,7 @@ Route::group(['middleware' => ['can:Ajustestock_G']], function (){
 
 
 //Reportes
-Route::group(['middleware' => ['can:Reportes_Ver']], function () { 
+Route::group(['middleware' => ['can:Reportes_Ver']], function () {
     #Reporte 1 - Ver ventas
     Route::get('/verReporte', 'ReportesController@createReporte')->name('reporte.create');
     Route::post('/verReporte', 'ReportesController@ventas')->name('reporte.ventas');
