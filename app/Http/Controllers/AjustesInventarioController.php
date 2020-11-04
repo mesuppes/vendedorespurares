@@ -32,7 +32,7 @@ class AjustesInventarioController extends Controller
 
     public function store(AjusteInventarioCreateRequest $request){
 
-      return $request;
+      #return $request;
 
       $lastIdMov=ProductoMov::get()->last()->id_movimiento;
       #Verifica que no existan movimientos
