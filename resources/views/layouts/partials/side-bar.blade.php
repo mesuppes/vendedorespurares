@@ -36,7 +36,7 @@
       </a>
         <div class="collapse" id="Pedidos" aria-expanded="false" style="height: 0px;">
           <ul class="nav">
-        
+
             @can('Pedidos_Propios')
               <li {{Route::is('pedido.index')? 'class=active':''}}>
                   <a href="{{route('pedido.index')}}">
@@ -52,7 +52,7 @@
                   </a>
               </li>
             @endcan
-            
+
             @can('Clientes_Detalles')
                <li {{Route::is('pedido.index')? 'class=active':''}}>
                   <a href="{{route('pedido.index')}}">
@@ -67,11 +67,11 @@
                   <p>Agregar pedidos</p>
                 </a>
               </li>
-            @endcan       
+            @endcan
           </ul>
         </div>
 
-      
+
       <!-- PRODUCTOS -->
 
               @can('Productos_Gestionar')
@@ -107,8 +107,8 @@
 
     <!-- PRECIOS -->
               @can('Precios_Ver')
-                <li {{Route::is('precios.create')? 'class=active':''}}>
-                  <a href="{{route('precios.create')}}">
+                <li {{Route::is('precios.lista')? 'class=active':''}}>
+                  <a href="{{route('precios.lista')}}">
                     <i class="nc-icon nc-money-coins"></i>
                     <p>Precios</p>
                   </a>

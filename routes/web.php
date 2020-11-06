@@ -105,6 +105,7 @@ Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
 //PRODUCTOS
 Route::group(['middleware' => ['can:Productos_Gestionar']], function (){
     Route::get('/verPrecios', 'PreciosController@CargaMasivaCreate')->name('precios.create');
+    Route::get('/listaPrecios', 'PreciosController@ListaDePrecios')->name('precios.lista');
 });
 //PRECIOS
 Route::group(['middleware' => ['can:Precios_Gestionar']], function (){
