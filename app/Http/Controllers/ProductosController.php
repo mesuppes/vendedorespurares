@@ -59,9 +59,13 @@ class ProductosController extends Controller
 
 
         $imagen=$request->file('imagen');
-        $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
-        $destino=public_path('uploads/imagenProducto');
-        $direccion=$request->imagen->move($destino,$nombreImagen);
+        if (isset($imagen)) {
+            $nombreImagen=$request['nombreComercial'].".".$imagen->getClientOriginalExtension();
+            $destino=public_path('uploads/imagenProducto');
+            $direccion=$request->imagen->move($destino,$nombreImagen);
+        }else{
+            $nombreImagen=null;
+        }
 
         $nuevoProducto=Producto::Create([
             'id_producto_produccion'=>$request['idProductoProduccion'],
